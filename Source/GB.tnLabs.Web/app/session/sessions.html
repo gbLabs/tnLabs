@@ -1,0 +1,56 @@
+﻿<div class="container" data-ng-controller="sessions as vm">
+    <div class="row">
+        <div class="col-sm-5 col-md-5 ">
+            <a href="#/session/new" class="btn btn-success pull-left margin-right">
+                <i class="fa fa-send"></i>&nbsp;Create session
+            </a>
+        </div>
+        <div class="col-sm-7 col-md-7 hidden-xs">
+            <span class="pull-right margin-right padding">
+                <label class="switch switch-success">
+                    <input type="checkbox" class="switch-input" data-ng-model="vm.onlyUpcomingSessions" data-ng-change="vm.setFilter()"/>
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                </label>
+                <span class="small-font">Upcoming sessions</span>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="box col-md-4 col-sm-12" data-ng-repeat="s in vm.filteredSessions">
+            <div class="box-header">
+                <h2>
+                    <i class="fa fa-calendar"></i>
+                    <span class="break"></span>
+                    {{s.sessionName}}
+                </h2>
+            </div>
+            <div class="box-content tnList widget-content">
+                <div class="padd">
+                    <dl>
+                        <dt>{{s.formattedStartDateLabel}}:</dt>
+                        <dd>
+                            <p>{{s.formattedStartDate}}</p>
+                        </dd>
+                        <dt>{{s.formattedDurationLabel}}:</dt>
+                        <dd>
+                            <p>{{s.formattedDuration | capitalize}}</p>
+                        </dd>
+                        <dt>Lab:</dt>
+                        <dd>
+                            <p>{{s.lab.name}}</p>
+                        </dd>
+                    </dl>
+                    <div class="pull-right">
+                        <button data-ng-if="!s.isPassed" class="btn btn-success" data-ng-click="vm.gotoSession(s)">Edit</button>
+                        <button class="btn btn-warning" data-ng-click="vm.removeSession(s)">Remove</button>
+                    </div>
+                    <div class="clearfix" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

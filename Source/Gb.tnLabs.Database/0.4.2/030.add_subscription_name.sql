@@ -1,0 +1,8 @@
+﻿IF NOT EXISTS(SELECT * FROM SYS.COLUMNS 
+        WHERE [NAME] = N'Name' AND [OBJECT_ID] = OBJECT_ID(N'SUBSCRIPTIONS'))
+BEGIN
+	ALTER TABLE Subscriptions
+	ADD Name NVarchar(16) NOT NULL
+	CONSTRAINT SubscriptionsNameDefaultValue DEFAULT 'Default';
+END
+GO

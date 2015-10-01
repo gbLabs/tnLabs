@@ -1,0 +1,1 @@
+Configure breez: http://www.johnpapa.net/wp-content/sites/htngz/readme/readme.html

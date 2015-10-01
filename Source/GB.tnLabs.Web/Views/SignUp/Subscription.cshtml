@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Subscription";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<p>Please choose the type of subscription:</p>
+		<hr />
+		@*<div class="container">*@
+			<div class="form-group">
+				<div class="col-md-4 col-sm-12">
+					<div class="jumbotron">
+						I don't want a subscription. (I will get a subscription assigned).
+						<br /><br />
+						<input type="submit" name="option" value="Yes!" class="btn btn-primary btn-block" />
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-12">
+					<div class="jumbotron">
+						I want a subscription created. (Not available at the moment, sorry).
+						<br /><br />
+						<input type="submit" name="option" value="Definetly!" class="btn btn-primary btn-block" disabled="disabled" />
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-12">
+					<div class="jumbotron">
+						I want to use my own Azure subscription.
+						<br /><br />
+						<input type="submit" name="option" value="Yep!" class="btn btn-primary btn-block" />
+					</div>
+				</div>
+			</div>
+		@*</div>*@
+	</div>
+}

@@ -1,0 +1,16 @@
+﻿<p>Hello @Model.User</p>
+
+<p>
+	This email provides connection details to the development environment configured for training session @Model.SessionName. You can find attached the rdp file necessary for connecting to the machine. If you aren't using Windows to connect to the remote machine, you can use the following connection:</p>
+<span>@Model.RDPHost</span>
+
+<p>Please use the following credentials once connected to the machine:</p>
+
+<span><b>Username</b>: @Model.UserName</span>
+<br/>
+<span><b>Password</b>: @Model.Password</span>
+
+
+<p>Regards,</p>
+
+<p>gbLabs Team</p>

@@ -1,0 +1,38 @@
+﻿@{
+	ViewBag.Title = "Welcome";
+	bool isSignedUser = ViewBag.IsSignedUser;
+	bool isMember = ViewBag.IsMember;
+}
+  @if (isSignedUser && !isMember)
+  {
+      <div class="alert alert-danger"><strong>Warning!</strong> You don't have any subscription assigned please sign-up!</div>
+  }
+<div class="alert alert-danger"><strong>Warning!</strong> Please be aware that this application is still under development and breaking changes might appear. We are doing our best to add new features!</div>
+
+<div class="jumbotron">
+    <h1>Welcome, to tnLabs!</h1>
+    <p>tnLabs it's a platform built to provide the required infrastructure for all kinds of trainigs by using cloud infrastrucutre. Creating a training session is just a few clicks away.</p>
+    <hr />
+    <p>If you want to provide feedback or you've encountered some issues please drop us a line.</p>
+    <form name="contact" class="form-horizontal" action="http://getsimpleform.com/messages?form_api_token=d7c869e2b8e3351b01522898f8861ab3" method="post">
+        <div class="form-group">
+            <label class=" col-sm-2 control-label" for="inputName">Name</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="inputEmail">Email</label>
+            <div class="col-sm-8">
+                <input type="text" id="inputEmail" class="form-control" name="email" placeholder="Email" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="inputComments">Comments</label>
+            <div class="col-sm-8">
+                <textarea id="inputComments" class="form-control" name="Comments" cols="3" placeholder="Comments"></textarea>
+            </div>
+        </div>
+        <p><input type="submit" class="btn btn-primary btn-lg" role="button"/></p>
+    </form>
+</div>

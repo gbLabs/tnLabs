@@ -1,0 +1,12 @@
+﻿<p>Hello, there are Health problems with the system.</p>
+
+<p>
+	The following resources haven't checked in for a while:
+</p>
+
+<p>
+	@foreach (GB.tnLabs.Core.Repository.HealthCheck healthCheck in Model)
+	{
+		@: @healthCheck.ResourceId - @healthCheck.Description - @healthCheck.LastCheck <br />
+	}
+</p>

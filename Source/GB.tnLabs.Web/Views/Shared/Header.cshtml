@@ -1,0 +1,66 @@
+﻿@using GB.tnLabs.Web.Infrastructure
+@{
+    bool isSignedUser = User.Identity.IsAuthenticated;// HttpContext.Current.User.IsInRole(RoleTypes.User);
+    bool isMember = HttpContext.Current.User.IsInRole(RoleTypes.Member);
+}
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			@Html.ActionLink("tnLabs", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+		</div>
+
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				@if (!isSignedUser)
+				{
+					<li>
+						<a href="@Url.Action("Login", "Account")">
+							<i class="fa fa-sign-in"></i>&nbsp;Login
+						</a>
+					</li>
+				}
+				@if (isMember)
+				{
+					<li>
+						<a href="@Url.Action("Index", "Manage")">
+							<i class="fa fa-sitemap"></i>&nbsp;Manage
+						</a>
+					</li>
+				}
+				@if (!isSignedUser)
+				{
+
+					<li>
+						<a href="@Url.Action("Index", "SignUp")">
+							<i class="fa fa-user"></i>&nbsp;Sign-up
+						</a>
+					</li>
+				}
+				@if (isSignedUser && !isMember)
+				{
+
+					<li>
+						<a href="@Url.Action("Subscription", "SignUp")">
+							<i class="fa fa-user"></i>&nbsp;Create subscription
+						</a>
+					</li>
+				}
+				@if (isSignedUser)
+				{
+					<li>
+						<a href="@Url.Action("Logout", "Login")">
+							<i class="fa fa-sign-out"></i>&nbsp;Sign-out
+						</a>
+
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
+</nav>

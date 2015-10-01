@@ -1,0 +1,860 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="tnLabsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="HealthChecks">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastCheck" Type="datetimeoffset" Precision="7" />
+          <Property Name="CheckInterval" Type="time" Precision="7" />
+          <Property Name="NotificationSent" Type="bit" />
+        </EntityType>
+        <EntityType Name="Identities">
+          <Key>
+            <PropertyRef Name="IdentityId" />
+          </Key>
+          <Property Name="IdentityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameIdentifier" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IdentityProvider" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Labs">
+          <Key>
+            <PropertyRef Name="LabId" />
+          </Key>
+          <Property Name="LabId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImageName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="SubscriptionId" Type="int" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecommendedVMImages">
+          <Key>
+            <PropertyRef Name="RecommendedVMImageId" />
+          </Key>
+          <Property Name="RecommendedVMImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImageFamily" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="OSFamily" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sessions">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SessionName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LabId" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="EndDate" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="StartInterval" Type="time" Precision="7" />
+          <Property Name="EndInterval" Type="time" Precision="7" />
+          <Property Name="SchedulingType" Type="int" Nullable="false" />
+          <Property Name="VmSize" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SubscriptionId" Type="int" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
+          <Property Name="Version" Type="char" MaxLength="36" />
+        </EntityType>
+        <EntityType Name="SessionUsers">
+          <Key>
+            <PropertyRef Name="SessionUserId" />
+          </Key>
+          <Property Name="SessionUserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SessionId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubscriptionIdentityRoles">
+          <Key>
+            <PropertyRef Name="SubscriptionId" />
+            <PropertyRef Name="IdentityId" />
+            <PropertyRef Name="Role" />
+          </Key>
+          <Property Name="SubscriptionId" Type="int" Nullable="false" />
+          <Property Name="IdentityId" Type="int" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subscriptions">
+          <Key>
+            <PropertyRef Name="SubscriptionId" />
+          </Key>
+          <Property Name="SubscriptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AzureSubscriptionId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CertificateKey" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="BlobStorageName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="BlobStorageKey" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Certificate" Type="varbinary(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TemplateVMs">
+          <Key>
+            <PropertyRef Name="TemplateVMId" />
+          </Key>
+          <Property Name="TemplateVMId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceName" Type="varchar(max)" Nullable="false" />
+          <Property Name="VMName" Type="varchar(max)" Nullable="false" />
+          <Property Name="SubscriptionId" Type="int" Nullable="false" />
+          <Property Name="CreatorId" Type="int" Nullable="false" />
+          <Property Name="State" Type="int" Nullable="false" />
+          <Property Name="VMAdminUser" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="VMAdminPass" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Key" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="VMLabel" Type="varchar(max)" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="VmRdpPort" Type="int" Nullable="false" />
+          <Property Name="ImageName" Type="varchar(max)" />
+          <Property Name="SourceImageName" Type="varchar(max)" Nullable="false" />
+          <Property Name="StateChangedTimestamp" Type="datetimeoffset" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="SubscriptionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VirtualMachines">
+          <Key>
+            <PropertyRef Name="VirtualMachineId" />
+          </Key>
+          <Property Name="VirtualMachineId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="SessionId" Type="int" Nullable="false" />
+          <Property Name="VmName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="VmRdpPort" Type="int" Nullable="false" />
+          <Property Name="VmAdminUser" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="VmAdminPass" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="Stopped1" Type="int" />
+          <Property Name="Stopped" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Labs_0">
+          <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="1" />
+          <End Role="Labs" Type="Self.Labs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscriptions">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="Labs">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Session_0">
+          <End Role="Labs" Type="Self.Labs" Multiplicity="1" />
+          <End Role="Sessions" Type="Self.Sessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Labs">
+              <PropertyRef Name="LabId" />
+            </Principal>
+            <Dependent Role="Sessions">
+              <PropertyRef Name="LabId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SessionUser_0">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="SessionUsers" Type="Self.SessionUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="SessionUsers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SessionUser_1">
+          <End Role="Sessions" Type="Self.Sessions" Multiplicity="1" />
+          <End Role="SessionUsers" Type="Self.SessionUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sessions">
+              <PropertyRef Name="SessionId" />
+            </Principal>
+            <Dependent Role="SessionUsers">
+              <PropertyRef Name="SessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscriptionIdentityRoles_0">
+          <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="1" />
+          <End Role="SubscriptionIdentityRoles" Type="Self.SubscriptionIdentityRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscriptions">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="SubscriptionIdentityRoles">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscriptionIdentityRoles_1">
+          <End Role="Identities" Type="Self.Identities" Multiplicity="1" />
+          <End Role="SubscriptionIdentityRoles" Type="Self.SubscriptionIdentityRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identities">
+              <PropertyRef Name="IdentityId" />
+            </Principal>
+            <Dependent Role="SubscriptionIdentityRoles">
+              <PropertyRef Name="IdentityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemplateVMs_CreatorId">
+          <End Role="Identities" Type="Self.Identities" Multiplicity="1" />
+          <End Role="TemplateVMs" Type="Self.TemplateVMs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identities">
+              <PropertyRef Name="IdentityId" />
+            </Principal>
+            <Dependent Role="TemplateVMs">
+              <PropertyRef Name="CreatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemplateVMs_SubscriptionId">
+          <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="1" />
+          <End Role="TemplateVMs" Type="Self.TemplateVMs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscriptions">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="TemplateVMs">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Subscriptions">
+          <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscriptions">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VirtualMachines_0">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="VirtualMachines" Type="Self.VirtualMachines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="VirtualMachines">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VirtualMachines_1">
+          <End Role="Sessions" Type="Self.Sessions" Multiplicity="1" />
+          <End Role="VirtualMachines" Type="Self.VirtualMachines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sessions">
+              <PropertyRef Name="SessionId" />
+            </Principal>
+            <Dependent Role="VirtualMachines">
+              <PropertyRef Name="SessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="tnLabsDBModelStoreContainer">
+          <EntitySet Name="HealthChecks" EntityType="Self.HealthChecks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Identities" EntityType="Self.Identities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Labs" EntityType="Self.Labs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecommendedVMImages" EntityType="Self.RecommendedVMImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sessions" EntityType="Self.Sessions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SessionUsers" EntityType="Self.SessionUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubscriptionIdentityRoles" EntityType="Self.SubscriptionIdentityRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subscriptions" EntityType="Self.Subscriptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemplateVMs" EntityType="Self.TemplateVMs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VirtualMachines" EntityType="Self.VirtualMachines" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Labs_0" Association="Self.FK_Labs_0">
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+            <End Role="Labs" EntitySet="Labs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Session_0" Association="Self.FK_Session_0">
+            <End Role="Labs" EntitySet="Labs" />
+            <End Role="Sessions" EntitySet="Sessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SessionUser_0" Association="Self.FK_SessionUser_0">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SessionUsers" EntitySet="SessionUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SessionUser_1" Association="Self.FK_SessionUser_1">
+            <End Role="Sessions" EntitySet="Sessions" />
+            <End Role="SessionUsers" EntitySet="SessionUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscriptionIdentityRoles_0" Association="Self.FK_SubscriptionIdentityRoles_0">
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+            <End Role="SubscriptionIdentityRoles" EntitySet="SubscriptionIdentityRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscriptionIdentityRoles_1" Association="Self.FK_SubscriptionIdentityRoles_1">
+            <End Role="Identities" EntitySet="Identities" />
+            <End Role="SubscriptionIdentityRoles" EntitySet="SubscriptionIdentityRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemplateVMs_CreatorId" Association="Self.FK_TemplateVMs_CreatorId">
+            <End Role="Identities" EntitySet="Identities" />
+            <End Role="TemplateVMs" EntitySet="TemplateVMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemplateVMs_SubscriptionId" Association="Self.FK_TemplateVMs_SubscriptionId">
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+            <End Role="TemplateVMs" EntitySet="TemplateVMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Subscriptions" Association="Self.FK_Users_Subscriptions">
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VirtualMachines_0" Association="Self.FK_VirtualMachines_0">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="VirtualMachines" EntitySet="VirtualMachines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VirtualMachines_1" Association="Self.FK_VirtualMachines_1">
+            <End Role="Sessions" EntitySet="Sessions" />
+            <End Role="VirtualMachines" EntitySet="VirtualMachines" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="tnLabsDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="tnLabsDBEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="SessionUsers" EntityType="tnLabsDBModel.SessionUser" />
+          <EntitySet Name="Users" EntityType="tnLabsDBModel.User" />
+          <AssociationSet Name="FK_SessionUser_0" Association="tnLabsDBModel.FK_SessionUser_0">
+            <End Role="User" EntitySet="Users" />
+            <End Role="SessionUser" EntitySet="SessionUsers" />
+          </AssociationSet>
+          <EntitySet Name="VirtualMachines" EntityType="tnLabsDBModel.VirtualMachine" />
+          <AssociationSet Name="FK_VirtualMachines_0" Association="tnLabsDBModel.FK_VirtualMachines_0">
+            <End Role="User" EntitySet="Users" />
+            <End Role="VirtualMachine" EntitySet="VirtualMachines" />
+          </AssociationSet>
+          <EntitySet Name="Identities" EntityType="tnLabsDBModel.Identity" />
+          <EntitySet Name="SubscriptionIdentityRoles" EntityType="tnLabsDBModel.SubscriptionIdentityRole" />
+          <AssociationSet Name="FK_SubscriptionIdentityRoles_1" Association="tnLabsDBModel.FK_SubscriptionIdentityRoles_1">
+            <End Role="Identity" EntitySet="Identities" />
+            <End Role="SubscriptionIdentityRole" EntitySet="SubscriptionIdentityRoles" />
+          </AssociationSet>
+          <EntitySet Name="Subscriptions" EntityType="tnLabsDBModel.Subscription" />
+          <AssociationSet Name="FK_SubscriptionIdentityRoles_0" Association="tnLabsDBModel.FK_SubscriptionIdentityRoles_0">
+            <End Role="Subscription" EntitySet="Subscriptions" />
+            <End Role="SubscriptionIdentityRole" EntitySet="SubscriptionIdentityRoles" />
+          </AssociationSet>
+          <EntitySet Name="Labs" EntityType="tnLabsDBModel.Lab" />
+          <AssociationSet Name="FK_Labs_0" Association="tnLabsDBModel.FK_Labs_0">
+            <End Role="Subscription" EntitySet="Subscriptions" />
+            <End Role="Lab" EntitySet="Labs" />
+          </AssociationSet>
+          <EntitySet Name="RecommendedVMImages" EntityType="tnLabsDBModel.RecommendedVMImage" />
+          <EntitySet Name="TemplateVMs" EntityType="tnLabsDBModel.TemplateVM" />
+          <AssociationSet Name="FK_TemplateVMs_CreatorId" Association="tnLabsDBModel.FK_TemplateVMs_CreatorId">
+            <End Role="Identity" EntitySet="Identities" />
+            <End Role="TemplateVM" EntitySet="TemplateVMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemplateVMs_SubscriptionId" Association="tnLabsDBModel.FK_TemplateVMs_SubscriptionId">
+            <End Role="Subscription" EntitySet="Subscriptions" />
+            <End Role="TemplateVM" EntitySet="TemplateVMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Subscriptions" Association="tnLabsDBModel.FK_Users_Subscriptions">
+            <End Role="Subscription" EntitySet="Subscriptions" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Sessions" EntityType="tnLabsDBModel.Session" />
+          <AssociationSet Name="FK_Session_0" Association="tnLabsDBModel.FK_Session_0">
+            <End Role="Lab" EntitySet="Labs" />
+            <End Role="Session" EntitySet="Sessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SessionUser_1" Association="tnLabsDBModel.FK_SessionUser_1">
+            <End Role="Session" EntitySet="Sessions" />
+            <End Role="SessionUser" EntitySet="SessionUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VirtualMachines_1" Association="tnLabsDBModel.FK_VirtualMachines_1">
+            <End Role="Session" EntitySet="Sessions" />
+            <End Role="VirtualMachine" EntitySet="VirtualMachines" />
+          </AssociationSet>
+          <EntitySet Name="HealthChecks" EntityType="tnLabsDBModel.HealthCheck" />
+          </EntityContainer>
+        <EntityType Name="SessionUser">
+          <Key>
+            <PropertyRef Name="SessionUserId" />
+          </Key>
+          <Property Name="SessionUserId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="SessionId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="tnLabsDBModel.FK_SessionUser_0" FromRole="SessionUser" ToRole="User" />
+          <NavigationProperty Name="Session" Relationship="tnLabsDBModel.FK_SessionUser_1" FromRole="SessionUser" ToRole="Session" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="SessionUsers" Relationship="tnLabsDBModel.FK_SessionUser_0" FromRole="User" ToRole="SessionUser" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="VirtualMachines" Relationship="tnLabsDBModel.FK_VirtualMachines_0" FromRole="User" ToRole="VirtualMachine" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SubscriptionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Subscription" Relationship="tnLabsDBModel.FK_Users_Subscriptions" FromRole="User" ToRole="Subscription" />
+        </EntityType>
+        <Association Name="FK_SessionUser_0">
+          <End Type="tnLabsDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="tnLabsDBModel.SessionUser" Role="SessionUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="SessionUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VirtualMachine">
+          <Key>
+            <PropertyRef Name="VirtualMachineId" />
+          </Key>
+          <Property Name="VirtualMachineId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="SessionId" Type="Int32" Nullable="false" />
+          <Property Name="VmName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VmRdpPort" Type="Int32" Nullable="false" />
+          <Property Name="VmAdminUser" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VmAdminPass" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="Stopped1" Type="Int32" />
+          <Property Name="Stopped" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="tnLabsDBModel.FK_VirtualMachines_0" FromRole="VirtualMachine" ToRole="User" />
+          <NavigationProperty Name="Session" Relationship="tnLabsDBModel.FK_VirtualMachines_1" FromRole="VirtualMachine" ToRole="Session" />
+        </EntityType>
+        <Association Name="FK_VirtualMachines_0">
+          <End Type="tnLabsDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="tnLabsDBModel.VirtualMachine" Role="VirtualMachine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="VirtualMachine">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Identity">
+          <Key>
+            <PropertyRef Name="IdentityId" />
+          </Key>
+          <Property Name="IdentityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameIdentifier" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdentityProvider" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SubscriptionIdentityRoles" Relationship="tnLabsDBModel.FK_SubscriptionIdentityRoles_1" FromRole="Identity" ToRole="SubscriptionIdentityRole" />
+          <NavigationProperty Name="TemplateVMs" Relationship="tnLabsDBModel.FK_TemplateVMs_CreatorId" FromRole="Identity" ToRole="TemplateVM" />
+        </EntityType>
+        <EntityType Name="SubscriptionIdentityRole">
+          <Key>
+            <PropertyRef Name="SubscriptionId" />
+            <PropertyRef Name="IdentityId" />
+            <PropertyRef Name="Role" />
+          </Key>
+          <Property Name="SubscriptionId" Type="Int32" Nullable="false" />
+          <Property Name="IdentityId" Type="Int32" Nullable="false" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Identity" Relationship="tnLabsDBModel.FK_SubscriptionIdentityRoles_1" FromRole="SubscriptionIdentityRole" ToRole="Identity" />
+          <NavigationProperty Name="Subscription" Relationship="tnLabsDBModel.FK_SubscriptionIdentityRoles_0" FromRole="SubscriptionIdentityRole" ToRole="Subscription" />
+        </EntityType>
+        <Association Name="FK_SubscriptionIdentityRoles_1">
+          <End Type="tnLabsDBModel.Identity" Role="Identity" Multiplicity="1" />
+          <End Type="tnLabsDBModel.SubscriptionIdentityRole" Role="SubscriptionIdentityRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity">
+              <PropertyRef Name="IdentityId" />
+            </Principal>
+            <Dependent Role="SubscriptionIdentityRole">
+              <PropertyRef Name="IdentityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Subscription">
+          <Key>
+            <PropertyRef Name="SubscriptionId" />
+          </Key>
+          <Property Name="SubscriptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AzureSubscriptionId" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CertificateKey" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BlobStorageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BlobStorageKey" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Certificate" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="SubscriptionIdentityRoles" Relationship="tnLabsDBModel.FK_SubscriptionIdentityRoles_0" FromRole="Subscription" ToRole="SubscriptionIdentityRole" />
+          <NavigationProperty Name="Labs" Relationship="tnLabsDBModel.FK_Labs_0" FromRole="Subscription" ToRole="Lab" />
+          <NavigationProperty Name="TemplateVMs" Relationship="tnLabsDBModel.FK_TemplateVMs_SubscriptionId" FromRole="Subscription" ToRole="TemplateVM" />
+          <NavigationProperty Name="Users" Relationship="tnLabsDBModel.FK_Users_Subscriptions" FromRole="Subscription" ToRole="User" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_SubscriptionIdentityRoles_0">
+          <End Type="tnLabsDBModel.Subscription" Role="Subscription" Multiplicity="1" />
+          <End Type="tnLabsDBModel.SubscriptionIdentityRole" Role="SubscriptionIdentityRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscription">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="SubscriptionIdentityRole">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Lab">
+          <Key>
+            <PropertyRef Name="LabId" />
+          </Key>
+          <Property Name="LabId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubscriptionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Subscription" Relationship="tnLabsDBModel.FK_Labs_0" FromRole="Lab" ToRole="Subscription" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="3" />
+          <Property Type="Boolean" Name="Removed" Nullable="false" />
+          <NavigationProperty Name="Sessions" Relationship="tnLabsDBModel.FK_Session_0" FromRole="Lab" ToRole="Session" />
+        </EntityType>
+        <Association Name="FK_Labs_0">
+          <End Type="tnLabsDBModel.Subscription" Role="Subscription" Multiplicity="1" />
+          <End Type="tnLabsDBModel.Lab" Role="Lab" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscription">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="Lab">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RecommendedVMImage">
+          <Key>
+            <PropertyRef Name="RecommendedVMImageId" />
+          </Key>
+          <Property Name="RecommendedVMImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageFamily" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OSFamily" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TemplateVM">
+          <Key>
+            <PropertyRef Name="TemplateVMId" />
+          </Key>
+          <Property Name="TemplateVMId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="VMName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SubscriptionId" Type="Int32" Nullable="false" />
+          <Property Name="CreatorId" Type="Int32" Nullable="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+          <Property Name="VMAdminUser" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VMAdminPass" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Key" Type="Guid" Nullable="false" />
+          <Property Name="VMLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="VmRdpPort" Type="Int32" Nullable="false" />
+          <Property Name="ImageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SourceImageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="StateChangedTimestamp" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Identity" Relationship="tnLabsDBModel.FK_TemplateVMs_CreatorId" FromRole="TemplateVM" ToRole="Identity" />
+          <NavigationProperty Name="Subscription" Relationship="tnLabsDBModel.FK_TemplateVMs_SubscriptionId" FromRole="TemplateVM" ToRole="Subscription" />
+        </EntityType>
+        <Association Name="FK_TemplateVMs_CreatorId">
+          <End Type="tnLabsDBModel.Identity" Role="Identity" Multiplicity="1" />
+          <End Type="tnLabsDBModel.TemplateVM" Role="TemplateVM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity">
+              <PropertyRef Name="IdentityId" />
+            </Principal>
+            <Dependent Role="TemplateVM">
+              <PropertyRef Name="CreatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemplateVMs_SubscriptionId">
+          <End Type="tnLabsDBModel.Subscription" Role="Subscription" Multiplicity="1" />
+          <End Type="tnLabsDBModel.TemplateVM" Role="TemplateVM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscription">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="TemplateVM">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Subscriptions">
+          <End Type="tnLabsDBModel.Subscription" Role="Subscription" Multiplicity="1" />
+          <End Type="tnLabsDBModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscription">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Session">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SessionName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LabId" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="EndDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="StartInterval" Type="Time" Precision="7" />
+          <Property Name="EndInterval" Type="Time" Precision="7" />
+          <Property Name="SchedulingType" Type="Int32" Nullable="false" />
+          <Property Name="VmSize" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubscriptionId" Type="Int32" Nullable="false" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Lab" Relationship="tnLabsDBModel.FK_Session_0" FromRole="Session" ToRole="Lab" />
+          <NavigationProperty Name="SessionUsers" Relationship="tnLabsDBModel.FK_SessionUser_1" FromRole="Session" ToRole="SessionUser" />
+          <NavigationProperty Name="VirtualMachines" Relationship="tnLabsDBModel.FK_VirtualMachines_1" FromRole="Session" ToRole="VirtualMachine" />
+          <Property Name="Version" Type="String" MaxLength="36" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Session_0">
+          <End Type="tnLabsDBModel.Lab" Role="Lab" Multiplicity="1" />
+          <End Type="tnLabsDBModel.Session" Role="Session" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lab">
+              <PropertyRef Name="LabId" />
+            </Principal>
+            <Dependent Role="Session">
+              <PropertyRef Name="LabId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SessionUser_1">
+          <End Type="tnLabsDBModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="tnLabsDBModel.SessionUser" Role="SessionUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Session">
+              <PropertyRef Name="SessionId" />
+            </Principal>
+            <Dependent Role="SessionUser">
+              <PropertyRef Name="SessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VirtualMachines_1">
+          <End Type="tnLabsDBModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="tnLabsDBModel.VirtualMachine" Role="VirtualMachine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Session">
+              <PropertyRef Name="SessionId" />
+            </Principal>
+            <Dependent Role="VirtualMachine">
+              <PropertyRef Name="SessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HealthCheck">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="Guid" Nullable="false" />
+          <Property Name="LastCheck" Type="DateTimeOffset" Precision="7" />
+          <Property Name="CheckInterval" Type="Time" Precision="7" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NotificationSent" Type="Boolean" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="tnLabsDBModelStoreContainer" CdmEntityContainer="tnLabsDBEntities">
+    <EntitySetMapping Name="SessionUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(tnLabsDBModel.SessionUser)">
+        <MappingFragment StoreEntitySet="SessionUsers">
+          <ScalarProperty Name="SessionUserId" ColumnName="SessionUserId" />
+          <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(tnLabsDBModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VirtualMachines">
+      <EntityTypeMapping TypeName="IsTypeOf(tnLabsDBModel.VirtualMachine)">
+        <MappingFragment StoreEntitySet="VirtualMachines">
+          <ScalarProperty Name="VirtualMachineId" ColumnName="VirtualMachineId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+          <ScalarProperty Name="VmName" ColumnName="VmName" />
+          <ScalarProperty Name="VmRdpPort" ColumnName="VmRdpPort" />
+          <ScalarProperty Name="VmAdminUser" ColumnName="VmAdminUser" />
+          <ScalarProperty Name="VmAdminPass" ColumnName="VmAdminPass" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="Stopped1" ColumnName="Stopped1" />
+          <ScalarProperty Name="Stopped" ColumnName="Stopped" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Identities">
+      <EntityTypeMapping TypeName="IsTypeOf(tnLabsDBModel.Identity)">
+        <MappingFragment StoreEntitySet="Identities">
+          <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+          <ScalarProperty Name="NameIdentifier" ColumnName="NameIdentifier" />
+          <ScalarProperty Name="IdentityProvider" ColumnName="IdentityProvider" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubscriptionIdentityRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(tnLabsDBModel.SubscriptionIdentityRole)">
+        <MappingFragment StoreEntitySet="SubscriptionIdentityRoles">
+          <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+          <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+          <EntitySetMapping Name="Subscriptions">
+            <EntityTypeMapping TypeName="tnLabsDBModel.Subscription">
+              <MappingFragment StoreEntitySet="Subscriptions">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Certificate" ColumnName="Certificate" />
+                <ScalarProperty Name="BlobStorageKey" ColumnName="BlobStorageKey" />
+                <ScalarProperty Name="BlobStorageName" ColumnName="BlobStorageName" />
+                <ScalarProperty Name="CertificateKey" ColumnName="CertificateKey" />
+                <ScalarProperty Name="AzureSubscriptionId" ColumnName="AzureSubscriptionId" />
+                <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Labs">
+            <EntityTypeMapping TypeName="tnLabsDBModel.Lab">
+              <MappingFragment StoreEntitySet="Labs">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LabId" ColumnName="LabId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecommendedVMImages">
+            <EntityTypeMapping TypeName="tnLabsDBModel.RecommendedVMImage">
+              <MappingFragment StoreEntitySet="RecommendedVMImages">
+                <ScalarProperty Name="OSFamily" ColumnName="OSFamily" />
+                <ScalarProperty Name="ImageFamily" ColumnName="ImageFamily" />
+                <ScalarProperty Name="RecommendedVMImageId" ColumnName="RecommendedVMImageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateVMs">
+            <EntityTypeMapping TypeName="tnLabsDBModel.TemplateVM">
+              <MappingFragment StoreEntitySet="TemplateVMs">
+                <ScalarProperty Name="StateChangedTimestamp" ColumnName="StateChangedTimestamp" />
+                <ScalarProperty Name="SourceImageName" ColumnName="SourceImageName" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="VmRdpPort" ColumnName="VmRdpPort" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="VMLabel" ColumnName="VMLabel" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="VMAdminPass" ColumnName="VMAdminPass" />
+                <ScalarProperty Name="VMAdminUser" ColumnName="VMAdminUser" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+                <ScalarProperty Name="VMName" ColumnName="VMName" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="TemplateVMId" ColumnName="TemplateVMId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sessions">
+            <EntityTypeMapping TypeName="tnLabsDBModel.Session">
+              <MappingFragment StoreEntitySet="Sessions">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+                <ScalarProperty Name="VmSize" ColumnName="VmSize" />
+                <ScalarProperty Name="SchedulingType" ColumnName="SchedulingType" />
+                <ScalarProperty Name="EndInterval" ColumnName="EndInterval" />
+                <ScalarProperty Name="StartInterval" ColumnName="StartInterval" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="LabId" ColumnName="LabId" />
+                <ScalarProperty Name="SessionName" ColumnName="SessionName" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HealthChecks">
+            <EntityTypeMapping TypeName="tnLabsDBModel.HealthCheck">
+              <MappingFragment StoreEntitySet="HealthChecks">
+                <ScalarProperty Name="NotificationSent" ColumnName="NotificationSent" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CheckInterval" ColumnName="CheckInterval" />
+                <ScalarProperty Name="LastCheck" ColumnName="LastCheck" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

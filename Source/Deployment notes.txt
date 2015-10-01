@@ -1,0 +1,23 @@
+      <ResourceExtensionReferences>
+        <ResourceExtensionReference>
+          <ReferenceName>BGInfo</ReferenceName>
+          <Publisher>Microsoft.Compute</Publisher>
+          <Name>BGInfo</Name>
+          <Version>1.*</Version>
+          <ResourceExtensionParameterValues />
+        </ResourceExtensionReference>
+        <ResourceExtensionReference>
+          <ReferenceName>CustomScriptExtension</ReferenceName>
+          <Publisher>Microsoft.Compute</Publisher>
+          <Name>CustomScriptExtension</Name>
+          <Version>1.*</Version>
+          <ResourceExtensionParameterValues>
+            <ResourceExtensionParameterValue>
+              <Key>CustomScriptExtensionPublicConfigParameter</Key>
+              <Value>ew0KICAiZmlsZVVyaXMiOiBbDQogICAgImh0dHA6Ly9wb3J0YWx2aGRzM3I4NHdxNWczOTI1cS5ibG9iLmNvcmUud2luZG93cy5uZXQvc2NyaXB0cy9kdW1teS5wczEiDQogIF0sDQogICJjb21tYW5kVG9FeGVjdXRlIjogInBvd2Vyc2hlbGwgLUV4ZWN1dGlvblBvbGljeSBVbnJlc3RyaWN0ZWQgLWZpbGUgZHVtbXkucHMxIGFyZzEgYXJnMiINCn0=</Value>
+              <Type>Public</Type>
+            </ResourceExtensionParameterValue>
+          </ResourceExtensionParameterValues>
+          <State>Enable</State>
+        </ResourceExtensionReference>
+      </ResourceExtensionReferences>

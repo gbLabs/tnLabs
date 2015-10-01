@@ -1,0 +1,123 @@
+﻿<section data-ng-controller="labdetail as vm">
+    <wizard on-finish="vm.createLab()" hide-indicators="true">
+        <wz-step title="Lab Information">
+            <h1>Please introduce lab information</h1>
+            <hr />
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class=" col-sm-2 control-label" for="inputLabName">Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="inputLabName" name="labName" data-z-validate placeholder="Lab name" data-ng-model="vm.lab.name" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="inputDescription">Description</label>
+                    <div class="col-sm-6">
+                        <textarea id="inputDescription" class="form-control" name="description" data-z-validate placeholder="Description" data-ng-model="vm.lab.description" rows="4" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-8">
+                          <input type="submit" data-ng-click="vm.nextStep()" class="btn btn-success pull-right" value="Next" />
+                    </div>
+                </div>
+            </div>
+        </wz-step>
+
+        <wz-step title="Select image" data-step-scroll-to-top>
+            <h1>Please select an existing template image</h1>
+            <hr />
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="alert alert-danger alert-dismissable" data-ng-repeat="error in vm.errors">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                        <span>{{error.errorMessage}}</span>
+                    </div>
+                    <div class="box">
+                        <div class="box-header">
+                            <h2><i class="fa fa-cloud-download"></i><span class="break"></span>Available template images</h2>
+                        </div>
+                        <div class="box-content">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr data-ng-repeat="i in vm.availableCustomImages">
+                                        <td>
+                                            <h1>{{i.friendlyName}}</h1>
+                                            <p>{{i.description}}</p>
+                                        </td>
+                                        <td>
+                                            <label class="switch switch-success">
+                                                <input type="radio" name="images" class="switch-input" data-ng-value="i.name" data-ng-model="vm.lab.imageName" />
+                                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-sm-8">
+                    <input type="submit" wz-previous class="btn btn-warning pull-left" value="Previous" />
+                    <input data-ng-if="!vm.createTemplateImage" type="submit" wz-finish class="btn btn-success pull-right" value="Finish" />
+                    <input data-ng-if="vm.createTemplateImage" type="submit" data-ng-click="vm.nextStep()" class="btn btn-success pull-right" value="Next" />
+                    <span data-ng-show="vm.isNew" class="pull-right margin-right padding">
+                        <label class="switch switch-success">
+                            <input type="checkbox" class="switch-input" data-ng-model="vm.createTemplateImage" />
+                            <span class="switch-label" data-on="On" data-off="Off"></span>
+                            <span class="switch-handle"></span>
+                        </label>
+                        <span class="small-font">New template image</span>
+                    </span>
+                </div>
+            </div>
+        </wz-step>
+
+        <wz-step data-step-scroll-to-top>
+            <h1>Select software to pre-install</h1>
+            <hr />
+            <div class="row">
+
+                <div class="col-sm-8">
+                    <div class="box">
+                        <div class="box-header">
+                            <h2><i class="fa fa-cloud-download"></i><span class="break"></span>Available software packages</h2>
+                        </div>
+                        <div class="box-content">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr data-ng-repeat="i in vm.availableChocoPackages">
+                                        <td>
+                                            <h1>{{i.friendlyName}}</h1>
+                                            <p>{{i.description}}</p>
+                                        </td>
+                                        <td>
+                                            <label class="switch switch-success">
+                                                <input type="checkbox" name="images" class="switch-input" data-ng-model="vm.selectedChocoPackages[i.packageName]" />
+                                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-sm-8">
+                    <input type="submit" wz-previous class="btn btn-warning pull-left" value="Previous" />
+                    <input type="submit" wz-finish class="btn btn-success pull-right" value="Finish" />
+                </div>
+            </div>
+        </wz-step>
+    </wizard>
+
+</section>

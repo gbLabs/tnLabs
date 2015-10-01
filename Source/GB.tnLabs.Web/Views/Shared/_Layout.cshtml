@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tnLabs</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" type="text/css"/>
+
+</head>
+    <body>
+        @{ Html.RenderPartial("Header","Header");}
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer class="navbar navbar-fixed-bottom panel-footer">
+                <p>&copy; @DateTime.Now.Year - gbLabs</p>
+            </footer>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

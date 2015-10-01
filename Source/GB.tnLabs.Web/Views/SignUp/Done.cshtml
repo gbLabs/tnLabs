@@ -1,0 +1,15 @@
+﻿@model GB.tnLabs.Web.Enums.SignUpTypeEnum
+@{
+    ViewBag.Title = "Done";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="jumbotron">
+	@if(Model == GB.tnLabs.Web.Enums.SignUpTypeEnum.OwnSubscription)
+	{
+	<p>Almost done..</p>
+
+	<p>Wile you read this, you should get an email with a certificate you must upload to your azure account. Follow the instructions in the email.</p>
+	}
+</div>

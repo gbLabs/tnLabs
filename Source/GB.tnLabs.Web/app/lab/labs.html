@@ -1,0 +1,34 @@
+﻿<div class="container" data-ng-controller="labs as vm">
+    <div class="row">
+        <div class="col-sm-5 col-md-5 ">
+            <a href="#/lab/new" class="btn btn-success pull-left margin-right">
+                <i class="fa fa-send"></i>&nbsp;Create lab
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="box col-md-4 col-sm-12" data-ng-repeat="l in vm.filteredLabs">
+            <div class="box-header">
+                <h2>
+                    <i class="fa fa-laptop"></i>
+                    <span class="break"></span>
+                    {{l.name}}
+                </h2>
+            </div>
+            <div class="box-content tnList widget-content">
+                <div class="padd">
+                    <dl>
+                       
+                        <dt>Description:</dt>
+                        <dd><p>{{l.description}}</p></dd>
+                    </dl>
+                    <div class="pull-right">
+                        <button class="btn btn-success" data-ng-click="vm.gotoLab(l)">Edit</button>
+                        <button class="btn btn-warning" data-ng-click="vm.removeLab(l)">Remove</button>
+                    </div>
+                    <div class="clearfix" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

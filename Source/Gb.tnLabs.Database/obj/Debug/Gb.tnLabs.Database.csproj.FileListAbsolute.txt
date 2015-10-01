@@ -1,0 +1,10 @@
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\bin\Debug\Deploy.ps1
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\bin\Debug\Gb.tnLabs.Database.exe.config
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\bin\Debug\Gb.tnLabs.Database.exe
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\bin\Debug\Gb.tnLabs.Database.pdb
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\bin\Debug\DbUp.dll
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\bin\Debug\DbUp.xml
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\obj\Debug\Gb.tnLabs.Database.csprojResolveAssemblyReference.cache
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\obj\Debug\Gb.tnLabs.Database.exe
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\obj\Debug\Gb.tnLabs.Database.pdb
+d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\bin\Debug\DbUp.pdb
