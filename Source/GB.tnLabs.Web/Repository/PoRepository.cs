@@ -11,11 +11,11 @@ namespace GB.tnLabs.Web.Repository
 	/// </summary>
 	public class PoRepository
 	{
-		private readonly tnLabsDBEntities _context;
+		private readonly ApplicationDbContext _context;
 
 		public PoRepository()
 		{
-			_context = new tnLabsDBEntities();
+			_context = new ApplicationDbContext();
 		}
 
 		public int? GetLocalIdentityId(string nameIdentifier, string identityProvider)

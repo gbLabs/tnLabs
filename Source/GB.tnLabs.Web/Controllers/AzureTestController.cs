@@ -26,7 +26,7 @@ namespace GB.tnLabs.Web.Controllers
         {
             _logger = logger;
 
-			using (tnLabsDBEntities context = new tnLabsDBEntities())
+			using (ApplicationDbContext context = new ApplicationDbContext())
 			{
 				Subscription subscription = context.Subscriptions
 					.Single(x => x.SubscriptionId == 1);

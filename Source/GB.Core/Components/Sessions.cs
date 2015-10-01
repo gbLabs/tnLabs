@@ -31,7 +31,7 @@ namespace GB.tnLabs.Core.Components
 
 		public void Start(StartSessionRequest request)
 		{
-			using (tnLabsDBEntities context = new tnLabsDBEntities())
+			using (ApplicationDbContext context = new ApplicationDbContext())
 			{
 				Session session = context.Sessions.Single(x => x.SessionId == request.SessionId);
 				//Session session = context.Sessions.Single(x => x.Version == version);
@@ -106,7 +106,7 @@ namespace GB.tnLabs.Core.Components
 
 		public void End(EndSessionRequest request)
 		{
-			using (tnLabsDBEntities context = new tnLabsDBEntities())
+			using (ApplicationDbContext context = new ApplicationDbContext())
 			{
 				string version = request.Version.ToString();
 				//Session session = context.Sessions.Single(x => x.SessionId == request.SessionId);

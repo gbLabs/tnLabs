@@ -13,8 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using HealthCheckService = GB.tnLabs.Core.Components.HealthCheck;
+using System.Web.Http;                                            
 
 namespace GB.tnLabs.Web.Controllers
 {
@@ -24,8 +23,7 @@ namespace GB.tnLabs.Web.Controllers
 
         private readonly ILogger _logger = NullLogger.Instance;
 		private readonly Lazy<IUnitOfWork> _unitOfWorkLazy;
-		private readonly Lazy<ServiceBusMessageHandler> _messagingLazy;
-		private readonly Lazy<HealthCheckService> _healthCheckServiceLazy;
+		private readonly Lazy<ServiceBusMessageHandler> _messagingLazy;    
 
 
         #endregion private fields
@@ -41,21 +39,18 @@ namespace GB.tnLabs.Web.Controllers
 		{
 			get { return _messagingLazy.Value; }
 		}
-
-		protected HealthCheckService HealthCheckService { get { return _healthCheckServiceLazy.Value; } }
+                                                                                                               
 
 		#endregion properties
 
 		#region .ctor
 
 		public AzureManagementController(ILogger logger, 
-			Lazy<IUnitOfWork> unitOfWorkLazy, Lazy<ServiceBusMessageHandler> messagingLazy,
-			Lazy<HealthCheckService> healthCheckLazy )
+			Lazy<IUnitOfWork> unitOfWorkLazy, Lazy<ServiceBusMessageHandler> messagingLazy )
         {
             _logger = logger;
 			_unitOfWorkLazy = unitOfWorkLazy;
-			_messagingLazy = messagingLazy;
-			_healthCheckServiceLazy = healthCheckLazy;
+			_messagingLazy = messagingLazy;             
         }
 
         #endregion .ctor
@@ -141,7 +136,7 @@ namespace GB.tnLabs.Web.Controllers
 
 			try
 			{
-				using (tnLabsDBEntities repository = new tnLabsDBEntities())
+				using (ApplicationDbContext repository = new ApplicationDbContext())
 				{
 					Guid key = new Guid(templateVmKey);
 					TemplateVM templateVm = repository.TemplateVMs.Single(x => x.Key == key);
@@ -174,7 +169,7 @@ namespace GB.tnLabs.Web.Controllers
 
 			try
 			{
-				using (tnLabsDBEntities repository = new tnLabsDBEntities())
+				using (ApplicationDbContext repository = new ApplicationDbContext())
 				{
 					Guid key = new Guid(templateVmKey);
 					TemplateVM templateVM = repository.TemplateVMs.Single(x => x.Key == key);
@@ -195,25 +190,6 @@ namespace GB.tnLabs.Web.Controllers
 			}
 
 			_logger.Info("Exiting AzureManagement.ReadyForCapture");
-
-			return result;
-		}
-
-		[HttpGet]
-		public async Task<string> HealthCheck(string resourceId)
-		{
-			string result = "OK";
-
-			try
-			{
-				Guid resourceGuid = Guid.Parse(resourceId);
-				await HealthCheckService.CheckInAsync(resourceGuid);
-			}
-			catch (Exception ex)
-			{
-				_logger.Fatal("Exception when health checking.", ex);
-				result = "Error";
-			}
 
 			return result;
 		}

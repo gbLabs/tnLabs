@@ -33,7 +33,7 @@ namespace GB.tnLabs.Core.Components
 
 			//TODO: finish implementation - send email
 
-			using (tnLabsDBEntities context = new tnLabsDBEntities())
+			using (ApplicationDbContext context = new ApplicationDbContext())
 			{
 				Subscription subscription = context.Subscriptions.Single(x => x.SubscriptionId == subscriptionId);
 				subscription.CertificateKey = certificateSet.Password;

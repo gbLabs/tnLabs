@@ -177,21 +177,7 @@ namespace GB.tnLabs.Core.Components
 
 			return email;
 		}
-
-		public static Email BuildHealthProblemsEmail(List<Repository.HealthCheck> healthProblemList)
-		{
-			string template = GetTemplate("HealthProblems");
-			var emailMessage = new EmailMessage()
-			{
-				Body = Razor.Parse(template, healthProblemList),
-				To = "haiduc32@gmail.com",
-				Subject = "tnLabs Health problems"
-			};
-
-			var email = new Email(new List<EmailMessage> { emailMessage });
-
-			return email;
-		}
+                      
 
 		public void Send()
 		{
