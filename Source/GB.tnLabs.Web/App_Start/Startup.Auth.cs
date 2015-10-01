@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using GB.tnLabs.Web.Models;
+using GB.tnLabs.Core.Repository;
 
 namespace GB.tnLabs.Web
 {

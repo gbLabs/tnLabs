@@ -33,7 +33,7 @@ namespace GB.tnLabs.Web.Controllers
 			BinaryReader r = new BinaryReader(Request.Files[0].InputStream);
 			subscription.Certificate = r.ReadBytes(Request.Files[0].ContentLength);
 
-			using (tnLabsDBEntities context = new tnLabsDBEntities())
+			using (ApplicationDbContext context = new ApplicationDbContext())
 			{
 				context.Subscriptions.Add(subscription);
 				context.SaveChanges();

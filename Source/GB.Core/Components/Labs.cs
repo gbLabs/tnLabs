@@ -40,7 +40,7 @@ namespace GB.tnLabs.Core.Components
 
 		public void VMReadyForCapture(VMReadyForCaptureRequest request)
 		{
-			using (tnLabsDBEntities repository = new tnLabsDBEntities())
+			using (ApplicationDbContext repository = new ApplicationDbContext())
 			{
 				_logger.Info("Checking if Template VM is ready for capture.");
 
@@ -106,7 +106,7 @@ namespace GB.tnLabs.Core.Components
 
 		public void CreateBaseVMImage(CreateBaseVMImageRequest request)
 		{
-			using (tnLabsDBEntities repository = new tnLabsDBEntities())
+			using (ApplicationDbContext repository = new ApplicationDbContext())
 			{
 				_logger.InfoFormat("Creating Base VM Image with image description {0}, and subscription ID {1}.",
 					request.ImageDescription, request.SubscriptionId);

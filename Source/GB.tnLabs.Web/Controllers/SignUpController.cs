@@ -174,7 +174,7 @@ namespace GB.tnLabs.Web.Controllers
 
 		private void CreateSubscriptionIdentityMap(Subscription subscription, int identityId)
 		{
-			using (tnLabsDBEntities context = new tnLabsDBEntities())
+			using (ApplicationDbContext context = new ApplicationDbContext())
 			{
 				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Administrator);
 				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Member);
@@ -185,7 +185,7 @@ namespace GB.tnLabs.Web.Controllers
 			}
 		}
 
-		private void CreateSubscriptionIdentityMap(Subscription subscription, tnLabsDBEntities context, string role)
+		private void CreateSubscriptionIdentityMap(Subscription subscription, ApplicationDbContext context, string role)
 		{
 			SubscriptionIdentityRole subscriptionIdentity = new SubscriptionIdentityRole
 			{

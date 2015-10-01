@@ -34,7 +34,7 @@ namespace GB.tnLabs.Core.Components
         {
             int availableCPUs;
 
-            using (tnLabsDBEntities context = new tnLabsDBEntities())
+            using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 //TODO: move warmUP and coolDown into the config
                 TimeSpan warmUp = new TimeSpan(0, 20, 0);

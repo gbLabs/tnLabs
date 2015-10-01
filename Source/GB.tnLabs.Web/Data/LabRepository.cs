@@ -14,7 +14,7 @@ using GB.tnLabs.Core.SBDtos;
 namespace GB.tnLabs.Web.Data
 {
 	//TODO: what does this do??
-    public class LabContext : tnLabsDBEntities
+    public class LabContext : ApplicationDbContext
     {
         public LabContext()
         {
@@ -22,7 +22,7 @@ namespace GB.tnLabs.Web.Data
         }
     }
 
-	public class LabContextProvider : EFContextProvider<tnLabsDBEntities>
+	public class LabContextProvider : EFContextProvider<ApplicationDbContext>
 	{
 		private readonly Lazy<IUnitOfWork> _unitOfWorkLazy;
 		private readonly Lazy<ServiceBusMessageHandler> _messagingLazy;
@@ -117,7 +117,7 @@ namespace GB.tnLabs.Web.Data
 
 		#region properties
 
-		protected tnLabsDBEntities Context { get { return _contextProvider.Context; } }
+		protected ApplicationDbContext Context { get { return _contextProvider.Context; } }
 
 		protected IUnitOfWork UnitOfWork
 		{

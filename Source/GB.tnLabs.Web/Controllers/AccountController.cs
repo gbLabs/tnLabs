@@ -377,8 +377,8 @@ namespace GB.tnLabs.Web.Controllers
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
-                        tnLabsDBEntities context = new tnLabsDBEntities();
-                        Identity identity = new Identity
+                        ApplicationDbContext context = new ApplicationDbContext();
+                        Core.Repository.Identity identity = new Identity
                         {
                             IdentityProvider = "",
                             NameIdentifier = user.Id,
@@ -390,8 +390,9 @@ namespace GB.tnLabs.Web.Controllers
 
                         context.Identities.Add(identity);
                         context.SaveChanges();
-
-                        Email.BuildSignUpEmail(identity).Send();
+                                                                   
+                        //TODO: 
+                        //Email.BuildSignUpEmail(identity).Send(); 
 
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);

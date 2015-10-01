@@ -97,7 +97,7 @@ using GB.tnLabs.Core.Components;
         {
             Subscription subscription;
             List<string> preferredVmFamilies;
-            using (tnLabsDBEntities context = new tnLabsDBEntities())
+            using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 subscription = context.Subscriptions.Single(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId);
 
@@ -114,7 +114,7 @@ using GB.tnLabs.Core.Components;
 			// Filter the image list:
 			// User images must check if are for the current subscription
 			// also enrich the user images with a friendly description
-			using (tnLabsDBEntities context = new tnLabsDBEntities())
+			using (ApplicationDbContext context = new ApplicationDbContext())
 			{
 				int subscriptionId = UnitOfWork.ActiveSubscriptionId;
 				List<TemplateVM> subscriptionTemplates = context.TemplateVMs
@@ -223,7 +223,7 @@ using GB.tnLabs.Core.Components;
 		[HttpGet]
 		public IEnumerable<object> AvailableSubscriptions()
 		{
-			using (tnLabsDBEntities context = new tnLabsDBEntities())
+			using (ApplicationDbContext context = new ApplicationDbContext())
             {
 				int activeSubscriptionId = UnitOfWork.CurrentIdentity.ActiveSubscriptionId;
 
