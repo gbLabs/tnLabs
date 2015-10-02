@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
-using System.Web;
+using System.IO;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Text;
+using GB.tnLabs.Core.Repository;
+using RazorEngine;
+using RazorEngine.Templating;
+using RestSharp;
+using RestSharp.Authenticators;
+using Encoding = System.Text.Encoding;
 
 namespace GB.tnLabs.Core.Components
 {
-	using System.IO;
-	using System.Net.Mail;
-	using System.Net.Mime;
-	using System.Text;
-
-	using GB.tnLabs.Core.Repository;
-
-	using RazorEngine;
-
-	using Encoding = System.Text.Encoding;
-	using MailMessage = System.Net.Mail.MailMessage;
-
 	public class Email
 	{
 		#region private fields
@@ -56,19 +55,19 @@ namespace GB.tnLabs.Core.Components
 
 			string template = GetTemplate(fileName);
 
-			EmailMessage emailMessage = new EmailMessage()
-			{
-				Body = Razor.Parse(
-					template,
-					new
-					{
-						User = templateVm.Identity.FirstName,
-						LabName = templateVm.VMLabel
+		    var emailMessage = new EmailMessage()
+		    {
+		        Body = Engine.Razor.RunCompile(
+		            template, "vmCapturedTemplate", null,
+		            new
+		            {
+		                User = templateVm.Identity.FirstName,
+		                LabName = templateVm.VMLabel
 
-					}),
-				To = templateVm.Identity.Email,
-				Subject = subject,
-			};
+		            }),
+		        To = templateVm.Identity.Email,
+		        Subject = subject,
+		    };
 
 			var email = new Email(new List<EmailMessage> { emailMessage });
 
@@ -79,24 +78,24 @@ namespace GB.tnLabs.Core.Components
 		{
 			string template = GetTemplate("TemplateVMReady");
 
-			EmailMessage emailMessage = new EmailMessage()
-				{
-					Body = Razor.Parse(
-						template,
-						new
-						{
-							User = templateVm.Identity.FirstName,
-							UserName = string.Format(@"{0}\{1}", templateVm.VMName, templateVm.VMAdminUser),
-							Password = templateVm.VMAdminPass,
-							LabName = templateVm.VMLabel,
-							RDPHost = templateVm.VMName + ":" + templateVm.VmRdpPort
+		    var emailMessage = new EmailMessage()
+		    {
+		        Body = Engine.Razor.RunCompile(
+		            template, "vmReadyTemplate", null,
+		            new
+		            {
+		                User = templateVm.Identity.FirstName,
+		                UserName = string.Format(@"{0}\{1}", templateVm.VMName, templateVm.VMAdminUser),
+		                Password = templateVm.VMAdminPass,
+		                LabName = templateVm.VMLabel,
+		                RDPHost = templateVm.VMName + ":" + templateVm.VmRdpPort
 
-						}),
-					To = templateVm.Identity.Email,
-					Subject = string.Format("Template Image VM for \"{0}\" is ready", templateVm.VMLabel),
-					Attachement = BuildRdpAttachement(templateVm.VMName, templateVm.VmRdpPort),
-					AttachementName = "trainingMachine.rdp"
-				};
+		            }),
+		        To = templateVm.Identity.Email,
+		        Subject = string.Format("Template Image VM for \"{0}\" is ready", templateVm.VMLabel),
+		        Attachement = BuildRdpAttachement(templateVm.VMName, templateVm.VmRdpPort),
+		        AttachementName = "trainingMachine.rdp"
+		    };
 
 			var email = new Email(new List<EmailMessage> { emailMessage });
 
@@ -106,21 +105,19 @@ namespace GB.tnLabs.Core.Components
 		public static Email BuildSessionEmails(Session session, string serviceName)
 		{
 			string template = GetTemplate("ConnectionDetails");
-
 			var emails = session.VirtualMachines.Select(virtualMachine =>
 				new EmailMessage()
 					{
-						Body = Razor.Parse(template,
-						new
-						{
-							User = virtualMachine.User.FirstName,
-							UserName = string.Format(@"{0}\{1}", virtualMachine.VmName, virtualMachine.VmAdminUser),
-							Password = virtualMachine.VmAdminPass,
-							SessionName = virtualMachine.Session.SessionName,
-							RDPHost = serviceName + ".cloudapp.net:" + virtualMachine.VmRdpPort
+                        Body = Engine.Razor.RunCompile(template,"sessionTemplate",null,
+                        new
+                        {
+                            User = virtualMachine.User.FirstName,
+                            UserName = string.Format(@"{0}\{1}", virtualMachine.VmName, virtualMachine.VmAdminUser),
+                            Password = virtualMachine.VmAdminPass, virtualMachine.Session.SessionName,
+                            RDPHost = serviceName + ".cloudapp.net:" + virtualMachine.VmRdpPort
 
-						}),
-						To = virtualMachine.User.Email,
+                        }),
+                        To = virtualMachine.User.Email,
 						Subject = string.Format("Connection details for {0} training session", virtualMachine.Session.SessionName),
 						Attachement = BuildRdpAttachement(serviceName, virtualMachine.VmRdpPort),
                         AttachementName = serviceName + ".rdp"
@@ -134,20 +131,20 @@ namespace GB.tnLabs.Core.Components
 		{
 			string template = GetTemplate("signup");
 
-			var emailMessage = new EmailMessage()
-				{
-					Body =
-						Razor.Parse(
-							template,
-							new
-								{
-									User = identity.DisplayName,
-									Email = identity.Email
-								}),
-					To = "romulus.crisan@endava.com,radu.pascal@endava.com,catalin.stancel@endava.com",
-					Subject = string.Format("User {0} just signup", identity.DisplayName),
+		    var emailMessage = new EmailMessage()
+		    {
+		        Body =
+		            Engine.Razor.RunCompile(
+		                template, "signupEmailTemplate", null,
+		                new
+		                {
+		                    User = identity.DisplayName,
+		                    Email = identity.Email
+		                }),
+		        To = "romulus.crisan@endava.com,radu.pascal@endava.com,catalin.stancel@endava.com",
+		        Subject = string.Format("User {0} just signup", identity.DisplayName),
 
-				};
+		    };
 
 			var email = new Email(new List<EmailMessage> { emailMessage });
 
@@ -158,124 +155,90 @@ namespace GB.tnLabs.Core.Components
 		{
 			string template = GetTemplate("AssignCertificate");
 
-			var emailMessage = new EmailMessage()
-			{
-				Body =
-					Razor.Parse(
-						template,
-						new
-						{
-							User = identity.DisplayName
-						}),
-				To = identity.Email,
-				Subject = string.Format("Azure Management Certificate"),
-				Attachement = cer,
-				AttachementName = "Management.cer"
-			};
+		    var emailMessage = new EmailMessage()
+		    {
+		        Body =
+		            Engine.Razor.RunCompile(
+		                template, "assignCertificateTemplate", null,
+		                new
+		                {
+		                    User = identity.DisplayName
+		                }),
+		        To = identity.Email,
+		        Subject = string.Format("Azure Management Certificate"),
+		        Attachement = cer,
+		        AttachementName = "Management.cer"
+		    };
 
 			var email = new Email(new List<EmailMessage> { emailMessage });
 
 			return email;
 		}
-                      
 
-		public void Send()
+		public bool Send()
+		{
+		    return (from emailMessage in emails
+		        let client = CreateRestClient()
+		        let request = CreateEmailRequest(emailMessage)
+		        select client.Execute(request)).All(response => response.StatusCode == HttpStatusCode.OK);
+		}
+
+		public void SendAsync()
 		{
 			foreach (var emailMessage in emails)
 			{
-				var mail = new MailMessage()
-							   {
-								   Subject = emailMessage.Subject,
-								   IsBodyHtml = true,
-								   Body = emailMessage.Body
+                var client = CreateRestClient();
+                var request = CreateEmailRequest(emailMessage);
 
-							   };
-
-				var recipients = emailMessage.To.Split(',');
-
-				foreach (var recipient in recipients)
-				{
-					mail.To.Add(new MailAddress(recipient));
-				}
-
-				using (var ms = new MemoryStream())
-				{
-					if (emailMessage.Attachement != null)
-					{
-						ms.Write(emailMessage.Attachement, 0, emailMessage.Attachement.Length);
-
-						ms.Seek(0, SeekOrigin.Begin);
-
-						var contentType = new ContentType
-							{
-								MediaType = MediaTypeNames.Application.Octet,
-								Name = emailMessage.AttachementName
-							};
-
-						mail.Attachments.Add(new Attachment(ms, contentType));
-					}
-					var smtpClient = new SmtpClient();
-					smtpClient.Send(mail);
-				}
+                client.ExecuteAsync(request,MailResponse);
 			}
 		}
 
-		public async Task SendAsync()
-		{
-			List<Task> waitList = new List<Task>();
-
-			foreach (var emailMessage in emails)
-			{
-				var mail = new MailMessage()
-				{
-					Subject = emailMessage.Subject,
-					IsBodyHtml = true,
-					Body = emailMessage.Body
-
-				};
-
-				var recipients = emailMessage.To.Split(',');
-
-				foreach (var recipient in recipients)
-				{
-					mail.To.Add(new MailAddress(recipient));
-				}
-
-				using (var ms = new MemoryStream())
-				{
-					if (emailMessage.Attachement != null)
-					{
-						ms.Write(emailMessage.Attachement, 0, emailMessage.Attachement.Length);
-
-						ms.Seek(0, SeekOrigin.Begin);
-
-						var contentType = new ContentType
-						{
-							MediaType = MediaTypeNames.Application.Octet,
-							Name = emailMessage.AttachementName
-						};
-
-						mail.Attachments.Add(new Attachment(ms, contentType));
-					}
-					var smtpClient = new SmtpClient();
-					waitList.Add(smtpClient.SendMailAsync(mail));
-				}
-			}
-
-			await Task.WhenAll(waitList);
-		}
+         private void MailResponse(IRestResponse response, RestRequestAsyncHandle handle)
+        {
+            //Do nothing if mail failed
+        }
 
 		#endregion public methods
 
 		#region private methods
 
-		private static byte[] BuildRdpAttachement(string vmName, int vmPort)
-		{
-			var attachmentContet = new StringBuilder();
-			attachmentContet.AppendFormat("full address:s:{0}.cloudapp.net:{1}", vmName, vmPort).AppendLine();
-			attachmentContet.AppendLine("prompt for credentials:i:1");
-			return Encoding.UTF8.GetBytes(attachmentContet.ToString());
-		}
+         private RestRequest CreateEmailRequest(EmailMessage emailMessage)
+         {
+             var request = new RestRequest();
+             request.AddParameter("domain",
+                 "sandbox3280ff42a045437d9d190757b3b5caf2.mailgun.org", ParameterType.UrlSegment);
+             request.Resource = "sandbox3280ff42a045437d9d190757b3b5caf2.mailgun.org/messages";
+             request.AddParameter("from", "mailer@tnlabs.sandbox3280ff42a045437d9d190757b3b5caf2.mailgun.org");
+             request.AddParameter("to", emailMessage.To);
+             request.AddParameter("subject", emailMessage.Subject);
+             request.AddParameter("html", emailMessage.Body);
+             request.AddFile("attachment", emailMessage.Attachement, emailMessage.AttachementName,
+                 MediaTypeNames.Application.Octet);
+             request.Method = Method.POST;
+             return request;
+         }
+
+         private RestClient CreateRestClient()
+         {
+             var key = ConfigurationManager.AppSettings["mailgun"];
+             
+             var client = new RestClient
+             {
+                 BaseUrl = new Uri("https://api.mailgun.net/v3"),
+                 Authenticator = new HttpBasicAuthenticator("api",
+                     key)
+             };
+             return client;
+         }
+
+        private static byte[] BuildRdpAttachement(string vmName, int vmPort)
+        {
+            var attachmentContet = new StringBuilder();
+            attachmentContet.AppendFormat("full address:s:{0}.cloudapp.net:{1}", vmName, vmPort).AppendLine();
+            attachmentContet.AppendLine("prompt for credentials:i:1");
+            return Encoding.UTF8.GetBytes(attachmentContet.ToString());
+        }
 
 		private static string GetTemplate(string templateName)
 		{
