@@ -12,6 +12,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using GB.tnLabs.Web.Models;
 using GB.tnLabs.Core.Repository;
+using GB.tnLabs.Web.Infrastructure;
 
 namespace GB.tnLabs.Web
 {
@@ -43,7 +44,7 @@ namespace GB.tnLabs.Web
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<AspNetDbContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
@@ -87,6 +88,7 @@ namespace GB.tnLabs.Web
             }
             return manager;
         }
+        
     }
 
     // Configure the application sign-in manager which is used in this application.
@@ -105,6 +107,41 @@ namespace GB.tnLabs.Web
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+        }
+
+        //public override Task SignInAsync(ApplicationUser user, bool isPersistent, bool rememberBrowser)
+        //{
+        //    var task = base.SignInAsync(user, isPersistent, rememberBrowser);
+
+        //    ApplicationDbContext context = new ApplicationDbContext();
+        //    Identity identity = context.Identities.SingleOrDefault(x => x.NameIdentifier == user.Id);
+
+        //    //HttpContext.Current.Session[]
+        //    if (identity != null)
+        //    {
+        //        //TODO: figure out what is the last active subscription id
+        //        PersistUserSubscription(identity.SubscriptionIdentityRoles.First().SubscriptionId);
+                
+
+        //        //user.Claims.Add(new Claim(SpecialClaimTypes.UserId, identity.IdentityId.ToString(), ClaimValueTypes.Integer));
+        //        //((ClaimsIdentity)principal.Identity).AddClaim(
+        //        //        new Claim(SpecialClaimTypes.UserId, identityId.ToString(), ClaimValueTypes.Integer));
+
+        //        //var userRoles = repository.GetUserRoles(identityId.Value);
+        //        //foreach (var role in userRoles)
+        //        //{
+        //        //    ((ClaimsIdentity)principal.Identity).AddClaim(
+        //        //        new Claim(ClaimTypes.Role, role.Item2));
+        //        //}
+        //    }
+
+        //    return task;
+        //}
+
+        private static void PersistUserSubscription(int subscriptionId)
+        {
+            var subscriptionCookie = new HttpCookie(SpecialClaimTypes.Subscription, subscriptionId.ToString());
+            HttpContext.Current.Response.Cookies.Add(subscriptionCookie);
         }
     }
 }

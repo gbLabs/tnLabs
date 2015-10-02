@@ -6,10 +6,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace GB.tnLabs.Core.Repository
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext()
-            : base("tnLabsDBEntities", throwIfV1Schema: false)
+            : base("tnLabsDBEntities")
         {
         }
 

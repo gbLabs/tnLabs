@@ -261,6 +261,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
+    <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Controllers\TrainingsController.cs" />
     <Compile Include="Data\LabRepository.cs" />
     <Compile Include="Enums\SessionSchedulingEnum.cs" />
@@ -281,6 +282,8 @@
     <Compile Include="Infrastructure\WindsorCompositionRoot.cs" />
     <Compile Include="Infrastructure\WindsorControllerFactory.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AspNetDbContext.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\AzureSubscriptionModel.cs" />
     <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -495,7 +498,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Header.cshtml" />
     <Content Include="Views\Shared\__Layout.cshtml" />
-    <Content Include="Views\ManageOld\Index.cshtml" />
+    <Content Include="Views\Training\Index.cshtml" />
     <Content Include="Views\SignUp\Done.cshtml" />
     <Content Include="Views\SignUp\Index.cshtml" />
     <Content Include="Views\SignUp\OwnSubscription.cshtml" />
