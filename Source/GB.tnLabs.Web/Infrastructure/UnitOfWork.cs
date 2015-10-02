@@ -51,7 +51,7 @@ namespace GB.tnLabs.Web.Infrastructure
 					userIdentity.ActiveSubscriptionId = int.Parse(subscriptionIdCookie.Value);
 				}
 
-				string identityId = claimsPrincipal.Claims.First(x => x.Type == SpecialClaimTypes.UserId).Value;
+				string identityId = claimsPrincipal.Claims.Single(x => x.Type == SpecialClaimTypes.UserId).Value;
 				userIdentity.IdentityId = int.Parse(identityId);
 
 				_userIdentity = userIdentity;

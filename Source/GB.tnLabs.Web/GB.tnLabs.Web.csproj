@@ -282,6 +282,8 @@
     <Compile Include="Infrastructure\WindsorCompositionRoot.cs" />
     <Compile Include="Infrastructure\WindsorControllerFactory.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AspNetDbContext.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\AzureSubscriptionModel.cs" />
     <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
