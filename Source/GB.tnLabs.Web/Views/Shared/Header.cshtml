@@ -3,6 +3,12 @@
     bool isSignedUser = User.Identity.IsAuthenticated;// HttpContext.Current.User.IsInRole(RoleTypes.User);
     bool isMember = HttpContext.Current.User.IsInRole(RoleTypes.Member);
 }
+
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
 <nav class="navbar navbar-default" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -52,14 +58,14 @@
 					</li>
 				}
 				@if (isSignedUser)
-				{
-					<li>
-						<a href="@Url.Action("Logout", "Login")">
-							<i class="fa fa-sign-out"></i>&nbsp;Sign-out
-						</a>
+                {
 
-					</li>
-				}
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            <i class="fa fa-sign-out"></i>&nbsp;Sign-out
+                        </a>
+                    </li>
+                }
 			</ul>
 		</div>
 	</div>
