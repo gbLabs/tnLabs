@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace GB.tnLabs.Core.Repository
 {
@@ -17,7 +18,17 @@ namespace GB.tnLabs.Core.Repository
         {
             return new ApplicationDbContext();
         }
-    
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+        }
+
         public DbSet<SessionUser> SessionUsers { get; set; }
 
         public DbSet<User> Users { get; set; }

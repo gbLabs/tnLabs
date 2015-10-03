@@ -108,40 +108,6 @@ namespace GB.tnLabs.Web
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
-
-        //public override Task SignInAsync(ApplicationUser user, bool isPersistent, bool rememberBrowser)
-        //{
-        //    var task = base.SignInAsync(user, isPersistent, rememberBrowser);
-
-        //    ApplicationDbContext context = new ApplicationDbContext();
-        //    Identity identity = context.Identities.SingleOrDefault(x => x.NameIdentifier == user.Id);
-
-        //    //HttpContext.Current.Session[]
-        //    if (identity != null)
-        //    {
-        //        //TODO: figure out what is the last active subscription id
-        //        PersistUserSubscription(identity.SubscriptionIdentityRoles.First().SubscriptionId);
-                
-
-        //        //user.Claims.Add(new Claim(SpecialClaimTypes.UserId, identity.IdentityId.ToString(), ClaimValueTypes.Integer));
-        //        //((ClaimsIdentity)principal.Identity).AddClaim(
-        //        //        new Claim(SpecialClaimTypes.UserId, identityId.ToString(), ClaimValueTypes.Integer));
-
-        //        //var userRoles = repository.GetUserRoles(identityId.Value);
-        //        //foreach (var role in userRoles)
-        //        //{
-        //        //    ((ClaimsIdentity)principal.Identity).AddClaim(
-        //        //        new Claim(ClaimTypes.Role, role.Item2));
-        //        //}
-        //    }
-
-        //    return task;
-        //}
-
-        private static void PersistUserSubscription(int subscriptionId)
-        {
-            var subscriptionCookie = new HttpCookie(SpecialClaimTypes.Subscription, subscriptionId.ToString());
-            HttpContext.Current.Response.Cookies.Add(subscriptionCookie);
-        }
+        
     }
 }

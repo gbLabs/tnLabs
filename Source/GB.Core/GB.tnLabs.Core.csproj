@@ -109,9 +109,9 @@
     <Compile Include="Components\SubscriptionService.cs" />
     <Compile Include="DependencyConventions.cs" />
     <Compile Include="Enums\TemplateVMStatusEnum.cs" />
-    <Compile Include="Migrations\201510011255147_first.cs" />
-    <Compile Include="Migrations\201510011255147_first.Designer.cs">
-      <DependentUpon>201510011255147_first.cs</DependentUpon>
+    <Compile Include="Migrations\201510030702013_initial.cs" />
+    <Compile Include="Migrations\201510030702013_initial.Designer.cs">
+      <DependentUpon>201510030702013_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -181,8 +181,8 @@
     <Folder Include="TestCertificates\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201510011255147_first.resx">
-      <DependentUpon>201510011255147_first.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510030702013_initial.resx">
+      <DependentUpon>201510030702013_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -30,7 +30,7 @@ namespace GB.tnLabs.Web.Models
 
             userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.User));
 
-            userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Member));
+            
 
             string userId = userIdentity.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
@@ -39,20 +39,19 @@ namespace GB.tnLabs.Web.Models
 
             userIdentity.AddClaim(new Claim(SpecialClaimTypes.UserId, identity.IdentityId.ToString(), ClaimValueTypes.Integer));
 
-            //get first found subscription
-            //TODO: update the databasee to be i nline with the entity model code first
-            int subscriptionId = 9;// identity.SubscriptionIdentityRoles.First().SubscriptionId;
-            //PersistUserSubscription(subscriptionId);
+            if (identity.SubscriptionIdentityRoles.Any())
+            {
+                userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Member));
 
-
-
+                //get first found subscription
+                //TODO: update the databasee to be in line with the entity model code first
+                foreach (int subscriptionId in identity.SubscriptionIdentityRoles.Select(x=>x.SubscriptionId).Distinct())
+                {
+                    userIdentity.AddClaim(new Claim(SpecialClaimTypes.Subscription, subscriptionId.ToString()));
+                }
+            }
+            
             return userIdentity;
-        }
-
-        private static void PersistUserSubscription(int subscriptionId)
-        {
-            var subscriptionCookie = new HttpCookie(SpecialClaimTypes.Subscription, subscriptionId.ToString());
-            HttpContext.Current.Response.Cookies.Add(subscriptionCookie);
         }
     }
 }
