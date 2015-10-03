@@ -45,11 +45,26 @@ namespace GB.tnLabs.Web.Infrastructure
 				//update _userIdentity if instantiated
 				UserIdentity userIdentity = _userIdentity ?? new UserIdentity();
 
-				HttpCookie subscriptionIdCookie = HttpContext.Current.Request.Cookies.Get(SpecialClaimTypes.Subscription);
-				if (subscriptionIdCookie != null)
-				{
-					userIdentity.ActiveSubscriptionId = int.Parse(subscriptionIdCookie.Value);
-				}
+				//TODO: figure out where to keep the current subscription information
+				//if (subscriptionIdCookie != null)
+				//{
+				//	userIdentity.ActiveSubscriptionId = int.Parse(subscriptionIdCookie.Value);
+				//}
+    //            else
+                {
+                    Claim subscriptionClaim = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == SpecialClaimTypes.Subscription);
+
+                    if (subscriptionClaim != null)
+                    {
+                        string subscriptionId = subscriptionClaim.Value;
+
+                        ////set the subscription if not selected
+                        //var subscriptionCookie = new HttpCookie(SpecialClaimTypes.Subscription, subscriptionId);
+                        //HttpContext.Current.Response.Cookies.Add(subscriptionCookie);
+
+                        userIdentity.ActiveSubscriptionId = int.Parse(subscriptionId);
+                    }
+                }
 
 				string identityId = claimsPrincipal.Claims.Single(x => x.Type == SpecialClaimTypes.UserId).Value;
 				userIdentity.IdentityId = int.Parse(identityId);

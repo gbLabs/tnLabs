@@ -24,6 +24,7 @@ namespace GB.tnLabs.Web.Models
 		public string LastName { get; set; }
 
 		[Required]
+        [Obsolete]
 		[Display(Name = "Display Name")]
 		public string DisplayName { get; set; }
 

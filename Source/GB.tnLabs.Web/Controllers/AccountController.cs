@@ -390,9 +390,8 @@ namespace GB.tnLabs.Web.Controllers
 
                         context.Identities.Add(identity);
                         context.SaveChanges();
-                                                                   
-                        //TODO: 
-                        //Email.BuildSignUpEmail(identity).Send(); 
+                         
+                        Email.BuildSignUpEmail(identity).Send(); 
 
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);

@@ -55,7 +55,7 @@ namespace GB.tnLabs.Web.Controllers
 		{
 			_logger = logger;
 			_unitOfWorkLazy = unitOfWorkLazy;
-			
+            _messagingLazy = messagingLazy;
 		}
 
         #endregion .ctor
