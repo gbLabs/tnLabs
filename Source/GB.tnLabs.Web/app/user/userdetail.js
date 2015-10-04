@@ -49,6 +49,7 @@
         function saveChanges() {
 
             spinner.spinnerShow();
+            //TODO: figure out why it's hardcoded!
             vm.user.password = 'tnLabsP@ss1';
             if (vm.user.entityAspect.validateEntity()) {
                 datacontext.saveChanges().then(saveSucceded, saveFailed);
