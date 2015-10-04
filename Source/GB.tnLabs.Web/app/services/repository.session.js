@@ -53,7 +53,7 @@
             return EntityQuery.from('Sessions')
                 .where(_notRemovedPredicate())
                 .orderBy(orderBy)
-                .expand("Lab")
+                .expand("lab")
                 .toType(entityName)
                 .using(self.manager).execute()
                 .then(querySucceeded, self._queryFailed);

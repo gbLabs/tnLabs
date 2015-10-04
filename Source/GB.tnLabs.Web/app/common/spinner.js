@@ -20,7 +20,7 @@
         function spinnerShow() { spinnerToggle(true); }
 
         function spinnerToggle(show) {
-            common.$broadcast(commonConfig.config.spinnerToggleEvent, { show: show });
+            common.$broadcast(commonConfig.config.spinnerToggleEvent, show);
         }
     }
 })();

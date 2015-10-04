@@ -25,9 +25,9 @@
     });
 
     commonModule.factory('common',
-        ['$q', '$rootScope', '$timeout', 'commonConfig', 'logger', common]);
+        ['$q', '$rootScope', '$timeout', '$window', 'commonConfig', 'logger', common]);
 
-    function common($q, $rootScope, $timeout, commonConfig, logger) {
+    function common($q, $rootScope, $timeout, $window, commonConfig, logger) {
         var throttles = {};
 
         var service = {
@@ -41,7 +41,11 @@
             debouncedThrottle: debouncedThrottle,
             isNumber: isNumber,
             logger: logger, // for accessibility
-            textContains: textContains
+            textContains: textContains,
+            resize: resize,
+            adjustSize: adjustSize,
+            vmCoreNumber: vmCoreNumber,
+            vmPricingHour: vmPricingHour
         };
 
         return service;
@@ -126,6 +130,87 @@
 
         function textContains(text, searchText) {
             return text && -1 !== text.toLowerCase().indexOf(searchText.toLowerCase());
+        }
+
+        function adjustSize() {
+            var w = angular.element($window);
+            resize({
+                'h': w.height(),
+                'w': w.width()
+            });
+        }
+        
+        function resize(newValue) {
+            var winHeight = newValue.h;
+            var winWidth = newValue.w;
+            var screenSize = 'large';
+            if (winHeight) {
+                $("#content").css("min-height", winHeight);
+            }
+
+            if (winWidth < 980 && winWidth > 767) {
+                screenSize = 'small';
+                if ($(".main-menu-span").hasClass("col-sm-2")) {
+
+                    $(".main-menu-span").removeClass("col-sm-2");
+                    $(".main-menu-span").addClass("col-sm-1");
+
+                }
+
+                if ($("#content").hasClass("col-sm-10")) {
+
+                    $("#content").removeClass("col-sm-10");
+                    $("#content").addClass("col-sm-11");
+
+                }
+
+            } else {
+
+                if ($(".main-menu-span").hasClass("col-sm-1")) {
+
+                    $(".main-menu-span").removeClass("col-sm-1");
+                    $(".main-menu-span").addClass("col-sm-2");
+
+                }
+
+                if ($("#content").hasClass("col-sm-11")) {
+
+                    $("#content").removeClass("col-sm-11");
+                    $("#content").addClass("col-sm-10");
+                    
+                }
+
+            }
+            var data = { size: screenSize, minHeight: winHeight };
+            $broadcast(commonConfig.config.screenResize, data);
+        }
+        
+        function vmCoreNumber(vmSize) {
+            //TODO: this should come from the service so has to be replaced
+            switch (vmSize.toLowerCase()) {
+                case 'small':
+                    return 1;
+                case 'medium':
+                    return 2;
+                case 'large':
+                    return 4;
+                default:
+                    return 1;
+            }
+        }
+        
+        function vmPricingHour(vmSize) {
+            //TODO: this should come from the service so has to be replaced
+            switch (vmSize.toLowerCase()) {
+                case 'small':
+                    return 0.056;
+                case 'medium':
+                    return 0.112;
+                case 'large':
+                    return 0.224;
+                default:
+                    return 0.056;
+            }
         }
     }
 })();

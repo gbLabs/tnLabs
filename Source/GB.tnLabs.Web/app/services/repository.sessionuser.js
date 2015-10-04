@@ -43,7 +43,7 @@
             return EntityQuery.from('SessionUsers')
                 .orderBy(orderBy)
                 .where(predicate)
-                .expand("User")
+                .expand("user")
                 .toType(entityName)
                 .using(self.manager).execute()
                 .then(querySucceeded, self._queryFailed);
