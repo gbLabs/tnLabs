@@ -3,14 +3,24 @@
     
     var controllerId = 'shell';
     angular.module('app').controller(controllerId,
-        ['$rootScope', 'common', 'config', shell]);
+        ['$rootScope','$scope','$window', 'common', 'config','datacontext', shell]);
 
-    function shell($rootScope, common, config) {
+    function shell($rootScope, $scope, $window, common, config, datacontext) {
         var vm = this;
         var logSuccess = common.logger.getLogFn(controllerId, 'success');
         var events = config.events;
         vm.busyMessage = 'Please wait ...';
         vm.isBusy = true;
+        vm.size = undefined;
+        vm.year = moment().year();
+        vm.version = undefined;
+        
+        vm.height = function() {
+            return {
+                'min-height': vm.minHeight + 'px'
+            };
+        };
+        vm.minHeight = undefined;
         vm.spinnerOptions = {
             radius: 40,
             lines: 7,
@@ -21,26 +31,48 @@
             trail: 100,
             color: '#F58A00'
         };
-
         activate();
 
         function activate() {
-            logSuccess('Hot Towel Angular loaded!', null, true);
-            common.activateController([], controllerId);
+            logSuccess('Training Labs loaded!', null, true);
+            common.activateController([getVersion()], controllerId).then(function () {
+                
+            });
         }
 
-        function toggleSpinner(on) { vm.isBusy = on; }
+        function getVersion() {
+            return datacontext.getVersion()
+               .then(function (data) {
+                   return vm.version = data;
+               });
+        }
+        function toggleSpinner(on) {
+            vm.isBusy = on;
+        }
 
         $rootScope.$on('$routeChangeStart',
-            function (event, next, current) { toggleSpinner(true); }
+            function(event, next, current) {
+                 toggleSpinner(true);
+            }
         );
         
-        $rootScope.$on(events.controllerActivateSuccess,
-            function (data) { toggleSpinner(false); }
+        $rootScope.$on('$routeChangeSuccess',
+           function (event, next, current) {
+               toggleSpinner(false);
+           }
+       );
+        
+        $rootScope.$on(events.screenResize,
+            function (data, screenResize) {
+                vm.size = screenResize.size;
+                vm.minHeight =screenResize.minHeight;
+            }
         );
-
+        
         $rootScope.$on(events.spinnerToggle,
-            function (data) { toggleSpinner(data.show); }
+            function(data, show) {
+                toggleSpinner(show);
+            }
         );
     };
 })();

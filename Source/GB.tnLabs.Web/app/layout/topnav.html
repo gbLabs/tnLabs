@@ -1,31 +1,35 @@
-﻿<nav class="navbar navbar-fixed-top navbar-inverse">
-    <div class="navbar-header">
-        <a href="/" class="navbar-brand"><span class="brand-title">Hot Towel Angular</span></a>
-        <a class="btn navbar-btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </a>
-    </div>
-    <div class="navbar-collapse collapse">
-        <div class="pull-right navbar-logo">
-            <ul class="nav navbar-nav pull-right">
-                <li>
-                    <a href="http://www.johnpapa.net/hottowel-angular" target="_blank">
-                        Created by John Papa
-                    </a>
-                </li>
-                <li>
-                    <a href="http://www.breezejs.com" target="_blank">
-                        <img src="../../Content/images/breezelogo.png" />
-                    </a>
-                </li>
-                <li class="dropdown dropdown-big">
-                    <a href="http://www.angularjs.org" target="_blank">
-                        <img src="../../Content/images/AngularJS-small.png" />
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+﻿<div class="navbar" data-ng-controller="topnav as vm">
+	<div class="container">
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".sidebar-nav.nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+
+		<a class="navbar-brand" href="#"><img src="../../Content/images/logo.png" alt="logo" /><span>Training Labs</span>&nbsp;<span style="color:#646464;font-size:10px">beta</span></a>
+
+		<div class="pull-right hidden-xs">
+			<ul class="nav navbar-nav">
+				<li class="dropdown" on-toggle="toggled(open)">
+
+					<a href class="dropdown-toggle">
+						<i class="fa fa-tags"></i>
+						Subscriptions
+					</a>
+					<ul class="dropdown-menu">
+						<li data-ng-repeat="s in vm.subscriptions">
+							<a href data-ng-click="vm.changeSubscription(s)"><i class="fa" data-ng-class="vm.currentStyle(s.active)"></i>{{s.subscriptionName}}
+							</a>
+						</li>
+					</ul>
+				</li>
+
+				<li class="hidden-xs">
+					<a href="/login/logout">
+						<i class="fa fa-sign-out"></i>Sign-out
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
