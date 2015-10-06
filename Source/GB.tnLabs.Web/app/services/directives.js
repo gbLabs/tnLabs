@@ -1,66 +1,40 @@
-﻿(function() {
+﻿(function () {
     'use strict';
 
     var app = angular.module('app');
 
-    app.directive('ccImgPerson', ['config', function (config) {
-        //Usage:
-        //<img data-cc-img-person="{{s.speaker.imageSource}}"/>
-        var basePath = config.imageSettings.imageBasePath;
-        var unknownImage = config.imageSettings.unknownPersonImageSource;
+    app.directive('resizable', function ($window, common) {
+        // resize content area according to window size
+        // Usage:
+        //  <div data-resizable>
         var directive = {
             link: link,
             restrict: 'A'
         };
         return directive;
+        
+        function link(scope) {
+            var w = angular.element($window);
+            scope.getWindowDimensions = function () {
+                return {
+                    'h': w.height(),
+                    'w': w.width()
+                };
+            };
 
-        function link(scope, element, attrs) {
-            attrs.$observe('ccImgPerson', function(value) {
-                value = basePath + (value || unknownImage);
-                attrs.$set('src', value);
+            scope.$watch(scope.getWindowDimensions, common.resize, true);
+
+            w.bind('resize', function () {
+                scope.$apply();
+            });
+
+            common.resize({
+                'h': w.height(),
+                'w': w.width()
             });
         }
-    }]);
 
-
-    app.directive('ccSidebar', function () {
-        // Opens and clsoes the sidebar menu.
-        // Usage:
-        //  <div data-cc-sidebar>
-        // Creates:
-        //  <div data-cc-sidebar class="sidebar">
-        var directive = {
-            link: link,
-            restrict: 'A'
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            var $sidebarInner = element.find('.sidebar-inner');
-            var $dropdownElement = element.find('.sidebar-dropdown a');
-            element.addClass('sidebar');
-            $dropdownElement.click(dropdown);
-
-            function dropdown(e) {
-                var dropClass = 'dropy';
-                e.preventDefault();
-                if (!$dropdownElement.hasClass(dropClass)) {
-                    hideAllSidebars();
-                    $sidebarInner.slideDown(350);
-                    $dropdownElement.addClass(dropClass);
-                } else if ($dropdownElement.hasClass(dropClass)) {
-                    $dropdownElement.removeClass(dropClass);
-                    $sidebarInner.slideUp(350);
-                }
-
-                function hideAllSidebars() {
-                    $sidebarInner.slideUp(350);
-                    $('.sidebar-dropdown a').removeClass(dropClass);
-                }
-            }
-        }
     });
-
 
     app.directive('ccWidgetClose', function () {
         // Usage:
@@ -71,7 +45,7 @@
         // </a>
         var directive = {
             link: link,
-            template: '<i class="fa fa-remove"></i>',
+            template: '<i class="fa fa-times"></i>',
             restrict: 'A'
         };
         return directive;
@@ -113,14 +87,37 @@
                 if ($wcontent.is(':visible')) {
                     iElement.removeClass('fa fa-chevron-up');
                     iElement.addClass('fa fa-chevron-down');
+                    $wcontent.fadeOut(500);
                 } else {
                     iElement.removeClass('fa fa-chevron-down');
                     iElement.addClass('fa fa-chevron-up');
+                    $wcontent.fadeIn(500);
                 }
-                $wcontent.toggle(500);
+                
             }
         }
     });
+
+    app.directive('stepScrollToTop', function () {
+            // Usage:
+            // <wz-step data-step-scroll-to-top></wz-step>
+            var directive = {
+                link: link,
+                restrict: 'A'
+            };
+            return directive;
+
+            function link(scope, element, attrs) {
+                element.find("input[value='Next']").click(function(e) {
+                    e.preventDefault();
+                    $('body').animate({ scrollTop: 0 }, 500);
+                });
+                element.find("input[value='Previous']").click(function(e) {
+                    e.preventDefault();
+                    $('body').animate({ scrollTop: 0 }, 500);
+                });
+            }
+        });
 
     app.directive('ccScrollToTop', ['$window',
         // Usage:
@@ -144,13 +141,11 @@
 
                 element.find('a').click(function (e) {
                     e.preventDefault();
-                    // Learning Point: $anchorScroll works, but no animation
-                    //$anchorScroll();
                     $('body').animate({ scrollTop: 0 }, 500);
                 });
 
                 function toggleIcon() {
-                    $win.scrollTop() > 300 ? element.slideDown(): element.slideUp();
+                    $win.scrollTop() > 300 ? element.slideDown() : element.slideUp();
                 }
             }
         }
@@ -179,7 +174,7 @@
         }
     }]);
 
-    app.directive('ccWidgetHeader', function() {
+    app.directive('ccWidgetHeader', function () {
         //Usage:
         //<div data-cc-widget-header title="vm.map.title"></div>
         var directive = {
@@ -196,7 +191,101 @@
         return directive;
 
         function link(scope, element, attrs) {
-            attrs.$set('class', 'widget-head');
+            attrs.$set('class', 'box-header');
         }
     });
+    
+    app.directive('datePicker', function () {
+        // Usage:
+        // <input date-picker></input>
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            element.datepicker({
+                format:'dd MM yyyy',
+                startDate: 'today',
+                todayBtn: 'linked',
+                autoclose: true,
+                todayHighlight: true
+            });
+        }
+    });
+
+    app.directive('moDateInput', function ($window) {
+        return {
+            require: '^ngModel',
+            restrict: 'A',
+            link: function (scope, elm, attrs, ctrl) {
+                var moment = $window.moment;
+                var dateFormat = attrs.moDateInput;
+                attrs.$observe('moDateInput', function (newValue) {
+                    if (dateFormat == newValue || !ctrl.$modelValue) return;
+                    dateFormat = newValue;
+                    ctrl.$modelValue = new Date(ctrl.$setViewValue);
+                });
+
+                ctrl.$formatters.unshift(function (modelValue) {
+                    scope = scope;
+                    if (!dateFormat || !modelValue) return "";
+                    var retVal = moment(modelValue).format(dateFormat);
+                    return retVal;
+                });
+
+                ctrl.$parsers.unshift(function (viewValue) {
+                    scope = scope;
+                    var date = moment(viewValue, dateFormat);
+                    return (date && date.isValid() && date.year() > 1950) ? date.toDate() : "";
+                });
+            }
+        };
+    });
+
+    app.directive('editOnLoad', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs, ctrl) {
+                if (attrs.index == 0 && attrs.email == '') {
+                    var run = function () {
+                        element.find('button.btn-danger')[0].click();
+                    };
+                    $timeout(function () {
+                        run();
+                    }, 10);
+                }
+            }
+        }
+    });
+    
+    app.directive('timePicker', function () {
+        // Usage:
+        // <input time-picker></input>
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            element.timepicker({ defaultTime: false, showMeridian: false });
+        }
+    });
+    
+    app.directive('ngEnterTab', function () {
+        return function (scope, element, attrs) {
+            element.bind("keydown keypress", function (event) {
+                if (event.which === 13 || event.which === 9) {
+                    scope.$apply(function () {
+                        scope.$eval(attrs.ngEnterTab);
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    });
+
 })();

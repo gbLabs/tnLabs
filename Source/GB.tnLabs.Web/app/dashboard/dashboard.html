@@ -1,71 +1,147 @@
-﻿<section id="dashboard-view" class="mainbar" data-ng-controller="dashboard as vm">
-    <section class="matter">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="today-datas">
-                        <li class="blightblue">
-                            <div class="pull-left"><i class="fa fa-plane"></i></div>
-                            <div class="datas-text pull-right">
-                                <span class="bold">May 18 - 19, 2015</span> Castle Resort, Neverland
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-
-                        <li class="borange">
-                            <div class="pull-left"><i class="fa fa-envelope"></i></div>
-                            <div class="datas-text pull-right">
-                                <span class="bold">{{vm.messageCount}}</span> Messages
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-
-                    </ul>
+﻿<div id="dashboard-view" class="container" data-ng-controller="dashboard as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="today-datas">
+				<li class="borange grow ">
+					<a href="#/session/{{vm.nextSession.sessionId}}">
+						<div class="pull-left"><i class="fa fa-bookmark"></i></div>
+						<div class="datas-text pull-right">
+							<span class="bold">{{vm.nextSession.sessionName}} - {{vm.nextSession.sessionUsers.length}} participants</span>
+							{{vm.nextSession.formattedStartDate}}
+						</div>
+						<div class="clearfix"></div>
+					</a>
+				</li>
+                <li class="borange grow ">
+                    <a href="#/participant/new">
+                        <div class="pull-left"><i class="fa fa-users"></i></div>
+                        <div class="datas-text pull-left">
+                            <span class="bold">Create User</span>Session participants 
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+               <!-- <li class="borange grow ">
+                    <a href="#/speaker">
+                        <div class="pull-left"><i class="fa fa-bullhorn"></i></div>
+                        <div class="datas-text pull-right">
+                            10<span class="bold">Speakers</span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-7">
+            <div class="box">
+                <div class="box-header">
+                    <h2>
+                        <i class="fa fa-calendar"></i>
+                        <span class="break"></span>
+                        Upcoming 3 Sessions
+                    </h2>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="widget wviolet">
-                        <div data-cc-widget-header title="People"
-                             allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-                            <table class="table table-condensed table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Age</th>
-                                        <th>Location</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-ng-repeat="p in vm.people">
-                                        <td>{{p.firstName}}</td>
-                                        <td>{{p.lastName}}</td>
-                                        <td>{{p.age}}</td>
-                                        <td>{{p.location}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="widget-foot">
-                            <div class="clearfix"></div>
-                        </div>
+                <div class="box-content">
+                    <div  data-ng-if="vm.sessions.length == 0">
+                         <h1 class="padding">There are no upcoming sessions scheduled.</h1>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="widget wgreen">
-                        <div data-cc-widget-header title="{{vm.news.title}}"
-                             allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-                            <small>{{vm.news.description}}</small>
-                        </div>
-                        <div class="widget-foot">
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
+                    <table data-ng-if="vm.sessions.length > 0" class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Session Name</th>
+                                <th>Start Date</th>
+                                <th>Lab Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="s in vm.sessions" data-ng-click="vm.gotoSession(s)" class="pointer">
+                                <td>{{s.sessionName}}</td>
+                                <td>{{s.formattedStartDate}}</td>
+                                <td>{{s.lab.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </section>
-</section>
+        <div class="col-md-5">
+            <ul class="today-datas ">
+                <li class="bblue grow pull-right mediumBox">
+                    <a href="#/sessions">
+                        <div class="pull-left"><i class="fa fa-calendar"></i></div>
+                        <div class="datas-text pull-right">
+                            {{vm.sessionsCount}}<span class="bold">Sessions</span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+                <li class="bblue grow pull-right mediumBox">
+                    <a href="#/session/new">
+                        <div class="pull-left"><i class="fa fa-comments"></i></div>
+                        <div class="datas-text pull-right">
+                            <span class="bold">Create session</span>Schedule a new session
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+
+        <div class="col-md-7">
+            <div class="box">
+                <div class="box-header">
+                    <h2>
+                        <i class="fa fa-laptop"></i>
+                        <span class="break"></span>
+                        Latest labs created
+                    </h2>
+                </div>
+                <div class="box-content">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Lab Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="l in vm.labs" data-ng-click="vm.gotoLab(l)" class="pointer">
+                                <td>{{l.name}}</td>
+                                <td>{{l.description}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <ul class="today-datas ">
+
+                <li class="bdarkgreen grow pull-right mediumBox">
+                    <a href="#/labs">
+                        <div class="pull-left"><i class="fa fa-laptop"></i></div>
+                        <div class="datas-text pull-right">
+                            {{vm.labsCount}}<span class="bold">Existing labs</span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+                <li class="bdarkgreen grow pull-right mediumBox">
+                    <a href="#/lab/new">
+                        <div class="pull-left"><i class="fa fa-send"></i></div>
+                        <div class="datas-text pull-right">
+                            <span class="bold">Create lab</span>Create new lab template
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
