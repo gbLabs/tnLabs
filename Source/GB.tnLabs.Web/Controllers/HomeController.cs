@@ -13,7 +13,7 @@ namespace WebMvc.Controllers
 	{
 		public ActionResult Index()
 		{
-			ViewBag.IsSignedUser = HttpContext.User.IsInRole(RoleTypes.User);
+			ViewBag.IsSignedUser = HttpContext.User.IsInRole(RoleTypes.Trainer);
 			ViewBag.IsMember = HttpContext.User.IsInRole(RoleTypes.Member);
 			return View();
 		}

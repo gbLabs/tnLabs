@@ -15,7 +15,7 @@ namespace GB.tnLabs.Web.Controllers
         // GET: Login
         public ActionResult Index()
         {
-			if (!HttpContext.User.IsInRole(RoleTypes.User))
+			if (!HttpContext.User.IsInRole(RoleTypes.Trainer))
 			{
 				return RedirectToAction("Index", "SignUp");
 			}

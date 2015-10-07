@@ -10,7 +10,7 @@ namespace GB.tnLabs.Web.Infrastructure
 		/// <summary>
 		/// Any registered user. With or without a subscription.
 		/// </summary>
-		public const string User = "User";
+		public const string Trainer = "Trainer";
 
 		/// <summary>
 		/// A user that has access to a subscription.

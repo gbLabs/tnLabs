@@ -179,7 +179,7 @@ namespace GB.tnLabs.Web.Controllers
 				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Administrator);
 				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Member);
 				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Owner);
-				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.User);
+				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Trainer);
 
 				context.SaveChanges();
 			}

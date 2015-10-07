@@ -28,7 +28,7 @@ namespace GB.tnLabs.Web.Models
 
             //TODO: look-up the roles from the DB!
 
-            userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.User));
+            userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Trainer));
 
             
 

@@ -7,7 +7,7 @@ using GB.tnLabs.Web.Repository;
 using Newtonsoft.Json.Linq;
 using Breeze.WebApi2;
 
-namespace GB.tnLabs.Web.Controllers
+namespace GB.tnLabs.Web.API_Controllers
 {
     using System.Web.Http;
     using GB.tnLabs.Web.Infrastructure;
@@ -15,9 +15,9 @@ namespace GB.tnLabs.Web.Controllers
     using GB.tnLabs.AzureFacade;
     using GB.tnLabs.AzureFacade.Interfaces;
     using GB.tnLabs.AzureFacade.Enums;
-	using GB.tnLabs.Core.Repository;
-	using GB.tnLabs.Core;
-using GB.tnLabs.Core.Components;
+    using GB.tnLabs.Core.Repository;
+    using GB.tnLabs.Core;
+    using GB.tnLabs.Core.Components;
     using System.Reflection;
 
     [BreezeController]

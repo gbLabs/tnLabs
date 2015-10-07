@@ -6,7 +6,6 @@
         ['common', 'entityManagerFactory', 'model', 'repositories', 'spinner', datacontext]);
 
 	function datacontext(common, emFactory, model, repositories, spinner) {
-      
         var entityNames = model.entityNames;
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(serviceId);
@@ -17,8 +16,6 @@
         var $q = common.$q;
         var primePromise;
         var version = undefined;
-		
-        
 
         var storeMeta = {
             isLoaded: {
@@ -37,14 +34,15 @@
 			availableChocoPackages: [],
 			getVersion: getVersion,
 			getAvailableSubscriptions: getAvailableSubscriptions,
-			getAvailableSubscriptionResources: getAvailableSubscriptionResources
+			getAvailableSubscriptionResources: getAvailableSubscriptionResources,
+            sendInvites: sendInvites
         };
 
         init();
 
         return service;
 
-		function init() {
+        function init() {
 			repositories.init(manager);
 			defineLazyLoadedRepos();
 			getAvailableVmImages();
@@ -106,6 +104,22 @@
                         .using(manager)
                         .execute()
                         .then(getAvailableSubscriptionsResourcesSucceeded);
+		}
+
+		function sendInvites($http, value) {
+		    $http({
+		        url: "api/Manage/SendInvites",
+		        method: "POST",
+		        data: $.param({ "emails": value })
+		    }).success(function (data, status, headers, config) {
+		            alert( data);
+		    }).error(function (data, status, headers, config) {
+		        alert(status);
+		    });
+		}   
+
+		function invitesSent() {
+		    alert("Success");
 		}
 
 		function getVersionSucceeded(data) {
