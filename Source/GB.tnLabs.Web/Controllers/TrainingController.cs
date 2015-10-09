@@ -12,7 +12,7 @@ namespace GB.tnLabs.Web.Controllers
         // GET: Training
         public ActionResult Index()
         {
-            ViewBag.IsOwner = HttpContext.User.IsInRole(RoleTypes.Owner);
+            ViewBag.IsOwnerOrTrainer = HttpContext.User.IsInRole(RoleTypes.Owner) || HttpContext.User.IsInRole(RoleTypes.Trainer);
             return View();
         }
     }

@@ -15,10 +15,10 @@
         function activate() { getNavRoutes(); }
 
         function getNavRoutes() {
-            var isOwner = $('#is-owner').val();
+            var isOwnerOrTrainer = $('#is-ownerOrTrainer').val();
             var indexOfUsersRoute = -1;
 
-            if (isOwner == "False") {
+            if (isOwnerOrTrainer == "False") {
                 $.each(routes, function (index, route) {
                     if (route.url == "/users") {
                         indexOfUsersRoute = index;
