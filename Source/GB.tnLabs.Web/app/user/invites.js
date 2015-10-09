@@ -18,3 +18,11 @@
         }
     }
 })();
+
+function onInvitesSent(result) {
+    $('#on-invites-sent').empty();
+    if ($('#on-invites-sent').hasClass('hidden')) {
+        $('#on-invites-sent').removeClass('hidden');
+    }
+    $('#on-invites-sent').append('<strong>Info</strong> Number of emails sent: ' + result);
+}

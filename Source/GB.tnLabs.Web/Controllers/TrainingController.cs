@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GB.tnLabs.Web.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,7 @@ namespace GB.tnLabs.Web.Controllers
         // GET: Training
         public ActionResult Index()
         {
+            ViewBag.IsOwner = HttpContext.User.IsInRole(RoleTypes.Owner);
             return View();
         }
     }

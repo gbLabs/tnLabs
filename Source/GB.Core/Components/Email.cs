@@ -102,6 +102,30 @@ namespace GB.tnLabs.Core.Components
             return email;
         }
 
+        public static Email BuildInviteToTnLabs(List<string> emailsTo)
+        {
+            string template = GetTemplate("InviteToTnLabs");
+            var builtEmails = new List<EmailMessage>();
+
+            foreach (var emailTo in emailsTo)
+            {
+                builtEmails.Add(
+                new EmailMessage()
+                {
+                    Body = Engine.Razor.RunCompile(template, "InviteToTnLabs", null,
+                            new
+                            {
+                                AppUrl = ConfigurationManager.AppSettings["AppUrl"]
+                            }),
+                    To = emailTo,
+                    Subject = string.Format("gbLabs Invitation"),
+
+                });
+            }
+
+            return new Email(builtEmails);
+        }
+
         public static Email BuildSessionEmails(Session session, string serviceName)
         {
             string template = GetTemplate("ConnectionDetails");

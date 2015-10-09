@@ -110,16 +110,10 @@
 		    $http({
 		        url: "api/Manage/SendInvites",
 		        method: "POST",
-		        data: $.param({ "emails": value })
-		    }).success(function (data, status, headers, config) {
-		            alert( data);
-		    }).error(function (data, status, headers, config) {
-		        alert(status);
+		        data: $.param({ value })
+		    }).success(function (data) {
+		        onInvitesSent(data);
 		    });
-		}   
-
-		function invitesSent() {
-		    alert("Success");
 		}
 
 		function getVersionSucceeded(data) {
