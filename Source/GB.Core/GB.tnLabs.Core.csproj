@@ -118,6 +118,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Identity.cs" />
     <Compile Include="Repository\ApplicationDbContext.cs" />
+    <Compile Include="Repository\Invitation.cs" />
     <Compile Include="Repository\Lab.cs" />
     <Compile Include="Repository\RecommendedVMImage.cs" />
     <Compile Include="Repository\Session.cs" />

@@ -33,6 +33,8 @@ namespace GB.tnLabs.Core.Repository
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Invitation> Invitations { get; set; }
+
         public DbSet<VirtualMachine> VirtualMachines { get; set; }
 
         public DbSet<Identity> Identities { get; set; }
