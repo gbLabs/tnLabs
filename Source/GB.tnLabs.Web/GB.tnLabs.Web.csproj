@@ -247,7 +247,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API_Controllers\ManageController.cs" />
+    <Compile Include="APIControllers\ManageController.cs" />
     <Compile Include="App_Start\BreezeWebApiConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -257,14 +257,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="API_Controllers\AzureManagementController.cs" />
+    <Compile Include="APIControllers\AzureManagementController.cs" />
     <Compile Include="Controllers\AzureTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\TrainingController.cs" />
-    <Compile Include="API_Controllers\TrainingsController.cs" />
+    <Compile Include="APIControllers\TrainingsController.cs" />
     <Compile Include="Data\LabRepository.cs" />
     <Compile Include="Enums\SessionSchedulingEnum.cs" />
     <Compile Include="Enums\SignUpTypeEnum.cs" />

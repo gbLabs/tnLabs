@@ -15,7 +15,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace GB.tnLabs.Web.API_Controllers
+namespace GB.tnLabs.Web.APIControllers
 {
     public class AzureManagementController : ApiController
     {

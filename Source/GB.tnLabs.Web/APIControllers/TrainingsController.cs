@@ -7,7 +7,7 @@ using GB.tnLabs.Web.Repository;
 using Newtonsoft.Json.Linq;
 using Breeze.WebApi2;
 
-namespace GB.tnLabs.Web.API_Controllers
+namespace GB.tnLabs.Web.APIControllers
 {
     using System.Web.Http;
     using GB.tnLabs.Web.Infrastructure;

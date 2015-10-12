@@ -118,7 +118,7 @@ namespace GB.tnLabs.Core.Components
                                 AppUrl = ConfigurationManager.AppSettings["AppUrl"]
                             }),
                     To = emailTo,
-                    Subject = string.Format("gbLabs Invitation"),
+                    Subject = string.Format("tnLabs Invitation"),
 
                 });
             }
