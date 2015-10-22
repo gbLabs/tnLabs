@@ -41,8 +41,10 @@
         }
 
         function removeUser(user) {
-            //TODO: ADD LOGIC TO DELETE
-            getUsers(false);
+            if (user && user.identityId) {
+                datacontext.removeSubscriptionUser($http, user.identityId);
+            }
+            getUsers(true);
         }
     }
 })();

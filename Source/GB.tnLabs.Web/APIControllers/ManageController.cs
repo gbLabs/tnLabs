@@ -206,6 +206,41 @@ namespace GB.tnLabs.Web.APIControllers
             }
         }
 
+        public bool RemoveUserFromSubscription(string identityId)
+        {
+            var success = false;
+            try
+            {
+                if (string.IsNullOrWhiteSpace(identityId))
+                    return false;
+
+                using (var context = new ApplicationDbContext())
+                {
+                    var subscription = context.Subscriptions.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId).FirstOrDefault();
+                    var identity = context.Identities.Where(x => x.IdentityId.ToString() == identityId).FirstOrDefault();
+
+                    if (subscription == null || identity == null)
+                        return false;
+
+                    var subscriptionRoles = context.SubscriptionIdentityRoles.Where(x => x.IdentityId == identity.IdentityId &&
+                        x.SubscriptionId == subscription.SubscriptionId);
+
+                    foreach (var subscriptionRole in subscriptionRoles.ToList())
+                    {
+                        context.SubscriptionIdentityRoles.Remove(context.SubscriptionIdentityRoles.Where(x => 
+                            x.SubscriptionIdentityRoleId == subscriptionRole.SubscriptionIdentityRoleId).FirstOrDefault());
+                        context.SaveChanges();
+                        success = true;
+                    }
+                }
+                return success;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         #endregion
 
         #region Private Methods

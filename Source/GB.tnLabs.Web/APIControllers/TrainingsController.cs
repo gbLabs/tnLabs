@@ -96,7 +96,8 @@ namespace GB.tnLabs.Web.APIControllers
         [HttpGet]
         public IQueryable<Identity> Identities()
         {
-            var subscriptionIdentityRoles = _repository.SubscriptionIdentityRoles.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId);
+            var subscriptionIdentityRoles = _repository.SubscriptionIdentityRoles.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId &&
+                x.IdentityId != UnitOfWork.CurrentIdentity.IdentityId);
             if (subscriptionIdentityRoles.Any())
             {
                 var identities = subscriptionIdentityRoles.Select(i => i.IdentityId).Distinct();

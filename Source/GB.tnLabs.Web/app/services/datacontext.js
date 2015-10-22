@@ -39,7 +39,8 @@
             getLoggedInUserRoles: getLoggedInUserRoles,
             getUserRoles: getUserRoles,
             addUserRole: addUserRole,
-            removeUserRole: removeUserRole
+            removeUserRole: removeUserRole,
+            removeSubscriptionUser: removeSubscriptionUser
         };
 
         init();
@@ -158,6 +159,16 @@
 		        removeRole(data, role);
 		    });
 		}
+
+        function removeSubscriptionUser($http, userId){
+            $http({
+		        url: "api/Manage/RemoveUserFromSubscription?identityId=" + userId,
+		        method: "POST",
+		        data: $.param({ 'identityId': userId })
+            }).success(function (data) {
+                //TODO: Add function to handle this
+		    });
+        }
 
 		function getVersionSucceeded(data) {
 		    version = data.results[0];
