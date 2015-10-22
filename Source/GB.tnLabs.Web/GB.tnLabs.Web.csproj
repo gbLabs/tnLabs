@@ -260,7 +260,6 @@
     <Compile Include="APIControllers\AzureManagementController.cs" />
     <Compile Include="Controllers\AzureTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\TrainingController.cs" />
@@ -328,11 +327,10 @@
     <Content Include="app\services\model.validation.js" />
     <Content Include="app\services\repositories.js" />
     <Content Include="app\services\repository.abstract.js" />
-    <Content Include="app\services\repository.invites.js" />
+    <Content Include="app\services\repository.identity.js" />
     <Content Include="app\services\repository.lab.js" />
     <Content Include="app\services\repository.session.js" />
     <Content Include="app\services\repository.sessionuser.js" />
-    <Content Include="app\services\repository.user.js" />
     <Content Include="app\services\routemediator.js" />
     <Content Include="app\services\vmManagement.js" />
     <Content Include="app\session\sessiondetail.html" />
@@ -343,8 +341,6 @@
     <Content Include="app\user\invites.js" />
     <Content Include="app\user\userdetail.html" />
     <Content Include="app\user\userdetail.js" />
-    <Content Include="app\user\users.html" />
-    <Content Include="app\user\users.js" />
     <Content Include="Certificates\ReadMe.txt" />
     <Content Include="Content\angular-wizard.css" />
     <Content Include="Content\angular-wizard.min.css" />

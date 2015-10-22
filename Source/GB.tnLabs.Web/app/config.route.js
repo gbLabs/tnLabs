@@ -67,16 +67,6 @@
                     }
                 }
             }, {
-                url: '/participants',
-                config: {
-                    title: 'Participants',
-                    templateUrl: 'app/user/users.html',
-                    settings: {
-                        nav: 4,
-                        content: '<i class="fa fa-users"></i> <span class="hidden-sm"> Participants</span>'
-                    }
-                }
-            }, {
                 url: '/users',
                 config: {
                     title: 'Users',

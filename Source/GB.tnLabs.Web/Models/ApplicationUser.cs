@@ -24,13 +24,10 @@ namespace GB.tnLabs.Web.Models
             // Add custom user claims here
 
             ClaimsPrincipal claimsPrincipal = Thread.CurrentPrincipal as ClaimsPrincipal;
-            //HttpContext.Current.User.Identity.
 
             //TODO: look-up the roles from the DB!
 
             userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Trainer));
-
-            
 
             string userId = userIdentity.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
 

@@ -2,12 +2,46 @@
     <div class="row">
         <div class="alert alert-info hidden" id="on-invites-sent"></div> <br />
         <div class="clearfix"></div>
-        <label class="col-sm-2 control-label">Email</label>
+        <label class="col-sm-2 control-label">Email(s)</label>
         <div class="col-sm-6">
             <textarea class="form-control ng-scope ng-pristine ng-valid" id="emailsForInvites"/>
             <br />
             <input type="submit" data-ng-click="vm.sendInvites()" class="btn btn-success" value="Send Invite(s)" />
             <span class="z-decorator"></span>
+        </div>
+    </div><br /><br /><br />
+    <div class="row">
+        <div class="box col-md-3 col-sm-4" data-ng-repeat="u in vm.filteredUsers">
+            <div class="box-header">
+                <h2>
+                    <i class="fa fa-user"></i>
+                    <span class="break"></span>
+                    &nbsp;{{u.email}}
+                </h2>
+            </div>
+            <div class="box-content tnList widget-content">
+                <div class="padd">
+                    <dl>
+                        <dt class="control-label usrtitle">Name:</dt>
+                        <dd>
+                            <p>{{u.fullName}}</p>
+                        </dd>
+                        <dt class="control-label usrtitle">Email:</dt>
+                        <dd>
+                            <p>{{ u.email }}</p>
+                        </dd>
+                    </dl>
+                    <div class="pull-right">
+                        <!-- button to show form -->
+                        <button type="button" class="btn btn-success" data-ng-click="vm.gotoUser(u)">
+                            Edit
+                        </button>
+                        <button class="btn btn-warning" data-ng-click="vm.removeUser(u)">Remove</button>
+                        <!-- buttons to submit / cancel form -->
+                    </div>
+                    <div class="clearfix" />
+                </div>
+            </div>
         </div>
     </div>
 </div>

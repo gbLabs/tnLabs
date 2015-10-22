@@ -126,7 +126,6 @@
     <Compile Include="Repository\Subscription.cs" />
     <Compile Include="Repository\SubscriptionIdentityRole.cs" />
     <Compile Include="Repository\TemplateVM.cs" />
-    <Compile Include="Repository\User.cs" />
     <Compile Include="Repository\VirtualMachine.cs" />
     <Compile Include="SBDtos\AssignCertificateRequest.cs" />
     <Compile Include="SBDtos\CreateBaseVMImageRequest.cs" />

@@ -135,14 +135,14 @@ namespace GB.tnLabs.Core.Components
                     Body = Engine.Razor.RunCompile(template, "sessionTemplate", null,
                         new
                         {
-                            User = virtualMachine.User.FirstName,
+                            User = virtualMachine.Identity.FirstName,
                             UserName = string.Format(@"{0}\{1}", virtualMachine.VmName, virtualMachine.VmAdminUser),
                             Password = virtualMachine.VmAdminPass,
                             virtualMachine.Session.SessionName,
                             RDPHost = serviceName + ".cloudapp.net:" + virtualMachine.VmRdpPort
 
                         }),
-                    To = virtualMachine.User.Email,
+                    To = virtualMachine.Identity.Email,
                     Subject = string.Format("Connection details for {0} training session", virtualMachine.Session.SessionName),
                     Attachement = BuildRdpAttachement(serviceName, virtualMachine.VmRdpPort),
                     AttachementName = serviceName + ".rdp"

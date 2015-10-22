@@ -176,11 +176,9 @@ namespace GB.tnLabs.Web.Controllers
 		{
 			using (ApplicationDbContext context = new ApplicationDbContext())
 			{
-				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Administrator);
 				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Member);
 				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Owner);
 				CreateSubscriptionIdentityMap(subscription, context, RoleTypes.Trainer);
-
 				context.SaveChanges();
 			}
 		}

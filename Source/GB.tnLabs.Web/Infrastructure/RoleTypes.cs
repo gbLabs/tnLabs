@@ -18,11 +18,6 @@ namespace GB.tnLabs.Web.Infrastructure
 		public const string Member = "Member";
 
 		/// <summary>
-		/// User with administrator permissions on a subscription.
-		/// </summary>
-		public const string Administrator = "Administrator";
-
-		/// <summary>
 		/// User with owner rights on a subscription.
 		/// </summary>
 		public const string Owner = "Owner";

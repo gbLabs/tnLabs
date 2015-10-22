@@ -83,13 +83,27 @@ namespace GB.tnLabs.Web.APIControllers
         [HttpGet]
         public IQueryable<SessionUser> SessionUsers()
         {
-			return _repository.SessionUsers.Where(x => x.User.SubscriptionId == UnitOfWork.ActiveSubscriptionId);
+            var subscriptionIdentityRoles = _repository.SubscriptionIdentityRoles.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId);
+            if(subscriptionIdentityRoles.Any())
+            {
+                var identities = subscriptionIdentityRoles.Select(i => i.IdentityId).Distinct();
+                if(identities.Any())
+                    return _repository.SessionUsers.Where(x => identities.ToList().Contains(x.IdentityId));
+            }
+            return new List<SessionUser>().AsQueryable();
         }
 
         [HttpGet]
-        public IQueryable<User> Users()
+        public IQueryable<Identity> Identities()
         {
-			return _repository.Users.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId);
+            var subscriptionIdentityRoles = _repository.SubscriptionIdentityRoles.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId);
+            if (subscriptionIdentityRoles.Any())
+            {
+                var identities = subscriptionIdentityRoles.Select(i => i.IdentityId).Distinct();
+                if (identities.Any())
+                    return _repository.Identities.Where(x => identities.ToList().Contains(x.IdentityId));
+            }
+            return new List<Identity>().AsQueryable();
         }
 
         [HttpGet]

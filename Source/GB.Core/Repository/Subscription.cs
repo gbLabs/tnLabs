@@ -13,7 +13,7 @@ namespace GB.tnLabs.Core.Repository
             SubscriptionIdentityRoles = new HashSet<SubscriptionIdentityRole>();
             Labs = new HashSet<Lab>();
             TemplateVMs = new HashSet<TemplateVM>();
-            Users = new HashSet<User>();
+            Identities = new HashSet<Identity>();
         }
 
         public int SubscriptionId { get; set; }
@@ -36,6 +36,6 @@ namespace GB.tnLabs.Core.Repository
 
         public virtual ICollection<TemplateVM> TemplateVMs { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Identity> Identities { get; set; }
     }
 }

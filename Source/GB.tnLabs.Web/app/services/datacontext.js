@@ -12,7 +12,7 @@
         var logError = getLogFn(serviceId, 'error');
         var logSuccess = getLogFn(serviceId, 'success');
         var manager = emFactory.newManager();
-		var repoNames = ['lab', 'session', 'sessionuser', 'user'];
+		var repoNames = ['lab', 'session', 'sessionuser', 'identity'];
         var $q = common.$q;
         var primePromise;
         var version = undefined;
@@ -35,7 +35,11 @@
 			getVersion: getVersion,
 			getAvailableSubscriptions: getAvailableSubscriptions,
 			getAvailableSubscriptionResources: getAvailableSubscriptionResources,
-            sendInvites: sendInvites
+            sendInvites: sendInvites,
+            getLoggedInUserRoles: getLoggedInUserRoles,
+            getUserRoles: getUserRoles,
+            addUserRole: addUserRole,
+            removeUserRole: removeUserRole
         };
 
         init();
@@ -116,6 +120,45 @@
 		    });
 		}
 
+		function getLoggedInUserRoles($http) {
+		    $http({
+		        url: "api/Manage/GetLoggedInUserSubscriptionRoles",
+		        method: "GET"
+		    }).success(function (data) {
+		        setParentRoles(data);
+		    });
+		}
+
+		function getUserRoles($http, userId) {
+		    $http({
+		        url: "api/Manage/GetUserSubscriptionRoles?identityId=" + userId,
+		        method: "GET",
+		        data: $.param({ 'identityId': userId })
+		    }).success(function (data) {
+		        updateUserRoles(data);
+		    });
+		}
+
+		function addUserRole($http, newRole, userId) {
+		    $http({
+		        url: "api/Manage/AddUserSubscriptionRole?role=" + newRole + "&identityId=" + userId,
+		        method: "POST",
+		        data: $.param({ 'role': newRole, 'identityId': userId })
+		    }).success(function (data) {
+		        setRole(data, newRole);
+		    });
+		}
+
+		function removeUserRole($http, role, userId) {
+		    $http({
+		        url: "api/Manage/RemoveUserSubscriptionRole?role=" + role + "&identityId=" + userId,
+		        method: "POST",
+		        data: $.param({ 'role': role, 'identityId': userId })
+		    }).success(function (data) {
+		        removeRole(data, role);
+		    });
+		}
+
 		function getVersionSucceeded(data) {
 		    version = data.results[0];
 		    log('Retrieved version'+service.version+'from remote data source',null, true);
@@ -171,7 +214,7 @@
         function prime() {
             if (primePromise) return primePromise;
 
-            primePromise = $q.all([getVersion(true),service.lab.getAll(true), service.session.getAll(true),
+            primePromise = $q.all([getVersion(true), service.lab.getAll(true), service.session.getAll(true),
                     getAvailableVmImages(),
                     getAvailableChocoPackages(),
 					getAvailableSubscriptions(),

@@ -22,7 +22,7 @@
         vm.gotoSummary = gotoSummary;
         vm.gotoParticipants = gotoParticipants;
         vm.removeParticipant = removeParticipant;
-        
+
 
         activate();
        
@@ -104,7 +104,7 @@
         }
         
         function getParticipants(forceRefresh) {
-            return datacontext.user.getAll(forceRefresh)
+            return datacontext.identity.getAll(forceRefresh)
                .then(function (data) {
                    return vm.filteredParticipants = data;
                });

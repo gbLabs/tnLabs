@@ -213,7 +213,7 @@ namespace GB.tnLabs.AzureFacade
 				firstVMInDeployment: true);
 			AssignedVmModel assignedVm = new AssignedVmModel
 			{
-				UserId = user.UserId,
+				UserId = user.IdentityId,
 				UserName = user.Username,
 				VmName = virtualMachineName,
 				VmRdpPort = RdpPortBase,
@@ -261,7 +261,7 @@ namespace GB.tnLabs.AzureFacade
 
 				assignedVms.Add(new AssignedVmModel
 				{
-					UserId = user.UserId,
+					UserId = user.IdentityId,
 					UserName = user.Username,
 					VmName = virtualMachineName,
 					VmRdpPort = rdpPortIndex,

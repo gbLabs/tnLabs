@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using GB.tnLabs.Web.Models;
 using GB.tnLabs.Core.Repository;
 using GB.tnLabs.Core.Components;
+using GB.tnLabs.Web.Infrastructure;
+using System.Data.Entity;
 
 namespace GB.tnLabs.Web.Controllers
 {
@@ -36,9 +38,9 @@ namespace GB.tnLabs.Web.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -158,7 +160,7 @@ namespace GB.tnLabs.Web.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -335,6 +337,13 @@ namespace GB.tnLabs.Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var user = await UserManager.FindAsync(loginInfo.Login);
+                    if (user != null)
+                    {
+                        var identityId = GetIdentityIdByUserId(user.Id);
+                        if (identityId != 0)
+                            CheckAndHandleUserInvites(identityId, user.Email);
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -370,6 +379,7 @@ namespace GB.tnLabs.Web.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -387,11 +397,12 @@ namespace GB.tnLabs.Web.Controllers
                             FirstName = model.FirstName,
                             LastName = model.LastName
                         };
-
                         context.Identities.Add(identity);
                         context.SaveChanges();
-                         
-                        Email.BuildSignUpEmail(identity).Send(); 
+
+                        Email.BuildSignUpEmail(identity).Send();
+
+                        CheckAndHandleUserInvites(identity.IdentityId, model.Email);
 
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
@@ -499,6 +510,69 @@ namespace GB.tnLabs.Web.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+        #endregion
+
+        #region Private Methods
+
+        private bool CheckAndHandleUserInvites(int identityId, string email)
+        {
+            try
+            {
+                using (var context = new ApplicationDbContext())
+                {
+                    var invitations = context.Invitations.Where(x => x.Email == email && x.Processed == false);
+                    var identity = context.Identities.Where(x => x.IdentityId == identityId).FirstOrDefault();
+
+                    if (!invitations.Any() || identity == null)
+                        return false;
+
+                    foreach (var invitation in invitations.ToList())
+                    {
+                        var subscription = context.Subscriptions.Where(x => x.SubscriptionId == invitation.SubscriptionId).FirstOrDefault();
+                        if (subscription != null)
+                        {
+                            if (!context.SubscriptionIdentityRoles.Any(x => x.IdentityId == identityId &&
+                                x.Subscription.SubscriptionId == invitation.SubscriptionId && x.Role == RoleTypes.Member))
+                            {
+                                context.SubscriptionIdentityRoles.Add(new SubscriptionIdentityRole()
+                                {
+                                    Subscription = subscription,
+                                    IdentityId = identity.IdentityId,
+                                    Role = RoleTypes.Member
+                                });
+                            }
+
+                            invitation.Processed = true;
+                            context.Entry(invitation).State = EntityState.Modified;
+                            context.SaveChanges();
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private int GetIdentityIdByUserId(string userId)
+        {
+            try
+            {
+                var identityId = 0;
+                using (var context = new ApplicationDbContext())
+                {
+                    identityId = context.Identities.Single(x => x.NameIdentifier == userId).IdentityId;
+                }
+                return identityId;
+            }
+            catch(Exception)
+            {
+                return 0;
+            }
+        }
+
         #endregion
     }
 }

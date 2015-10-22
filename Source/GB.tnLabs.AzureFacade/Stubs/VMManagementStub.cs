@@ -113,7 +113,7 @@ namespace GB.tnLabs.AzureFacade.Stubs
 			{
 				AssignedVmModel assignedVm = new AssignedVmModel
 				{
-					UserId = user.UserId,
+					UserId = user.IdentityId,
 					UserName = user.Username,
 					Password = user.Password,
 					VmName = "VM_" + user.Username,

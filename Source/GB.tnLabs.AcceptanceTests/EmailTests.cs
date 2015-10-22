@@ -60,12 +60,11 @@ namespace GB.tnLabs.AcceptanceTests
                     SessionId = 1,
                     Deleted = false,
                     Stopped = false,
-                    User = new User()
+                    Identity = new Identity()
                     {
                         FirstName = "An awesome user",
                         LastName = "With a cool name",
-                        Email = "cromica@gmail.com",
-                        Password = "oda"
+                        Email = "cromica@gmail.com"
                     },
                     Session = session,
                     VmAdminUser = "tnlabuser",
@@ -81,12 +80,11 @@ namespace GB.tnLabs.AcceptanceTests
                     Deleted = false,
                     Stopped = false,
                     Session = session,
-                    User = new User()
+                    Identity = new Identity()
                     {
                         FirstName = "An awesome user",
                         LastName = "With a cool name",
-                        Email = "haiduc32@gmail.com",
-                        Password = "oda"
+                        Email = "haiduc32@gmail.com"
                     },
                     VmAdminUser = "tnlabuser",
                     VmAdminPass = "tnlabpass",
@@ -107,12 +105,11 @@ namespace GB.tnLabs.AcceptanceTests
                     SessionId = 1,
                     SessionUserId = 1,
                     Session = session,
-                    User = new User()
+                    Identity = new Identity()
                     {
                         FirstName = "An awesome user",
                         LastName = "With a cool name",
-                        Email = "cromica@gmail.com",
-                        Password = "oda"
+                        Email = "cromica@gmail.com"
                     }
                 },
                 new SessionUser()
@@ -120,12 +117,11 @@ namespace GB.tnLabs.AcceptanceTests
                     SessionId = 1,
                     SessionUserId = 1,
                     Session = session,
-                    User = new User()
+                    Identity = new Identity()
                     {
                         FirstName = "An awesome user",
                         LastName = "With a cool name",
-                        Email = "haiduc32@gmail.com",
-                        Password = "oda"
+                        Email = "haiduc32@gmail.com"
                     }
                 }
             };

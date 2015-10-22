@@ -31,12 +31,12 @@ namespace GB.tnLabs.Core.Components
 
 		public void Start(StartSessionRequest request)
 		{
-			using (ApplicationDbContext context = new ApplicationDbContext())
-			{
-				Session session = context.Sessions.Single(x => x.SessionId == request.SessionId);
-				//Session session = context.Sessions.Single(x => x.Version == version);
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                Session session = context.Sessions.Single(x => x.SessionId == request.SessionId);
+                //Session session = context.Sessions.Single(x => x.Version == version);
 
-				//check if the session is canceled or the request is no longer valid
+                //check if the session is canceled or the request is no longer valid
                 if (session.Removed ||
                     (session.Version != request.Version.ToString()))
                 {
@@ -45,32 +45,40 @@ namespace GB.tnLabs.Core.Components
                     return;
                 }
 
-				_logger.InfoFormat("Spawning VMs for SessionId: {0} ({1} - {2})",
-					session.SessionId, session.StartDate, session.EndDate);
+                _logger.InfoFormat("Spawning VMs for SessionId: {0} ({1} - {2})",
+                    session.SessionId, session.StartDate, session.EndDate);
 
-				Subscription subscription = context.Subscriptions
-					.Single(x => x.SubscriptionId == session.SubscriptionId);
+                Subscription subscription = context.Subscriptions
+                    .Single(x => x.SubscriptionId == session.SubscriptionId);
 
-				IVMManagement vmManagement = AzureFacadeFactory.VMManagement(subscription.AzureSubscriptionId,
-					subscription.Certificate, subscription.CertificateKey, subscription.BlobStorageName,
-					subscription.BlobStorageKey);
+                IVMManagement vmManagement = AzureFacadeFactory.VMManagement(subscription.AzureSubscriptionId,
+                    subscription.Certificate, subscription.CertificateKey, subscription.BlobStorageName,
+                    subscription.BlobStorageKey);
 
-				//TODO: remove the hardcoding at some point in time
-				string NorthEurope = "North Europe";
-					
-				VMConfigModel vmConfig = new VMConfigModel(session.Lab.ImageName, NorthEurope)
-				{
-					VmSize = (VmSizeEnum)Enum.Parse(typeof(VmSizeEnum), session.VmSize)
-				};
+                //TODO: remove the hardcoding at some point in time
+                string NorthEurope = "North Europe";
 
-				var sessionUsers = session.SessionUsers.ToList();
-				var vmUsers = sessionUsers.Select(x =>
-					new VMUserModel
-					{
-						UserId = x.UserId,
-						Username = x.User.UserName,
-						Password = x.User.Password
-					}).ToList();
+                VMConfigModel vmConfig = new VMConfigModel(session.Lab.ImageName, NorthEurope)
+                {
+                    VmSize = (VmSizeEnum)Enum.Parse(typeof(VmSizeEnum), session.VmSize)
+                };
+
+                var sessionUsers = session.SessionUsers.ToList();
+
+                var vmUsers = new List<VMUserModel>();
+                sessionUsers.ForEach(x =>
+                {
+                    var templateVM = context.TemplateVMs.Where(y => y.IdentityId == x.IdentityId && y.SubscriptionId == subscription.SubscriptionId).FirstOrDefault();
+                    if (templateVM != null)
+                    {
+                        vmUsers.Add(new VMUserModel
+                        {
+                            IdentityId = x.IdentityId,
+                            Username = templateVM.VMAdminUser,
+                            Password = templateVM.VMAdminPass
+                        });
+                    }
+                });
 
 				//figure out a URL friendly name for the vm names
 				string vmNameBase = "tn" + session.SessionId + "vm";
@@ -82,7 +90,7 @@ namespace GB.tnLabs.Core.Components
 				{
 					VirtualMachine virtualMachine = new VirtualMachine
 					{
-						UserId = assignedVM.UserId,
+						IdentityId = assignedVM.UserId,
 						VmAdminPass = assignedVM.Password,
 						VmAdminUser = assignedVM.UserName,
 						VmName = assignedVM.VmName,

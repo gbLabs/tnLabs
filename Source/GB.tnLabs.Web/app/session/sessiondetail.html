@@ -173,8 +173,8 @@
                                     <tbody>
                                         <tr data-ng-repeat="s in vm.session.sessionUsers">
                                             <td>
-                                                <h1>{{s.user.fullName}}</h1>
-                                                <p>{{s.user.email}}</p>
+                                                <h1>{{s.identity.firstName}}</h1>
+                                                <p>{{s.identity.email}}</p>
                                             </td>
                                             <td>
                                                 <button type="button" class="close" aria-hidden="true" data-ng-click="vm.removeParticipant(s)">x</button>
@@ -224,7 +224,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <ul>
-                                            <li data-ng-repeat="p in vm.session.sessionUsers">{{p.user.fullName}}</li>
+                                            <li data-ng-repeat="p in vm.session.sessionUsers">{{p.identity.fullName}}</li>
                                         </ul>
                                     </div>
                                 </div>

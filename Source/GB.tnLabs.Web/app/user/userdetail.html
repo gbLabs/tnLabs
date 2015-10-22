@@ -5,32 +5,42 @@
         <div class="form-group">
             <label class="col-sm-2 control-label" for="inputFirstName">First Name</label>
             <div class="col-sm-6">
-                <input id="inputFirstName" class="form-control" name="firstName" data-z-validate data-ng-model="vm.user.firstName" />
+                <input id="inputFirstName" disabled="disabled" class="form-control" name="firstName" data-z-validate data-ng-model="vm.user.firstName" />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="inputLastName">Last Name</label>
             <div class="col-sm-6">
-                <input id="inputLastName" class="form-control" name="email" data-z-validate data-ng-model="vm.user.lastName" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class=" col-sm-2 control-label" for="inputUserName">User Name</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" id="inputUserName" name="userName" data-z-validate data-ng-model="vm.user.userName" />
+                <input id="inputLastName" disabled="disabled" class="form-control" name="email" data-z-validate data-ng-model="vm.user.lastName" />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="inputEmail">Email</label>
             <div class="col-sm-6">
-                <input id="inputEmail" type="text" class="form-control" name="email" data-z-validate data-ng-model="vm.user.email" />
+                <input id="inputEmail" disabled="disabled" type="text" class="form-control" name="email" data-z-validate data-ng-model="vm.user.email" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" id="role-label">Role(s)</label>
+            <div class="col-sm-6">
+                <div class="clearfix"></div>
+                <div id="role-display">
+                    <span id="user-roles"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span><strong>&nbsp; &nbsp;<a href="" id="add-new-roles"> Add New Role </a></strong></span>
+                    <br />
+                    <div class="hidden" id="add-roles">
+                        <select id="available-roles">
+                            <option value=""></option>
+                        </select>
+                        <input type="submit" data-ng-click="vm.addRole()" class="btn" value="Add" id="add-role" />
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-8">
                 <div class="pull-right">
                     <input type="submit" data-ng-click="vm.back()" class="btn btn-warning" value="Back" />
-                    <input type="submit" data-ng-click="vm.saveChanges()" class="btn btn-success" value="Save" />
                 </div>
             </div>
         </div>
