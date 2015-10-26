@@ -10,38 +10,35 @@
             <span class="z-decorator"></span>
         </div>
     </div><br /><br /><br />
-    <div class="row">
-        <div class="box col-md-3 col-sm-4" data-ng-repeat="u in vm.filteredUsers">
-            <div class="box-header">
-                <h2>
-                    <i class="fa fa-user"></i>
-                    <span class="break"></span>
-                    &nbsp;{{u.email}}
-                </h2>
-            </div>
-            <div class="box-content tnList widget-content">
-                <div class="padd">
-                    <dl>
-                        <dt class="control-label usrtitle">Name:</dt>
-                        <dd>
-                            <p>{{u.fullName}}</p>
-                        </dd>
-                        <dt class="control-label usrtitle">Email:</dt>
-                        <dd>
-                            <p>{{ u.email }}</p>
-                        </dd>
-                    </dl>
-                    <div class="pull-right">
-                        <!-- button to show form -->
+    <div class="col-sm-10">
+        <label class="control-label">User(s)</label>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="u in vm.filteredUsers">
+                    <td>
+                        {{u.fullName}}
+                    </td>
+                    <td>
+                        {{u.email}}
+                    </td>
+                    <td>
                         <button type="button" class="btn btn-success" data-ng-click="vm.gotoUser(u)">
                             Edit
                         </button>
+                    </td>
+                    <td>
                         <button class="btn btn-warning" data-ng-click="vm.removeUser(u)">Remove</button>
-                        <!-- buttons to submit / cancel form -->
-                    </div>
-                    <div class="clearfix" />
-                </div>
-            </div>
-        </div>
-    </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
 </div>
