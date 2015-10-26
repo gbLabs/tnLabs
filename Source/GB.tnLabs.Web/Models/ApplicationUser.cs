@@ -26,9 +26,6 @@ namespace GB.tnLabs.Web.Models
             ClaimsPrincipal claimsPrincipal = Thread.CurrentPrincipal as ClaimsPrincipal;
 
             //TODO: look-up the roles from the DB!
-
-            userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Trainer));
-
             string userId = userIdentity.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
             ApplicationDbContext context = new ApplicationDbContext();
@@ -38,7 +35,6 @@ namespace GB.tnLabs.Web.Models
 
             if (identity.SubscriptionIdentityRoles.Any())
             {
-                userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Member));
 
                 //get first found subscription
                 //TODO: update the databasee to be in line with the entity model code first
