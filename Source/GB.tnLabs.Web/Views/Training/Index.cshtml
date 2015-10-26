@@ -44,6 +44,12 @@
     <link href="content/glyphicons.css" rel="stylesheet" />
 </head>
 <body>
+
+    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+
     <div>
         <div data-ng-include="'/app/layout/shell.html'"></div>
         <div id="splash-page" data-ng-show="false">
