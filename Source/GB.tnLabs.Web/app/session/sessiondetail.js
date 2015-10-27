@@ -42,7 +42,7 @@
                 if (typeof (vm.selectedParticipant) !== "string" && !datacontext.session.isParticipantInSession(vm.session, vm.selectedParticipant)) {
                     datacontext.sessionuser.create(
                         {
-                            user: vm.selectedParticipant,
+                            identity: vm.selectedParticipant,
                             session: vm.session,
                         });
                     vm.selectedParticipant = undefined;
