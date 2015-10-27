@@ -95,8 +95,8 @@
             	//	};
             	//};
 
-                var subscription = $cookies.subscription;
-                vm.lab.subscriptionId = subscription;
+                //var subscription = $cookies.subscription;
+                //vm.lab.subscriptionId = subscription;
                 vm.lab.creationDate = moment().toDate();
                 datacontext.saveChanges().then(saveSucceded, saveFailed);
                 
