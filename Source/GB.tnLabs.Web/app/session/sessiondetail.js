@@ -28,7 +28,7 @@
        
         function activate() {
             onDestroy();
-            common.activateController([initSession(), getLabs(), getParticipants()], controllerId);
+            common.activateController([initSession(), getLabs(true), getParticipants(true)], controllerId);
 
             $scope.$on('wizard:stepChanged',
                 function () {
