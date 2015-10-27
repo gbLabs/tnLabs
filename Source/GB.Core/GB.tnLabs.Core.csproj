@@ -118,6 +118,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Identity.cs" />
     <Compile Include="Repository\ApplicationDbContext.cs" />
+    <Compile Include="Repository\Invitation.cs" />
     <Compile Include="Repository\Lab.cs" />
     <Compile Include="Repository\RecommendedVMImage.cs" />
     <Compile Include="Repository\Session.cs" />
@@ -125,7 +126,6 @@
     <Compile Include="Repository\Subscription.cs" />
     <Compile Include="Repository\SubscriptionIdentityRole.cs" />
     <Compile Include="Repository\TemplateVM.cs" />
-    <Compile Include="Repository\User.cs" />
     <Compile Include="Repository\VirtualMachine.cs" />
     <Compile Include="SBDtos\AssignCertificateRequest.cs" />
     <Compile Include="SBDtos\CreateBaseVMImageRequest.cs" />

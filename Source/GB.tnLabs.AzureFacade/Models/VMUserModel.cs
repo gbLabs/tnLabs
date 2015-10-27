@@ -12,6 +12,6 @@ namespace GB.tnLabs.AzureFacade.Models
 
         public string Password { get; set; }
 
-        public int UserId { get; set; }
+        public int IdentityId { get; set; }
     }
 }

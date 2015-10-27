@@ -6,19 +6,16 @@
         ['common', 'entityManagerFactory', 'model', 'repositories', 'spinner', datacontext]);
 
 	function datacontext(common, emFactory, model, repositories, spinner) {
-      
         var entityNames = model.entityNames;
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(serviceId);
         var logError = getLogFn(serviceId, 'error');
         var logSuccess = getLogFn(serviceId, 'success');
         var manager = emFactory.newManager();
-		var repoNames = ['lab', 'session', 'sessionuser', 'user'];
+		var repoNames = ['lab', 'session', 'sessionuser', 'identity'];
         var $q = common.$q;
         var primePromise;
         var version = undefined;
-		
-        
 
         var storeMeta = {
             isLoaded: {
@@ -37,14 +34,20 @@
 			availableChocoPackages: [],
 			getVersion: getVersion,
 			getAvailableSubscriptions: getAvailableSubscriptions,
-			getAvailableSubscriptionResources: getAvailableSubscriptionResources
+			getAvailableSubscriptionResources: getAvailableSubscriptionResources,
+            sendInvites: sendInvites,
+            getLoggedInUserRoles: getLoggedInUserRoles,
+            getUserRoles: getUserRoles,
+            addUserRole: addUserRole,
+            removeUserRole: removeUserRole,
+            removeSubscriptionUser: removeSubscriptionUser
         };
 
         init();
 
         return service;
 
-		function init() {
+        function init() {
 			repositories.init(manager);
 			defineLazyLoadedRepos();
 			getAvailableVmImages();
@@ -108,6 +111,65 @@
                         .then(getAvailableSubscriptionsResourcesSucceeded);
 		}
 
+		function sendInvites($http, value) {
+		    $http({
+		        url: "api/Manage/SendInvites",
+		        method: "POST",
+		        data: $.param({ value })
+		    }).success(function (data) {
+		        onInvitesSent(data);
+		    });
+		}
+
+		function getLoggedInUserRoles($http) {
+		    $http({
+		        url: "api/Manage/GetLoggedInUserSubscriptionRoles",
+		        method: "GET"
+		    }).success(function (data) {
+		        setParentRoles(data);
+		    });
+		}
+
+		function getUserRoles($http, userId) {
+		    $http({
+		        url: "api/Manage/GetUserSubscriptionRoles?identityId=" + userId,
+		        method: "GET",
+		        data: $.param({ 'identityId': userId })
+		    }).success(function (data) {
+		        updateUserRoles(data);
+		    });
+		}
+
+		function addUserRole($http, newRole, userId) {
+		    $http({
+		        url: "api/Manage/AddUserSubscriptionRole?role=" + newRole + "&identityId=" + userId,
+		        method: "POST",
+		        data: $.param({ 'role': newRole, 'identityId': userId })
+		    }).success(function (data) {
+		        setRole(data, newRole);
+		    });
+		}
+
+		function removeUserRole($http, role, userId) {
+		    $http({
+		        url: "api/Manage/RemoveUserSubscriptionRole?role=" + role + "&identityId=" + userId,
+		        method: "POST",
+		        data: $.param({ 'role': role, 'identityId': userId })
+		    }).success(function (data) {
+		        removeRole(data, role);
+		    });
+		}
+
+        function removeSubscriptionUser($http, userId){
+            $http({
+		        url: "api/Manage/RemoveUserFromSubscription?identityId=" + userId,
+		        method: "POST",
+		        data: $.param({ 'identityId': userId })
+            }).success(function (data) {
+                //TODO: Add function to handle this
+		    });
+        }
+
 		function getVersionSucceeded(data) {
 		    version = data.results[0];
 		    log('Retrieved version'+service.version+'from remote data source',null, true);
@@ -163,7 +225,7 @@
         function prime() {
             if (primePromise) return primePromise;
 
-            primePromise = $q.all([getVersion(true),service.lab.getAll(true), service.session.getAll(true),
+            primePromise = $q.all([getVersion(true), service.lab.getAll(true), service.session.getAll(true),
                     getAvailableVmImages(),
                     getAvailableChocoPackages(),
 					getAvailableSubscriptions(),

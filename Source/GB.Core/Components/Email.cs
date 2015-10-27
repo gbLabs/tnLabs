@@ -102,6 +102,30 @@ namespace GB.tnLabs.Core.Components
             return email;
         }
 
+        public static Email BuildInviteToTnLabs(List<string> emailsTo)
+        {
+            string template = GetTemplate("InviteToTnLabs");
+            var builtEmails = new List<EmailMessage>();
+
+            foreach (var emailTo in emailsTo)
+            {
+                builtEmails.Add(
+                new EmailMessage()
+                {
+                    Body = Engine.Razor.RunCompile(template, "InviteToTnLabs", null,
+                            new
+                            {
+                                AppUrl = ConfigurationManager.AppSettings["AppUrl"]
+                            }),
+                    To = emailTo,
+                    Subject = string.Format("tnLabs Invitation"),
+
+                });
+            }
+
+            return new Email(builtEmails);
+        }
+
         public static Email BuildSessionEmails(Session session, string serviceName)
         {
             string template = GetTemplate("ConnectionDetails");
@@ -111,14 +135,14 @@ namespace GB.tnLabs.Core.Components
                     Body = Engine.Razor.RunCompile(template, "sessionTemplate", null,
                         new
                         {
-                            User = virtualMachine.User.FirstName,
+                            User = virtualMachine.Identity.FirstName,
                             UserName = string.Format(@"{0}\{1}", virtualMachine.VmName, virtualMachine.VmAdminUser),
                             Password = virtualMachine.VmAdminPass,
                             virtualMachine.Session.SessionName,
                             RDPHost = serviceName + ".cloudapp.net:" + virtualMachine.VmRdpPort
 
                         }),
-                    To = virtualMachine.User.Email,
+                    To = virtualMachine.Identity.Email,
                     Subject = string.Format("Connection details for {0} training session", virtualMachine.Session.SessionName),
                     Attachement = BuildRdpAttachement(serviceName, virtualMachine.VmRdpPort),
                     AttachementName = serviceName + ".rdp"

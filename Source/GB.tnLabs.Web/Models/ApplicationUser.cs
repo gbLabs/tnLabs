@@ -24,14 +24,8 @@ namespace GB.tnLabs.Web.Models
             // Add custom user claims here
 
             ClaimsPrincipal claimsPrincipal = Thread.CurrentPrincipal as ClaimsPrincipal;
-            //HttpContext.Current.User.Identity.
 
             //TODO: look-up the roles from the DB!
-
-            userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.User));
-
-            
-
             string userId = userIdentity.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
             ApplicationDbContext context = new ApplicationDbContext();
@@ -41,7 +35,6 @@ namespace GB.tnLabs.Web.Models
 
             if (identity.SubscriptionIdentityRoles.Any())
             {
-                userIdentity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Member));
 
                 //get first found subscription
                 //TODO: update the databasee to be in line with the entity model code first

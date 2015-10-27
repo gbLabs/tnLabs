@@ -47,20 +47,15 @@ namespace GB.tnLabs.Web.Data
 
 		protected override bool BeforeSaveEntity(EntityInfo entityInfo)
 		{
-			//NOTE: OriginalValuesMap for SubscriptionId is not set because, we only try to avoid 
-			//an unauthorised modification of the SubscriptinoId, if it doesnt' change then the db will
-			//not be updated each time.
+            //NOTE: OriginalValuesMap for SubscriptionId is not set because, we only try to avoid 
+            //an unauthorised modification of the SubscriptinoId, if it doesnt' change then the db will
+            //not be updated each time.
 
-			// return false if we don’t want the entity saved.
-			// prohibit any additions of entities of type 'Role'
-			if (entityInfo.Entity.GetType() == typeof(User) && 
-				(entityInfo.EntityState == EntityState.Modified || entityInfo.EntityState == EntityState.Added))
-			{
-				User user = (User)entityInfo.Entity;
-				user.SubscriptionId = UnitOfWork.ActiveSubscriptionId;
-			}
-			else if (entityInfo.Entity.GetType() == typeof(Session) &&
-				(entityInfo.EntityState == EntityState.Modified || entityInfo.EntityState == EntityState.Added))
+            // return false if we don’t want the entity saved.
+            // prohibit any additions of entities of type 'Role'
+
+            if (entityInfo.Entity.GetType() == typeof(Session) &&
+                (entityInfo.EntityState == EntityState.Modified || entityInfo.EntityState == EntityState.Added))
 			{
 				//var s = this.ObjectContext.ObjectStateManager.GetObjectStateEntry(entityInfo.Entity);
 				Session session = (Session)entityInfo.Entity;
@@ -166,11 +161,15 @@ namespace GB.tnLabs.Web.Data
             get { return Context.VirtualMachines; }
         }
 
-        public IQueryable<User> Users
+        public IQueryable<SubscriptionIdentityRole> SubscriptionIdentityRoles
         {
-            get { return Context.Users; }
+            get { return Context.SubscriptionIdentityRoles; }
         }
 
+        public IQueryable<Identity> Identities
+        {
+            get { return Context.Identities; }
+        }
     }
 
 

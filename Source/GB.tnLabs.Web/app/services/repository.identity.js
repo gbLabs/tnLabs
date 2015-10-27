@@ -1,12 +1,12 @@
 ﻿(function () {
     'use strict';
 
-    var serviceId = 'repository.user';
+    var serviceId = 'repository.identity';
 
     angular.module('app').factory(serviceId, ['model', 'repository.abstract', repository]);
 
     function repository(model, AbstractRepository) {
-        var entityName = model.entityNames.user;
+        var entityName = model.entityNames.identity;
         var EntityQuery = breeze.EntityQuery;
         var Predicate = breeze.Predicate;
         
@@ -16,7 +16,7 @@
             this.manager = mgr;
             //Exposed data access functions
             this.getAll = getAll;
-            this.getById = getById; 
+            this.getById = getById;
             this.create = create;
         }
 
@@ -34,26 +34,25 @@
         function getAll(forceRemote) {
             var self = this;
             var orderBy = 'email';
-            var predicate = Predicate.create('removed', '==', 0);
-            var users;
+            var predicate = 'undefined';
+            var identities;
 
             if (self._areItemsLoaded() && !forceRemote) {
-                users = self._getAllLocal(entityName, orderBy, predicate);
-                return self.$q.when(users);
+                identities = self._getAllLocal(entityName, orderBy, predicate);
+                return self.$q.when(identities);
             }
 
-            return EntityQuery.from('Users')
-                .where('removed', '==', '0')
+            return EntityQuery.from('Identities')
                 .orderBy(orderBy)
                 .toType(entityName)
                 .using(self.manager).execute()
                 .then(querySucceeded, self._queryFailed);
 
             function querySucceeded(data) {
-                users = data.results;
+                identities = data.results;
                 self._areItemsLoaded(true);
-                self.log('Retrieved [Users] from remote data source', users.length, true);
-                return users;
+                self.log('Retrieved [Identities] from remote data source', identities.length, true);
+                return identities;
             }
         }
     }

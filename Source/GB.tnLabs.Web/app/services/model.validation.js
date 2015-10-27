@@ -24,13 +24,13 @@
         function applyValidators(metadataStore) {
             applyLabRequireReferenceValidators(metadataStore);
             applySessionRequireReferenceValidators(metadataStore);
-            applyUserRequireReferenceValidators(metadataStore);
+            applyIdentityRequireReferenceValidators(metadataStore);
             log('Validators applied', null, serviceId);
         }
 
-        function applyUserRequireReferenceValidators(metadataStore) {
+        function applyIdentityRequireReferenceValidators(metadataStore) {
             var navigations = ['email', 'firstName', 'lastName'];
-            var entityType = metadataStore.getEntityType(entityNames.user);
+            var entityType = metadataStore.getEntityType(entityNames.identity);
 
             navigations.forEach(function (propertyName) {
                 entityType.getProperty(propertyName).validators

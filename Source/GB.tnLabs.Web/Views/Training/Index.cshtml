@@ -1,7 +1,6 @@
 ﻿@{
-	Layout = null;
+    Layout = null;
 }
-
 <!DOCTYPE html>
 <html data-ng-app="app">
 <head>
@@ -17,7 +16,6 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
-
     <script>
         // Must be first. IE10 mobile viewport fix
         if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
@@ -27,7 +25,6 @@
             document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
         }
     </script>
-
     <link href="content/ie10mobile.css" rel="stylesheet" />
     <link href="content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
@@ -35,19 +32,24 @@
     <link href="content/font-awesome.min.css" rel="stylesheet" />
     <link href="content/toastr.css" rel="stylesheet" />
     <link href="~/Content/breeze.directives.css" rel="stylesheet" />
-         @*<link href="~/Content/angular-wizard.css" rel="stylesheet" />*@
-         @*<link href="content/customtheme.css" rel="stylesheet">*@
-         @*<link href="content/styles.css" rel="stylesheet" />*@
+    @*<link href="~/Content/angular-wizard.css" rel="stylesheet" />*@
+    @*<link href="content/customtheme.css" rel="stylesheet">*@
+    @*<link href="content/styles.css" rel="stylesheet" />*@
     <link href="content/perfectum-style.css" rel="stylesheet" />
     <link href="content/breeze.directives.css" rel="stylesheet" />
-            @*<link href="Content/xeditable.css" rel="stylesheet" />*@
-            @*<link href="Content/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />*@
+    @*<link href="Content/xeditable.css" rel="stylesheet" />*@
+    @*<link href="Content/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />*@
     <!--customized styles-->
     <link href="content/tn-styles.css" rel="stylesheet" />
     <link href="content/glyphicons.css" rel="stylesheet" />
-
 </head>
 <body>
+
+    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+
     <div>
         <div data-ng-include="'/app/layout/shell.html'"></div>
         <div id="splash-page" data-ng-show="false">
@@ -55,17 +57,15 @@
                 <div class="page-splash-message">
                     Training Labs
                 </div>
+                <input type="hidden" id="is-ownerOrTrainer" value="@ViewBag.IsOwnerOrTrainer.ToString()" />
                 <div class="progress progress-striped active page-progress-bar">
                     <div class="bar"></div>
                 </div>
             </div>
         </div>
     </div>
-
     <span data-cc-scroll-to-top></span>
-
     <!-- Vendor Scripts -->
-
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-animate.js"></script>
@@ -84,10 +84,9 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/breezejs/1.4.11/breeze.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.js"></script>
-    
-            @*<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>*@
-    @*<script src="scripts/jquery-2.1.1.js"></script>*@
 
+    @*<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>*@
+    @*<script src="scripts/jquery-2.1.1.js"></script>*@
     @*<script src="scripts/angular.js"></script>*@
     @*<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>*@
     @*<script src="scripts/angular-animate.js"></script>*@
@@ -110,13 +109,11 @@
     <script src="Scripts/breeze.directives.js"></script>
     <script src="scripts/breeze.saveErrorExtensions.js"></script>
 
-
     <!-- Bootstrapping -->
     <script src="app/app.js"></script>
     <script src="app/config.js"></script>
     <script src="app/config.exceptionHandler.js"></script>
     <script src="app/config.route.js"></script>
-
     <!-- common Modules -->
     <script src="app/common/common.js"></script>
     <script src="app/common/logger.js"></script>
@@ -125,20 +122,17 @@
     <!-- common.bootstrap Modules -->
     <script src="app/common/bootstrap/bootstrap.dialog.js"></script>
     @*<script src="app/common/bootstrap/custom.dialog.js"></script>*@
-
     <!-- app -->
     <script src="app/lab/labs.js"></script>
     <script src="app/session/sessions.js"></script>
     <script src="app/user/users.js"></script>
     <script src="app/user/userdetail.js"></script>
     <script src="app/session/sessiondetail.js"></script>
-
     <script src="app/dashboard/dashboard.js"></script>
     <script src="app/layout/shell.js"></script>
     <script src="app/layout/sidebar.js"></script>
     <script src="app/layout/topnav.js"></script>
     <script src="app/lab/labdetail.js"></script>
-
     <!-- app Services -->
     <script src="app/services/datacontext.js"></script>
     <script src="app/services/directives.js"></script>
@@ -149,16 +143,14 @@
     <script src="app/services/routemediator.js"></script>
     @*<script src="Scripts/jquery-ui-1.10.3.custom.min.js"></script>*@
     @*<script src="app/common/custom.js"></script>*@
-
     <script src="app/services/repositories.js"></script>
     <script src="app/services/repository.lab.js"></script>
     <script src="app/services/repository.abstract.js"></script>
     <script src="app/services/repository.session.js"></script>
     <script src="app/services/repository.sessionuser.js"></script>
-    <script src="app/services/repository.user.js"></script>
+    <script src="app/services/repository.identity.js"></script>
     <script src="app/services/vmManagement.js"></script>
 
 </body>
 </html>
-
 

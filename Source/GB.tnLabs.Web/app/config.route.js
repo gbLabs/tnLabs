@@ -67,13 +67,13 @@
                     }
                 }
             }, {
-                url: '/participants',
+                url: '/users',
                 config: {
-                    title: 'Participants',
+                    title: 'Users',
                     templateUrl: 'app/user/users.html',
                     settings: {
-                        nav: 4,
-                        content: '<i class="fa fa-users"></i> <span class="hidden-sm"> Participants</span>'
+                        nav: 5,
+                        content: '<i class="fa fa-users"></i> <span class="hidden-sm"> Users</span>'
                     }
                 }
             }, {

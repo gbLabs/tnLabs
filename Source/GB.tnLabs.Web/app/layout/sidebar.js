@@ -1,6 +1,6 @@
-﻿(function () { 
+﻿(function () {
     'use strict';
-    
+
     var controllerId = 'sidebar';
     angular.module('app').controller(controllerId,
         ['$route', 'config', 'routes', sidebar]);
@@ -13,15 +13,29 @@
         activate();
 
         function activate() { getNavRoutes(); }
-        
+
         function getNavRoutes() {
+            var isOwnerOrTrainer = $('#is-ownerOrTrainer').val();
+            var indexOfUsersRoute = -1;
+
+            if (isOwnerOrTrainer == "False") {
+                $.each(routes, function (index, route) {
+                    if (route.url == "/users") {
+                        indexOfUsersRoute = index;
+                    }
+                })
+            }
+
+            if (indexOfUsersRoute != -1)
+                routes.splice(indexOfUsersRoute, 1);
+
             vm.navRoutes = routes.filter(function(r) {
                 return r.config.settings && r.config.settings.nav;
             }).sort(function(r1, r2) {
                 return r1.config.settings.nav - r2.config.settings.nav;
             });
         }
-        
+
         function isCurrent(route) {
             if (!route.config.title || !$route.current || !$route.current.title) {
                 return '';

@@ -1,43 +1,39 @@
 ﻿<div class="container" data-ng-controller="users as vm">
     <div class="row">
-        <div class="col-sm-5 col-md-5 ">
-            <a href="#/participant/new" class="btn btn-success pull-left margin-right">
-                <i class="fa fa-user"></i>&nbsp;Create new user
-            </a>
+        <div class="alert alert-info hidden" id="on-invites-sent"></div> <br />
+        <div class="clearfix"></div>
+        <label class="col-sm-2 control-label">Email(s)</label>
+        <div class="col-sm-6">
+            <textarea class="form-control ng-scope ng-pristine ng-valid" id="emailsForInvites"/>
+            <br />
+            <input type="submit" data-ng-click="vm.sendInvites()" class="btn btn-success" value="Send Invite(s)" />
+            <span class="z-decorator"></span>
         </div>
-    </div>
-    <div class="row">
-        <div class="box col-md-3 col-sm-4" data-ng-repeat="u in vm.filteredUsers">
-                <div class="box-header">
-                    <h2>
-                        <i class="fa fa-user"></i>
-                        <span class="break"></span>
-                        &nbsp;{{u.userName}}
-                    </h2>
-                </div>
-                <div class="box-content tnList widget-content">
-                    <div class="padd"> 
-                        <dl>
-                            <dt class="control-label usrtitle">Name:</dt>
-                            <dd>
-                                <p>{{u.fullName}}</p>
-                            </dd>
-                            <dt class="control-label usrtitle">Email:</dt>
-                            <dd>
-                                <p>{{ u.email }}</p>
-                            </dd>
-                        </dl>
-                        <div class="pull-right">
-                            <!-- button to show form -->
-                            <button type="button" class="btn btn-success" data-ng-click="vm.gotoUser(u)">
-                                Edit
-                            </button>
-                            <button class="btn btn-warning" data-ng-click="vm.removeUser(u)">Remove</button>
-                            <!-- buttons to submit / cancel form -->
-                        </div>
-                        <div class="clearfix" />
-                    </div>
-                </div>
-        </div>
-    </div>
+    </div><br /><br /><br />
+    <div class="col-sm-10">
+        <label class="control-label">User(s)</label>
+        <table id="users-table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="u in vm.filteredUsers">
+                    <td>
+                        {{$index + 1}}
+                    </td>
+                    <td>
+                        {{u.fullName}}
+                    </td>
+                    <td>
+                        <a href="" data-ng-click="vm.gotoUser(u)">Manage Roles</a>&nbsp;|&nbsp;
+                        <a href="" data-ng-click="vm.removeUser(u)">Remove User</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
 </div>

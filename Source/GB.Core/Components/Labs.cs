@@ -131,7 +131,7 @@ namespace GB.tnLabs.Core.Components
 				};
 				VMUserModel vmUser = new VMUserModel
 				{
-					UserId = request.UserId,
+					IdentityId = request.UserId,
 					//TODO: make it a bit random or smth?
 					Username = "TemplateUser",
 					Password = "TemplatePass1!"
@@ -146,7 +146,7 @@ namespace GB.tnLabs.Core.Components
 					VMName = assignedVm.VmName,
 					VmRdpPort = assignedVm.VmRdpPort,
 					SubscriptionId = request.SubscriptionId,
-					CreatorId = vmUser.UserId,
+					CreatorId = vmUser.IdentityId,
 					VMAdminUser = vmUser.Username,
 					VMAdminPass = vmUser.Password,
 					Key = key,

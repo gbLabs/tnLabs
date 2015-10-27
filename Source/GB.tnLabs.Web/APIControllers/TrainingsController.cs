@@ -7,7 +7,7 @@ using GB.tnLabs.Web.Repository;
 using Newtonsoft.Json.Linq;
 using Breeze.WebApi2;
 
-namespace GB.tnLabs.Web.Controllers
+namespace GB.tnLabs.Web.APIControllers
 {
     using System.Web.Http;
     using GB.tnLabs.Web.Infrastructure;
@@ -15,9 +15,9 @@ namespace GB.tnLabs.Web.Controllers
     using GB.tnLabs.AzureFacade;
     using GB.tnLabs.AzureFacade.Interfaces;
     using GB.tnLabs.AzureFacade.Enums;
-	using GB.tnLabs.Core.Repository;
-	using GB.tnLabs.Core;
-using GB.tnLabs.Core.Components;
+    using GB.tnLabs.Core.Repository;
+    using GB.tnLabs.Core;
+    using GB.tnLabs.Core.Components;
     using System.Reflection;
 
     [BreezeController]
@@ -83,13 +83,28 @@ using GB.tnLabs.Core.Components;
         [HttpGet]
         public IQueryable<SessionUser> SessionUsers()
         {
-			return _repository.SessionUsers.Where(x => x.User.SubscriptionId == UnitOfWork.ActiveSubscriptionId);
+            var subscriptionIdentityRoles = _repository.SubscriptionIdentityRoles.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId);
+            if(subscriptionIdentityRoles.Any())
+            {
+                var identities = subscriptionIdentityRoles.Select(i => i.IdentityId).Distinct();
+                if(identities.Any())
+                    return _repository.SessionUsers.Where(x => identities.ToList().Contains(x.IdentityId));
+            }
+            return new List<SessionUser>().AsQueryable();
         }
 
         [HttpGet]
-        public IQueryable<User> Users()
+        public IQueryable<Identity> Identities()
         {
-			return _repository.Users.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId);
+            var subscriptionIdentityRoles = _repository.SubscriptionIdentityRoles.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId &&
+                x.IdentityId != UnitOfWork.CurrentIdentity.IdentityId);
+            if (subscriptionIdentityRoles.Any())
+            {
+                var identities = subscriptionIdentityRoles.Select(i => i.IdentityId).Distinct();
+                if (identities.Any())
+                    return _repository.Identities.Where(x => identities.ToList().Contains(x.IdentityId));
+            }
+            return new List<Identity>().AsQueryable();
         }
 
         [HttpGet]

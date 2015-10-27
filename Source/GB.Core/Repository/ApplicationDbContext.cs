@@ -31,7 +31,7 @@ namespace GB.tnLabs.Core.Repository
 
         public DbSet<SessionUser> SessionUsers { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Invitation> Invitations { get; set; }
 
         public DbSet<VirtualMachine> VirtualMachines { get; set; }
 
@@ -48,6 +48,6 @@ namespace GB.tnLabs.Core.Repository
         public DbSet<TemplateVM> TemplateVMs { get; set; }
 
         public DbSet<Session> Sessions { get; set; }
-                                                                
+
     }
 }

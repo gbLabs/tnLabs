@@ -28,7 +28,7 @@
 
         function getAll(forceRemote, sessionId) {
             var self = this;
-            var orderBy = 'user.email';
+            var orderBy = 'identity.email';
             var sessionUsers;
             var predicate = undefined;
             if (sessionId !== undefined) {
@@ -43,7 +43,7 @@
             return EntityQuery.from('SessionUsers')
                 .orderBy(orderBy)
                 .where(predicate)
-                .expand("user")
+                .expand("identity")
                 .toType(entityName)
                 .using(self.manager).execute()
                 .then(querySucceeded, self._queryFailed);

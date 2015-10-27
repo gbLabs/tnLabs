@@ -247,6 +247,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIControllers\ManageController.cs" />
     <Compile Include="App_Start\BreezeWebApiConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -256,14 +257,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AzureManagementController.cs" />
+    <Compile Include="APIControllers\AzureManagementController.cs" />
     <Compile Include="Controllers\AzureTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\TrainingController.cs" />
-    <Compile Include="Controllers\TrainingsController.cs" />
+    <Compile Include="APIControllers\TrainingsController.cs" />
     <Compile Include="Data\LabRepository.cs" />
     <Compile Include="Enums\SessionSchedulingEnum.cs" />
     <Compile Include="Enums\SignUpTypeEnum.cs" />
@@ -327,10 +327,10 @@
     <Content Include="app\services\model.validation.js" />
     <Content Include="app\services\repositories.js" />
     <Content Include="app\services\repository.abstract.js" />
+    <Content Include="app\services\repository.identity.js" />
     <Content Include="app\services\repository.lab.js" />
     <Content Include="app\services\repository.session.js" />
     <Content Include="app\services\repository.sessionuser.js" />
-    <Content Include="app\services\repository.user.js" />
     <Content Include="app\services\routemediator.js" />
     <Content Include="app\services\vmManagement.js" />
     <Content Include="app\session\sessiondetail.html" />
@@ -450,6 +450,7 @@
     <Content Include="logs\2015-09-29.log" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Content\email templates\InviteToTnLabs.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

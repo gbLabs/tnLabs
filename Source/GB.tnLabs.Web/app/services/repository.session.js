@@ -30,7 +30,7 @@
 
         AbstractRepository.extend(Ctor);
         return Ctor;
-        
+
         function _notRemovedPredicate() {
             return  Predicate.create('removed', '==', 0);
         }
@@ -65,11 +65,11 @@
                 return sessions;
             }
         }
-        
+
         function getById(id, forceRemote) {
             return this._getById(entityName, id, forceRemote);
         }
-        
+
         function getCount() {
             self = this;
             if (self._areItemsLoaded()) {
@@ -80,7 +80,7 @@
                 .using(self.manager).execute()
                 .then(self._getInlineCount);
         }
-        
+
         function getFirstByDate() {
             self = this;
             var orderBy = 'startDate desc';
@@ -91,8 +91,8 @@
             if (self === undefined) {
                 self = this;
             }
-            var orderBy = 'user.email';
-            var predicate = Predicate.and([_sessionPredicate(session.sessionId), _participantPredicate(participant.userId)]);
+            var orderBy = 'identity.email';
+            var predicate = Predicate.and([_sessionPredicate(session.sessionId), _participantPredicate(participant.identityId)]);
             var participants = self._getAllLocal(model.entityNames.sessionUser, orderBy, predicate);
             if (participants !== undefined && participants != null && participants.length == 1) {
                 return participants[0];
@@ -100,14 +100,14 @@
             return undefined;
             
             function _participantPredicate(filterValue) {
-                return Predicate.create('userId', '==', filterValue);
+                return Predicate.create('identityId', '==', filterValue);
             }
             
             function _sessionPredicate(filterValue) {
                 return Predicate.create('sessionId', '==', filterValue);
             }
         }
-        
+
         function getUpcomingThreeSessions() {
             self = this;
             var orderBy = 'startDate';
@@ -115,7 +115,7 @@
             var predicate = Predicate.and([_notRemovedPredicate(),_upcomingThreeSessionsPredicate()]);
 
             return  self._getAllLocalWithTake(entityName, orderBy, predicate, 3);
-            
+
             function _upcomingThreeSessionsPredicate() {
                 return Predicate.create('startDate', '>=', moment().toDate());
             }

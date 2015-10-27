@@ -1,7 +1,13 @@
 ﻿@using GB.tnLabs.Web.Infrastructure
 @{
     bool isSignedUser = User.Identity.IsAuthenticated;// HttpContext.Current.User.IsInRole(RoleTypes.User);
-    bool isMember = HttpContext.Current.User.IsInRole(RoleTypes.Member);
+    bool isMember = false;
+
+    var roles = Session[String.Format("Roles{0}", User.Identity.Name)];
+    if (roles != null)
+    {
+        isMember = ((List<string>)roles).Contains(RoleTypes.Trainer) || ((List<string>)roles).Contains(RoleTypes.Owner);
+    }
 }
 
 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))

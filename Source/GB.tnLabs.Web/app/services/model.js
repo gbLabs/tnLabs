@@ -15,7 +15,7 @@
             lab: 'Lab',
             session: 'Session',
             sessionUser: 'SessionUser',
-            user: 'User'
+            identity: 'Identity'
         };
 
         var service = {
@@ -30,7 +30,7 @@
             registerLab(metadataStore);
             registerSession(metadataStore);
             registerSessionUser(metadataStore);
-            registerUser(metadataStore);
+            registerIdentity(metadataStore);
             modelValidation.createAndRegister(entityNames);
         }
         
@@ -156,13 +156,13 @@
             }
         }
         
-        function registerUser(metadataStore) {
-            metadataStore.registerEntityTypeCtor('User', User);
+        function registerIdentity(metadataStore) {
+            metadataStore.registerEntityTypeCtor('Identity', Identity);
 
-            function User() {
+            function Identity() {
             }
-            
-            Object.defineProperty(User.prototype, 'fullName', {
+
+            Object.defineProperty(Identity.prototype, 'fullName', {
                 get: function () {
                     var fn = this.firstName;
                     var ln = this.lastName;
