@@ -337,10 +337,10 @@
     <Content Include="app\session\sessiondetail.js" />
     <Content Include="app\session\sessions.html" />
     <Content Include="app\session\sessions.js" />
-    <Content Include="app\user\invites.html" />
-    <Content Include="app\user\invites.js" />
     <Content Include="app\user\userdetail.html" />
     <Content Include="app\user\userdetail.js" />
+    <Content Include="app\user\users.html" />
+    <Content Include="app\user\users.js" />
     <Content Include="Certificates\ReadMe.txt" />
     <Content Include="Content\angular-wizard.css" />
     <Content Include="Content\angular-wizard.min.css" />

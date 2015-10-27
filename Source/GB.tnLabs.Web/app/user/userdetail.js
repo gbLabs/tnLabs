@@ -1,4 +1,4 @@
-﻿var userIsTrainer, userIsOwner, parentRoles, userId, userContext, http;
+﻿var parentRoles, userId, userContext, http;
 
 (function () {
     'use strict';
@@ -14,7 +14,6 @@
 
         vm.errors = [];
         vm.identity = undefined;
-        vm.saveChanges = saveChanges;
         vm.back = back;
         vm.addRole = addRole;
 
@@ -40,7 +39,7 @@
 
             datacontext.identity.getById(val)
                 .then(function (data) {
-                    vm.user = data;
+                    vm.identity = data;
                 }, function (error) {
                     logError('Unable to get participant ' + val);
                     gotoUsers();
@@ -48,71 +47,16 @@
 
             datacontext.getLoggedInUserRoles($http);
             datacontext.getUserRoles($http, userId);
-            manageUserRoles();
         }
 
         function gotoUsers() {
             $location.path('/participants');
         }
 
-        function saveChanges() {
-
-            spinner.spinnerShow();
-            //TODO: figure out why it's hardcoded!
-            //vm.user.password = 'tnLabsP@ss1';
-            //if (vm.user.entityAspect.validateEntity()) {
-            //    datacontext.saveChanges().then(saveSucceded, saveFailed);
-            //}
-            
-            function saveSucceded() {
-                spinner.spinnerHide();
-                $window.history.back();
-            }
-
-            function saveFailed() {
-                spinner.spinnerHide();
-            }
-        }
-
         function onDestroy() {
             $scope.$on('$destroy', function () {
                 datacontext.cancel();
             });
-        }
-
-         //Functions that handle the participant user role based on the subscription user role
-
-        function manageUserRoles() {
-            $('#add-new-roles').click(function () {
-                $('#add-roles').removeClass('hidden');
-                $.each(parentRoles, function (index, role) {
-                    if (role == "Trainer") {
-                        handleTrainerRole();
-                    }
-                    if (role == "Owner") {
-                        handleOwnerRole();
-                    }
-                });
-            });
-        }
-
-        function handleTrainerRole() {
-            if (!userIsTrainer && !$("#available-roles:has(option[value='Trainer'])").length > 0) {
-                $('#available-roles').append('<option value="Trainer">Trainer</option>');
-            }
-        }
-
-        function handleOwnerRole() {
-            if (!userIsOwner && !$("#available-roles:has(option[value='Owner'])").length > 0) {
-                $('#available-roles').append('<option value="Owner">Owner</option>');
-            }
-        }
-
-        function addRole() {
-            var newRole = $('#available-roles').find(":selected").val();
-            if (newRole != null && newRole != "") {
-                datacontext.addUserRole($http, newRole, userId);
-            }
         }
     }
 })();
@@ -123,46 +67,55 @@
 
 function setParentRoles(data) {
     parentRoles = data;
-    if (parentRoles.length == 1 && parentRoles[0] == "Member") {
-        $('#add-new-roles').addClass('hidden');
-    }
 }
 
-function setRole(data, newRole) {
-    if (data) {
-        if (newRole == "Trainer") {
-            userIsTrainer = true;
-        }
-        else if (newRole == "Owner") {
-            userIsOwner = true;
+function setRole(success, removeOption, newRole) {
+    if (success) {
+        if (removeOption) {
+            $("#available-roles option[value='" + newRole + "']").remove();
         }
         updateRoles(newRole);
     }
 }
 
-function updateUserRoles(roles)
-{
-    if (roles.length > 0) {
-        $('#role-display').css("padding-top", "8px");
-        $.each(roles, function (index, role) {
-            setRole(true, role);
-        });
-    }
-    else {
-        $('#role-label').hide();
-        $('#add-new-roles').hide();
-    }
+function updateUserRoles(roles) {
+    $('#role-display').css("padding-top", "8px");
+    $.each(roles, function (index, role) {
+        setRole(true, false, role);
+    });
 }
 
 function updateRoles(role) {
-    var element = '<span id=' + role + "_role" + '>' + role + '&nbsp;';
-    if (parentRoles.length == 1 && parentRoles[0] == "Member") {
+    var element = '<span id=' + role + "_role" + '>' + role;
+    if (role == "Member") {
         element = element + '</span>&nbsp;&nbsp;';
     }
     else {
-        element = element + '<a href="javascript:void(0)" onclick="removeUserRole(this)"><strong>X</strong></a></span>&nbsp;&nbsp;';
+        element = element + '&nbsp;<a href="javascript:void(0)" onclick="removeUserRole(this)"><strong>X</strong></a></span>&nbsp;&nbsp;';
     }
     $('#user-roles').append(element);
+    manageUserRoles();
+}
+
+function manageUserRoles() {
+    $('#available-roles').css("padding-top", "8px");
+    if (parentRoles != null) {
+        $.each(parentRoles, function (index, role) {
+            if (role == "Trainer" && $("#available-roles option[value=" + role + "]").length == 0 && $('span[id^="' + role + '_role"]').length == 0) {
+                $('#available-roles').append('<option value="Trainer">Trainer</option>');
+            }
+            if (role == "Owner" && $("#available-roles option[value=" + role + "]").length == 0 && $('span[id^="' + role + '_role"]').length == 0) {
+                $('#available-roles').append('<option value="Owner">Owner</option>');
+            }
+        });
+    }
+}
+
+function addRole() {
+    var newRole = $('#available-roles').find(":selected").val();
+    if (newRole != null && newRole != "" && $('span[id^="'+ newRole + '_role"]').length == 0) {
+        userContext.addUserRole(http, newRole, userId);
+    }
 }
 
 function removeUserRole(removeLink) {
@@ -178,5 +131,8 @@ function removeUserRole(removeLink) {
 function removeRole(data, role) {
     if (data) {
         $('span[id^="' + role + '_role"]').remove();
+        if (parentRoles.indexOf(role) > -1 && $("#available-roles option[value=" +role + "]").length == 0) {
+            $('#available-roles').append('<option value="' + role + '">' + role + '</option>');
+        }
     }
 }

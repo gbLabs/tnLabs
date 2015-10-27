@@ -70,7 +70,7 @@
                 url: '/users',
                 config: {
                     title: 'Users',
-                    templateUrl: 'app/user/invites.html',
+                    templateUrl: 'app/user/users.html',
                     settings: {
                         nav: 5,
                         content: '<i class="fa fa-users"></i> <span class="hidden-sm"> Users</span>'

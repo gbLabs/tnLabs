@@ -1,16 +1,16 @@
 ﻿(function () {
     'use strict';
-    var controllerId = 'invites';
-    angular.module('app').controller(controllerId, ['$scope', '$http', '$location', '$routeParams', 'common', 'config', 'datacontext', invites]);
+    var controllerId = 'users';
+    angular.module('app').controller(controllerId, ['$scope', '$http', '$location', '$routeParams', 'common', 'config', 'datacontext', users]);
 
-    function invites($scope, $http, $location, $routeParams, common, config, datacontext) {
+    function users($scope, $http, $location, $routeParams, common, config, datacontext) {
         var vm = this;
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
 
         vm.filteredUsers = [];
 
-        vm.title = 'invites';
+        vm.title = 'users';
         vm.sendInvites = sendInvites;
         vm.gotoUser = gotoUser;
         vm.removeUser = removeUser

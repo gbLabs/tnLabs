@@ -81,24 +81,17 @@ namespace GB.tnLabs.Web.APIControllers
         public List<string> GetLoggedInUserSubscriptionRoles()
         {
             var loggedInUserRoles = new List<string>();
-            try
+            using (var context = new ApplicationDbContext())
             {
-                using (var context = new ApplicationDbContext())
+                var identity = context.Identities.Where(x => x.IdentityId == UnitOfWork.CurrentIdentity.IdentityId).FirstOrDefault();
+                var subscription = context.Subscriptions.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId).FirstOrDefault();
+                if (identity != null && subscription != null)
                 {
-                    var identity = context.Identities.Where(x => x.IdentityId == UnitOfWork.CurrentIdentity.IdentityId).FirstOrDefault();
-                    var subscription = context.Subscriptions.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId).FirstOrDefault();
-                    if(identity != null && subscription != null)
-                    {
-                        var roles = context.SubscriptionIdentityRoles.Where(x =>
-                            x.IdentityId == identity.IdentityId && x.SubscriptionId == subscription.SubscriptionId);
-                        if (roles.Any())
-                            roles.ToList().ForEach(x => loggedInUserRoles.Add(x.Role));
-                    }
+                    var roles = context.SubscriptionIdentityRoles.Where(x =>
+                        x.IdentityId == identity.IdentityId && x.SubscriptionId == subscription.SubscriptionId);
+                    if (roles.Any())
+                        roles.ToList().ForEach(x => loggedInUserRoles.Add(x.Role));
                 }
-            }
-            catch (Exception)
-            {
-                loggedInUserRoles.Add("Error");
             }
             return loggedInUserRoles;
         }
@@ -107,24 +100,17 @@ namespace GB.tnLabs.Web.APIControllers
         public List<string> GetUserSubscriptionRoles(string identityId)
         {
             var userRoles = new List<string>();
-            try
+            using (var context = new ApplicationDbContext())
             {
-                using (var context = new ApplicationDbContext())
+                var subscription = context.Subscriptions.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId).FirstOrDefault();
+                var identity = context.Identities.Where(x => x.IdentityId.ToString() == identityId).FirstOrDefault();
+                if (subscription != null && identity != null)
                 {
-                    var subscription = context.Subscriptions.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId).FirstOrDefault();
-                    var identity = context.Identities.Where(x => x.IdentityId.ToString() == identityId).FirstOrDefault();
-                    if (subscription != null && identity != null)
-                    {
-                        var roles = context.SubscriptionIdentityRoles.Where(x =>
-                            x.IdentityId == identity.IdentityId && x.SubscriptionId == subscription.SubscriptionId);
-                        if (roles.Any())
-                            roles.ToList().ForEach(x => userRoles.Add(x.Role));
-                    }
+                    var roles = context.SubscriptionIdentityRoles.Where(x =>
+                        x.IdentityId == identity.IdentityId && x.SubscriptionId == subscription.SubscriptionId);
+                    if (roles.Any())
+                        roles.ToList().ForEach(x => userRoles.Add(x.Role));
                 }
-            }
-            catch (Exception)
-            {
-                userRoles.Add("Error");
             }
             return userRoles;
         }
@@ -235,7 +221,7 @@ namespace GB.tnLabs.Web.APIControllers
                 }
                 return success;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

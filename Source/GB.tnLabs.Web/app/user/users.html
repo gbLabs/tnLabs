@@ -1,4 +1,4 @@
-﻿<div class="container" data-ng-controller="invites as vm">
+﻿<div class="container" data-ng-controller="users as vm">
     <div class="row">
         <div class="alert alert-info hidden" id="on-invites-sent"></div> <br />
         <div class="clearfix"></div>
@@ -15,27 +15,20 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Edit</th>
-                    <th>Remove</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="u in vm.filteredUsers">
+                    <td></td>
                     <td>
                         {{u.fullName}}
                     </td>
                     <td>
-                        {{u.email}}
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-success" data-ng-click="vm.gotoUser(u)">
-                            Edit
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn btn-warning" data-ng-click="vm.removeUser(u)">Remove</button>
+                        <a href="" data-ng-click="vm.gotoUser(u)">Manage Roles</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="" data-ng-click="vm.removeUser(u)">Remove User</a>
                     </td>
                 </tr>
             </tbody>
