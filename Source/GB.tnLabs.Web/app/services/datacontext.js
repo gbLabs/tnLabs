@@ -146,7 +146,7 @@
 		        method: "POST",
 		        data: $.param({ 'role': newRole, 'identityId': userId })
 		    }).success(function (data) {
-		        setRole(data, true, newRole);
+		        setRole(data, newRole);
 		    });
 		}
 

@@ -17,8 +17,9 @@
 
         activate();
 
-        function activate() {
-            common.activateController([getUsers()], controllerId).then(function () {
+        function activate(){
+            $('#users-table').css("width", "80%");
+            common.activateController([getUsers(true)], controllerId).then(function () {
                 log('Activated Users View');
             });
         }

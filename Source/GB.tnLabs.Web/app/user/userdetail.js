@@ -69,11 +69,8 @@ function setParentRoles(data) {
     parentRoles = data;
 }
 
-function setRole(success, removeOption, newRole) {
+function setRole(success, newRole) {
     if (success) {
-        if (removeOption) {
-            $("#available-roles option[value='" + newRole + "']").remove();
-        }
         updateRoles(newRole);
     }
 }
@@ -81,17 +78,17 @@ function setRole(success, removeOption, newRole) {
 function updateUserRoles(roles) {
     $('#role-display').css("padding-top", "8px");
     $.each(roles, function (index, role) {
-        setRole(true, false, role);
+        setRole(true, role);
     });
 }
 
 function updateRoles(role) {
     var element = '<span id=' + role + "_role" + '>' + role;
     if (role == "Member") {
-        element = element + '</span>&nbsp;&nbsp;';
+        element = element + '&nbsp;&nbsp;</span>';
     }
     else {
-        element = element + '&nbsp;<a href="javascript:void(0)" onclick="removeUserRole(this)"><strong>X</strong></a></span>&nbsp;&nbsp;';
+        element = element + '&nbsp;<a href="javascript:void(0)" onclick="removeUserRole(this)"><strong>X</strong></a>&nbsp;&nbsp;</span>';
     }
     $('#user-roles').append(element);
     manageUserRoles();
@@ -113,6 +110,7 @@ function manageUserRoles() {
 
 function addRole() {
     var newRole = $('#available-roles').find(":selected").val();
+    $("#available-roles option[value='']").prop('selected', true);
     if (newRole != null && newRole != "" && $('span[id^="'+ newRole + '_role"]').length == 0) {
         userContext.addUserRole(http, newRole, userId);
     }
@@ -131,8 +129,5 @@ function removeUserRole(removeLink) {
 function removeRole(data, role) {
     if (data) {
         $('span[id^="' + role + '_role"]').remove();
-        if (parentRoles.indexOf(role) > -1 && $("#available-roles option[value=" +role + "]").length == 0) {
-            $('#available-roles').append('<option value="' + role + '">' + role + '</option>');
-        }
     }
 }
