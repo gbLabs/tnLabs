@@ -68,6 +68,7 @@ namespace GB.tnLabs.Core.Components
                 var vmUsers = new List<VMUserModel>();
                 sessionUsers.ForEach(x =>
                 {
+                	//TODO: wrong logic.. not all sessions are based on templates
                     var templateVM = context.TemplateVMs.Where(y => y.IdentityId == x.IdentityId && y.SubscriptionId == subscription.SubscriptionId).FirstOrDefault();
                     if (templateVM != null)
                     {
