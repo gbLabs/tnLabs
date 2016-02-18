@@ -53,8 +53,8 @@
         function createSession() {
 
             spinner.spinnerShow();
-            var subscription = $cookies.subscription;
-            vm.session.subscriptionId = subscription;
+            //var subscription = $cookies.subscription;
+            //vm.session.subscriptionId = subscription;
             datacontext.saveChanges().then(saveSucceded, saveFailed);
             
             function saveSucceded() {
