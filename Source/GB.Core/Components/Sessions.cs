@@ -68,18 +68,13 @@ namespace GB.tnLabs.Core.Components
                 var vmUsers = new List<VMUserModel>();
                 sessionUsers.ForEach(x =>
                 {
-                    var templateVM = context.TemplateVMs.Where(y => y.IdentityId == x.IdentityId && y.SubscriptionId == subscription.SubscriptionId).FirstOrDefault();
-                    if (templateVM != null)
+                    vmUsers.Add(new VMUserModel
                     {
-                        vmUsers.Add(new VMUserModel
-                        {
-                            IdentityId = x.IdentityId,
-                            Username = templateVM.VMAdminUser,
-                            Password = templateVM.VMAdminPass
-                        });
-                    }
+                        IdentityId = x.IdentityId,
+                        Username = x.Identity != null ? string.Format("{0}.{1}", x.Identity.FirstName, x.Identity.LastName) : string.Empty,
+                        Password = "this_is_just_a_test"
+                    });
                 });
-
 				//figure out a URL friendly name for the vm names
 				string vmNameBase = "tn" + session.SessionId + "vm";
 
