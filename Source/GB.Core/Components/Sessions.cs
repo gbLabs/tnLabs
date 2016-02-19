@@ -5,6 +5,7 @@ using GB.tnLabs.AzureFacade.Interfaces;
 using GB.tnLabs.AzureFacade.Models;
 using GB.tnLabs.Core.Repository;
 using GB.tnLabs.Core.SBDtos;
+using GB.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,15 +65,16 @@ namespace GB.tnLabs.Core.Components
                 };
 
                 var sessionUsers = session.SessionUsers.ToList();
-
                 var vmUsers = new List<VMUserModel>();
+                RandomProvider randomProvider = new RandomProvider();
+
                 sessionUsers.ForEach(x =>
                 {
                     vmUsers.Add(new VMUserModel
                     {
                         IdentityId = x.IdentityId,
                         Username = x.Identity != null ? string.Format("{0}.{1}", x.Identity.FirstName, x.Identity.LastName) : string.Empty,
-                        Password = "this_is_just_a_test"
+                        Password = randomProvider.SecurePassword(8)
                     });
                 });
 				//figure out a URL friendly name for the vm names
