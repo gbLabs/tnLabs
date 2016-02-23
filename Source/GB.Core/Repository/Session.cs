@@ -20,6 +20,8 @@ namespace GB.tnLabs.Core.Repository
 
         public int LabId { get; set; }
 
+        public int? TrainerId { get; set; }
+
         public DateTimeOffset StartDate { get; set; }
 
         public DateTimeOffset EndDate { get; set; }
