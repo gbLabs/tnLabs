@@ -9,7 +9,7 @@ namespace GB.tnLabs.Core.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(GB.tnLabs.Core.Repository.ApplicationDbContext context)
