@@ -1,5 +1,23 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
-
-/Source
+/Source/GB.Core/bin/Debug
+/Source/GB.Core/obj/Debug
+/Source/GB.tnLabs.AcceptanceTests/bin/Debug
+/Source/GB.tnLabs.AcceptanceTests/obj/Debug
+/Source/GB.tnLabs.AzureFacade/bin/Debug
+/Source/GB.Core/GB.tnLabs.Core.csproj.user
+/Source/GB.tnLabs.AzureFacade/obj/Debug
+/Source/GB.tnLabs.Core.Service/bin/Debug
+/Source/GB.tnLabs.Core.Service/obj/Debug
+/Source/GB.tnLabs.CoreHost/bin/Debug
+/Source/GB.tnLabs.CoreHost/obj/Debug
+/Source/Gb.tnLabs.Database/bin/Debug
+/Source/GB.tnLabs.Infrastructure/bin/Debug
+/Source/GB.tnLabs.Infrastructure/obj/Debug
+/Source/GB.tnLabs.Web/bin
+/Source/GB.tnLabs.Web/obj/Debug
+/Source/GB.Utils/bin/Debug
+/Source/GB.Utils/obj/Debug
+/Source/.vs/GB.tnLabs/v14
+/Source/packages

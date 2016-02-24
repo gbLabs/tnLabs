@@ -8,3 +8,12 @@ d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\obj\Debug\Gb.tnLabs.Database.csprojResolv
 d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\obj\Debug\Gb.tnLabs.Database.exe
 d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\obj\Debug\Gb.tnLabs.Database.pdb
 d:\tnLabs\GB.tnLabs\Gb.tnLabs.Database\bin\Debug\DbUp.pdb
+C:\Users\cnegreanu\Source\Repos\LatestTnLabs\Source\Gb.tnLabs.Database\bin\Debug\Deploy.ps1
+C:\Users\cnegreanu\Source\Repos\LatestTnLabs\Source\Gb.tnLabs.Database\bin\Debug\Gb.tnLabs.Database.exe.config
+C:\Users\cnegreanu\Source\Repos\LatestTnLabs\Source\Gb.tnLabs.Database\bin\Debug\Gb.tnLabs.Database.exe
+C:\Users\cnegreanu\Source\Repos\LatestTnLabs\Source\Gb.tnLabs.Database\bin\Debug\Gb.tnLabs.Database.pdb
+C:\Users\cnegreanu\Source\Repos\LatestTnLabs\Source\Gb.tnLabs.Database\bin\Debug\DbUp.dll
+C:\Users\cnegreanu\Source\Repos\LatestTnLabs\Source\Gb.tnLabs.Database\bin\Debug\DbUp.pdb
+C:\Users\cnegreanu\Source\Repos\LatestTnLabs\Source\Gb.tnLabs.Database\bin\Debug\DbUp.xml
+C:\Users\cnegreanu\Source\Repos\LatestTnLabs\Source\Gb.tnLabs.Database\obj\Debug\Gb.tnLabs.Database.exe
+C:\Users\cnegreanu\Source\Repos\LatestTnLabs\Source\Gb.tnLabs.Database\obj\Debug\Gb.tnLabs.Database.pdb

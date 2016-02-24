@@ -152,6 +152,79 @@ namespace GB.tnLabs.Core.Components
             return email;
         }
 
+        public static Email BuildSessionStartVmsEmails(string trainerFirstName, string toEmailAddress, Session session, string serviceName, int nbOfUsers)
+        {
+            string template = GetTemplate("StartingVirtualMachines");
+            var builtEmails = new List<EmailMessage>();
+
+            builtEmails.Add(
+              new EmailMessage()
+              {
+                  Body = Engine.Razor.RunCompile(template, "StartingVirtualMachines", null,
+                          new
+                          {
+                              TrainerFirstName = trainerFirstName,
+                              NumberOfUsers = nbOfUsers,
+                              SessionName = session.SessionName,
+                              StartDate = session.StartDate,
+                              EndDate = session.EndDate,
+                              LabName = session.Lab.Name,
+                              ServiceName = serviceName
+                          }),
+                  To = toEmailAddress,
+                  Subject = string.Format("[GbLabs] Starting VM(s) for the {0} training session", session.SessionName),
+              });
+
+            return new Email(builtEmails);
+        }
+
+        public static Email BuildSessionEndVmsEmails(string trainerFirstName, string toEmailAddress, string sessionName, string serviceName, int nbOfUsers, int nbOfVMs)
+        {
+            string template = GetTemplate("FinishedStartingTheVirtualMachines");
+            var builtEmails = new List<EmailMessage>();
+
+            builtEmails.Add(
+             new EmailMessage()
+             {
+                 Body = Engine.Razor.RunCompile(template, "FinishedStartingTheVirtualMachines", null,
+                         new
+                         {
+                             TrainerFirstName = trainerFirstName,
+                             NumberOfUsers = nbOfUsers,
+                             NumberOfVMs = nbOfVMs,
+                             SessionName = sessionName,
+                             ServiceName = serviceName
+                         }),
+                 To = toEmailAddress,
+                 Subject = string.Format("[GbLabs] Finished starting VM(s) for the {0} training session", sessionName),
+             });
+
+            return new Email(builtEmails);
+        }
+
+        public static Email BuildProblemStartingVmsEmails(string trainerFirstName, string toEmailAddress, string sessionName, string serviceName, string errorMessage)
+        {
+            string template = GetTemplate("ProblemStartingTheVirtualMachines");
+            var builtEmails = new List<EmailMessage>();
+
+            builtEmails.Add(
+            new EmailMessage()
+            {
+                Body = Engine.Razor.RunCompile(template, "ProblemStartingTheVirtualMachines", null,
+                        new
+                        {
+                            TrainerFirstName = trainerFirstName,
+                            SessionName = sessionName,
+                            ServiceName = serviceName,
+                            ErrorMessage = errorMessage
+                        }),
+                To = toEmailAddress,
+                Subject = string.Format("[GbLabs] Error occured when starting VM(s) for the {0} training session", sessionName),
+            });
+
+            return new Email(builtEmails);
+        }
+
         public static Email BuildSignUpEmail(Identity identity)
         {
             string template = GetTemplate("signup");
