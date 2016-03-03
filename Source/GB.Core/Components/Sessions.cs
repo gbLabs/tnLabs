@@ -37,7 +37,7 @@ namespace GB.tnLabs.Core.Components
                 Session session = context.Sessions.Single(x => x.SessionId == request.SessionId);
                 //Session session = context.Sessions.Single(x => x.Version == version);
 
-                Identity trainer = session.TrainerId.HasValue ?
+                Identity trainer = session.TrainerId != 0 ?
                     context.Identities.Where(x => x.IdentityId == session.TrainerId).FirstOrDefault() :
                     context.Identities.Where(x => x.IdentityId == 
                         (context.SubscriptionIdentityRoles.Where(y => y.SubscriptionId == session.SubscriptionId && y.Role == "Owner").FirstOrDefault()).IdentityId).FirstOrDefault();
