@@ -137,8 +137,8 @@
             </div>
         </wz-step>
         
-        <wz-step title="Session Participants" data-step-scroll-to-top>
-            <h1>Please select participants</h1>
+        <wz-step title="Session Trainer and Participants" data-step-scroll-to-top>
+            <h1>Please select the trainer and the participants</h1>
             <hr />
             <div class="form-horizontal">
                 <div class="form-group">
@@ -149,6 +149,42 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <div class="input-group date col-sm-12">
+                            <input type="text" class="form-control" id="inputSearchTrainers"
+                                   placeholder="Search trainer" data-ng-model="vm.selectedTrainer"
+                                   ng-enter-tab="vm.addTrainerToSession()"
+                                   typeahead="trainer as trainer.fullName for trainer in vm.filteredTrainers | filter:{fullName:$viewValue} | limitTo:8" />
+                            <span class="input-group-addon btn btn-primary" data-ng-click="vm.addTrainerToSession()"><i class="fa fa-user"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <div class="box">
+                            <div class="box-header">
+                                <h2><i class="fa fa-users"></i><span class="break"></span>Selected trainer</h2>
+                            </div>
+                            <div class="box-content">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr ng-if="vm.trainer.fullName != null">
+                                            <td>
+                                                <h1>{{vm.trainer.fullName}}</h1>
+                                                <p>{{vm.trainer.email}}</p>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="close" aria-hidden="true" data-ng-click="vm.removeTrainer()">x</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
                 <div class="form-group">
                     <div class="col-sm-8">
                         <div class="input-group date col-sm-12">

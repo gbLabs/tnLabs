@@ -108,6 +108,20 @@ namespace GB.tnLabs.Web.APIControllers
         }
 
         [HttpGet]
+        public IQueryable<Identity> GetSubscriptionTrainers()
+        {
+            var trainerSubscriptionIdentityRoles = _repository.SubscriptionIdentityRoles.Where(x => x.SubscriptionId == UnitOfWork.ActiveSubscriptionId && x.Role == RoleTypes.Trainer
+                && x.IdentityId != UnitOfWork.CurrentIdentity.IdentityId);
+            if (trainerSubscriptionIdentityRoles.Any())
+            {
+                var identities = trainerSubscriptionIdentityRoles.Select(i => i.IdentityId).Distinct();
+                if (identities.Any())
+                    return _repository.Identities.Where(x => identities.ToList().Contains(x.IdentityId));
+            }
+            return new List<Identity>().AsQueryable();
+        }
+
+        [HttpGet]
         public IEnumerable<VirtualMachineImageModel> AvailableTemplateImages()
         {
             Subscription subscription;

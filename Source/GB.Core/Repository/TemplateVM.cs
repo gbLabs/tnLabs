@@ -19,8 +19,6 @@ namespace GB.tnLabs.Core.Repository
 
         public int CreatorId { get; set; }
 
-        public int IdentityId { get; set; }
-
         public int State { get; set; }
 
         public string VMAdminUser { get; set; }
@@ -43,9 +41,6 @@ namespace GB.tnLabs.Core.Repository
 
         [ForeignKey("CreatorId")]
         public virtual Identity Identity { get; set; }
-
-        [ForeignKey("IdentityId")]
-        public virtual Identity UserIdentity { get; set; }
 
         public virtual Subscription Subscription { get; set; }
     }

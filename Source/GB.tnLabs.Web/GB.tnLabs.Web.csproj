@@ -450,7 +450,9 @@
     <Content Include="logs\2015-09-29.log" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
-    <Content Include="Content\email templates\InviteToTnLabs.cshtml" />
+    <Content Include="Content\email templates\InviteToTnLabs.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

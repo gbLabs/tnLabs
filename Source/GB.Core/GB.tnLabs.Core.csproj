@@ -164,6 +164,15 @@
     <Content Include="Content\email templates\HealthProblems.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\email templates\StartingVirtualMachines.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\email templates\ProblemStartingTheVirtualMachines.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\email templates\FinishedStartingTheVirtualMachines.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +183,10 @@
     <ProjectReference Include="..\GB.tnLabs.Infrastructure\GB.tnLabs.Infrastructure.csproj">
       <Project>{1aeda021-25ba-4589-8f4e-533e056328f3}</Project>
       <Name>GB.tnLabs.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GB.Utils\GB.Utils.csproj">
+      <Project>{ef22ed84-57dc-474f-a28c-baf3434f5983}</Project>
+      <Name>GB.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

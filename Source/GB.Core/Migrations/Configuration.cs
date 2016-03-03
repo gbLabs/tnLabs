@@ -26,12 +26,6 @@ namespace GB.tnLabs.Core.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
-            context.RecommendedVMImages.AddOrUpdate(
-                    x => x.RecommendedVMImageId,
-                    new Repository.RecommendedVMImage { ImageFamily = "Windows Server 2012 R2 Datacenter",  OSFamily = "Windows", RecommendedVMImageId = 1},
-                    new Repository.RecommendedVMImage { ImageFamily = "Windows Server 2008 R2 SP1", OSFamily = "Windows", RecommendedVMImageId = 2 }
-                );
         }
     }
 }
